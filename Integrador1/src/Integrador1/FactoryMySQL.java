@@ -6,23 +6,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class FactoryMySQL extends Factory{
-
-	public FactoryMySQL(String uri) {
-		super(uri);
-	}
+	public static final String driver= "com.mysql.cj.jdbc.Driver";
+	public static final String url= "jdbc:mysql://localhost:3306/exampleDB";
 
 	@Override
-	protected DAO createDAO() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Connection startConnection(String root, String password) {
-		String driver= "com.mysql.cj.jdbc.Driver";
+	public Connection startConnection() {
 		
 		try {
-			Class.forName(driver).getDeclaredConstructor().newInstance();
+			Class.forName(this.driver).getDeclaredConstructor().newInstance();
 
 		}
 		catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
@@ -31,7 +22,7 @@ public class FactoryMySQL extends Factory{
 		}
 		
 		try {
-			Connection conn= DriverManager.getConnection(this.getUri(), root, password);
+			Connection conn= DriverManager.getConnection(this.url, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
 		}
@@ -39,7 +30,12 @@ public class FactoryMySQL extends Factory{
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
+	
+	@Override
+	public void closeConnection(Connection conn) throws SQLException {
+		conn.close();
+	}
+	
 
 }

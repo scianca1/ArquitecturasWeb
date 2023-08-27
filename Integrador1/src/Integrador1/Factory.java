@@ -7,31 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Factory {
-	private List<DAO> lista= new ArrayList<>();
-	private String uri;
 	
-	public Factory(String uri){
-		this.uri= uri;
-		DAO daoProducto= createDAO();
-		DAO daoCliente= createDAO();
-		DAO daoFactura= createDAO();
-		DAO daoFacturaProducto= createDAO();
-		lista.add(daoProducto);
-		lista.add(daoCliente);
-		lista.add(daoFactura);
-		lista.add(daoFacturaProducto);
+	public abstract Connection startConnection();
+	
+	public abstract void closeConnection(Connection conn) throws SQLException;
+	
+	public DAOCliente getDAOCliente() {
+		return new DAOCliente();
 	}
 	
-	protected abstract Connection startConnection(String root, String password);
-	
-	protected abstract DAO createDAO();
-
-	public String getUri() {
-		return uri;
+	public DAOFactura getDAOFactura() {
+		return new DAOFactura();
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
+	public DAOProducto getDAOProducto() {
+		return new DAOProducto();
+	}
+
+	public DAOFacturaProducto getDAOFacturaProducto() {
+		return new DAOFacturaProducto();
 	}
 	
 	

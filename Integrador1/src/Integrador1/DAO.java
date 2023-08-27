@@ -1,17 +1,20 @@
 package Integrador1;
 
+import java.sql.Connection;
 import java.util.List;
 
-public interface DAO {
+
+public interface DAO<T> {
 	
-	public int insert(Object o);
+	public boolean insert(Connection conn, T t);
 	
-	public boolean update();
+	public boolean update(Connection conn, T t, String[] params);
 	
-	public void delete();
+	public boolean delete(Connection conn, T t);
 	
-	public List select();
+	public T select(Connection conn, int id);
 	
+	public List<T> selectAll(Connection conn);
 	
 
 }

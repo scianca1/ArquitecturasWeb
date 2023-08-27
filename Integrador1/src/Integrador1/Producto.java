@@ -1,13 +1,17 @@
 package Integrador1;
 
 public class Producto {
-	private static int nextId;
 	private int id;
 	private String nombre;
 	private int valor;
 	
 	public Producto(String n, int v) {
-		this.id= nextId++;
+		this.nombre= n;
+		this.valor= v;
+	}
+	
+	public Producto(int id, String n, int v) {
+		this.id=id;
 		this.nombre= n;
 		this.valor= v;
 	}
@@ -30,6 +34,10 @@ public class Producto {
 
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id= id;
 	}
 	
 

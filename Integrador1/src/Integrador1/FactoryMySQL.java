@@ -7,8 +7,11 @@ import java.sql.SQLException;
 
 public class FactoryMySQL extends Factory{
 	public static final String driver= "com.mysql.cj.jdbc.Driver";
-	public static final String url= "jdbc:mysql://localhost:3306/exampleDB";
+	public static final String url= "jdbc:mysql://localhost:3306/integrador1";
 
+	public FactoryMySQL() {
+		super();
+	}
 	@Override
 	public Connection startConnection() {
 		
@@ -33,8 +36,8 @@ public class FactoryMySQL extends Factory{
 	}
 	
 	@Override
-	public void closeConnection(Connection conn) throws SQLException {
-		conn.close();
+	public void closeConnection() throws SQLException {
+		this.conn.close();
 	}
 	
 

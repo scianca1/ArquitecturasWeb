@@ -1,20 +1,33 @@
 package Integrador1;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import org.apache.commons.csv.CSVParser;
 
 
-public interface DAO<T> {
+public abstract class DAO<T> {
+	protected Connection conn;
 	
-	public boolean insert(Connection conn, T t);
+	protected DAO(Connection c) {
+		this.conn= c;
+	}
 	
-	public boolean update(Connection conn, T t, String[] params);
+	public abstract void readCSV(String csv) throws SQLException;
 	
-	public boolean delete(Connection conn, T t);
+	protected abstract void create(CSVParser parser) throws SQLException;
 	
-	public T select(Connection conn, int id);
+	public abstract boolean insert(T t);
 	
-	public List<T> selectAll(Connection conn);
+	public abstract boolean update(T t, String[] params);
+	
+	public abstract boolean delete(T t);
+	
+	public abstract T select(int id);
+	
+	public abstract List<T> selectAll();
+	
+	public abstract void createTable() throws SQLException;
 	
 
 }

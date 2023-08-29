@@ -123,10 +123,12 @@ public class DAOProducto extends DAO<Producto>{
 				String nombre= rs.getString("nombre");
 				int valor= rs.getInt("valor");
 				p= new Producto(id, nombre, valor);
+				rs.close();
+				ps.close();
 				return p;
 			}
 			rs.close();
-			ps.close();
+			ps.close();	
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

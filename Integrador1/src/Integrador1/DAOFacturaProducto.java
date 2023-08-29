@@ -4,7 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -71,21 +73,68 @@ public class DAOFacturaProducto extends DAO<FacturaProducto>{
 	}
 
 	@Override
-	public boolean delete(FacturaProducto t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(FacturaProducto fp) {
+		try {
+			String delete= "DELETE FROM FacturaProducto WHERE idFactura=?";
+			PreparedStatement ps= this.conn.prepareStatement(delete);
+			ps.setInt(1, fp.getIdFactura());
+			ps.executeUpdate();		
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public FacturaProducto select(int id) {
-		// TODO Auto-generated method stub
+		FacturaProducto fp;
+		try {
+			String select= "SELECT * FROM FacturaProducto WHERE idFactura=?";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			ps.setInt(1, id);
+			
+			ResultSet rs= ps.executeQuery();
+			if(rs.next()) {
+				int idP= rs.getInt("idProducto");
+				int cantidad= rs.getInt("cantidad");
+				fp= new FacturaProducto(id, idP, cantidad);
+				rs.close();
+				ps.close();
+				return fp;
+			}
+			rs.close();
+			ps.close();	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<FacturaProducto> selectAll() {
-		// TODO Auto-generated method stub
+		List<FacturaProducto> resultado= new ArrayList<>();
+		try {
+			String select= "SELECT * FROM FacturaProducto";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			
+			ResultSet rs= ps.executeQuery();
+			while(rs.next()) {
+				int idF= rs.getInt("idFactura");
+				int idP= rs.getInt("idProducto");
+				int cantidad= rs.getInt("cantidad");
+				FacturaProducto fp= new FacturaProducto(idF, idP, cantidad);
+				resultado.add(fp);
+			}
+			rs.close();
+			ps.close();
+			return resultado;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 	
 	public void createTable() throws SQLException {

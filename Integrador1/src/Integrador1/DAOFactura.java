@@ -4,7 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -68,21 +70,66 @@ public class DAOFactura extends DAO<Factura>{
 	}
 
 	@Override
-	public boolean delete(Factura t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(Factura f) {
+		try {
+			String delete= "DELETE FROM Factura WHERE id=?";
+			PreparedStatement ps= this.conn.prepareStatement(delete);
+			ps.setInt(1, f.getId());
+			ps.executeUpdate();		
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public Factura select(int id) {
-		// TODO Auto-generated method stub
+		Factura f;
+		try {
+			String select= "SELECT * FROM Factura WHERE id=?";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			ps.setInt(1, id);
+			
+			ResultSet rs= ps.executeQuery();
+			if(rs.next()) {
+				int idC= rs.getInt("idCliente");
+				f= new Factura(id, idC);
+				rs.close();
+				ps.close();
+				return f;
+			}
+			rs.close();
+			ps.close();	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Factura> selectAll() {
-		// TODO Auto-generated method stub
+		List<Factura> resultado= new ArrayList<>();
+		try {
+			String select= "SELECT * FROM Factura";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			
+			ResultSet rs= ps.executeQuery();
+			while(rs.next()) {
+				int id= rs.getInt("id");
+				int idC= rs.getInt("idCliente");
+				Factura f= new Factura(id, idC);
+				resultado.add(f);
+			}
+			rs.close();
+			ps.close();
+			return resultado;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 	
 	public void createTable() throws SQLException {

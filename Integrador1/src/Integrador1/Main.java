@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -46,6 +48,16 @@ public class Main {
 		daoFacProd.createRelationships();
 		
 		factory.closeConnection();
+	}
+	
+	public Producto getTopGrossingProduct() {
+		Producto p;
+		return p;
+	}
+	
+	public List<Cliente> getTopBilledCustomer(){
+		List<Cliente> resultado= new ArrayList<>();
+		return resultado;
 	}
 
 

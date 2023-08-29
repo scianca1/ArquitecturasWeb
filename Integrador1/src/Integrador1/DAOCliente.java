@@ -4,7 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -72,20 +74,69 @@ public class DAOCliente extends DAO<Cliente>{
 	}
 
 	@Override
-	public boolean delete(Cliente t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(Cliente c) {
+		try {
+			String delete= "DELETE FROM Cliente WHERE id=?";
+			PreparedStatement ps= this.conn.prepareStatement(delete);
+			ps.setInt(1, c.getId());
+			ps.executeUpdate();		
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public Cliente select(int id) {
-		// TODO Auto-generated method stub
+		Cliente c;
+		try {
+			String select= "SELECT * FROM Cliente WHERE id=?";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			ps.setInt(1, id);
+			
+			ResultSet rs= ps.executeQuery();
+			if(rs.next()) {
+				String nombre= rs.getString("nombre");
+				String email= rs.getString("email");
+				c= new Cliente(id, nombre, email);
+				rs.close();
+				ps.close();	
+				return c;
+				// Cierro rs y ps porque si lo pongo abajo del return no se cierran porque corta la ejecucion
+			}
+			rs.close();
+			ps.close();	
+			// si no entra al if, cierra igual la rs y ps
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
 	@Override
 	public List<Cliente> selectAll() {
-		// TODO Auto-generated method stub
+		List<Cliente> resultado= new ArrayList<>();
+		try {
+			String select= "SELECT * FROM Cliente";
+			PreparedStatement ps= this.conn.prepareStatement(select);
+			
+			ResultSet rs= ps.executeQuery();
+			while(rs.next()) {
+				int id= rs.getInt("idCliente");
+				String nombre= rs.getString("nombre");
+				String email= rs.getString("email");
+				Cliente c= new Cliente(id, nombre, email);
+				resultado.add(c);
+			}
+			rs.close();
+			ps.close();
+			return resultado;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

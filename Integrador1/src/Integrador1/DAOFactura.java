@@ -1,10 +1,15 @@
 package Integrador1;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 public class DAOFactura extends DAO<Factura>{
 	
@@ -14,20 +19,46 @@ public class DAOFactura extends DAO<Factura>{
 	
 	@Override
 	public void readCSV(String csv) throws SQLException {
-		// TODO Auto-generated method stub
+		CSVParser parser;
+		try {
+			parser= CSVFormat.DEFAULT.withHeader().parse(new FileReader(csv));
+			this.create(parser);
+			this.conn.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	@Override
 	public void create(CSVParser parser) throws SQLException {
-		// TODO Auto-generated method stub
+		for(CSVRecord row: parser) {
+			int idf= Integer.parseInt(row.get("idFactura"));
+			int idc= Integer.parseInt(row.get("idCliente"));
+			Factura f= new Factura(idc,idf);
+			//System.out.println(p);
+			this.insert(f);
+		}
 		
 	}
 
 	@Override
 	public boolean insert(Factura t) {
-		// TODO Auto-generated method stub
-		return false;
+		int id= t.getId();
+		int idc= t.getIdCliente();
+		String insert= "INSERT INTO Producto (id, idCliente) VALUES (?, ?)";
+		try {
+			PreparedStatement ps= this.conn.prepareStatement(insert);
+			ps.setInt(1, id);
+			ps.setInt(2, idc);
+			ps.executeUpdate();
+			this.conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+		}
+		return true;
 	}
 
 	@Override

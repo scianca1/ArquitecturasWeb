@@ -3,13 +3,12 @@ package Integrador1;
 import java.util.ArrayList;
 
 public class Factura {
-	private static int nextId= 0;
 	private int id;
 	private int idCliente;
 	private ArrayList<Producto> productos;
 	
-	public Factura(int idc) {
-		this.id= nextId++;
+	public Factura(int idc,int id) {
+		this.id= id;
 		this.idCliente= idc;
 		this.productos= new ArrayList<>();
 	}

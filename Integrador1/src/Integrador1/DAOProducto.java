@@ -30,7 +30,7 @@ public class DAOProducto extends DAO<Producto>{
 		try {
 			parser= CSVFormat.DEFAULT.withHeader().parse(new FileReader(csv));
 			this.create(parser);
-			this.conn.close();
+			//this.conn.close();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -168,6 +168,8 @@ public class DAOProducto extends DAO<Producto>{
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
+	
+	
 
 
 }

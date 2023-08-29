@@ -6,8 +6,8 @@ public class Cliente {
 	private String nombre;
 	private String email;
 	
-	public Cliente(String n, String e) {
-		this.id= nextId++;
+	public Cliente(int id, String n, String e) {
+		this.id= id;
 		this.nombre= n;
 		this.email= e;
 	}

@@ -28,6 +28,6 @@ public abstract class DAO<T> {
 	public abstract List<T> selectAll();
 	
 	public abstract void createTable() throws SQLException;
-	
+
 
 }

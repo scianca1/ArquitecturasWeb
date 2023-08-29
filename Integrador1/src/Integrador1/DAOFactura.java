@@ -23,7 +23,7 @@ public class DAOFactura extends DAO<Factura>{
 		try {
 			parser= CSVFormat.DEFAULT.withHeader().parse(new FileReader(csv));
 			this.create(parser);
-			this.conn.close();
+			//this.conn.close();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +46,7 @@ public class DAOFactura extends DAO<Factura>{
 	public boolean insert(Factura t) {
 		int id= t.getId();
 		int idc= t.getIdCliente();
-		String insert= "INSERT INTO Producto (id, idCliente) VALUES (?, ?)";
+		String insert= "INSERT INTO Factura (id, idCliente) VALUES (?, ?)";
 		try {
 			PreparedStatement ps= this.conn.prepareStatement(insert);
 			ps.setInt(1, id);
@@ -93,5 +93,12 @@ public class DAOFactura extends DAO<Factura>{
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
+	
+	public void createRelationships() throws SQLException {
+		String fk= "ALTER TABLE Factura ADD FOREIGN KEY (idCliente) REFERENCES Cliente (idCliente)";
+		this.conn.prepareStatement(fk).execute();
+		this.conn.commit();
+	}
+	
 }
 

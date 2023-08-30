@@ -145,7 +145,7 @@ public class DAOCliente extends DAO<Cliente>{
 		"idCliente INT, " +
 		"nombre VARCHAR(500)," +
 		"email VARCHAR(500), " +
-		"PRIMARY KEY(id))";
+		"PRIMARY KEY(idCliente))";
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}

@@ -170,7 +170,34 @@ public class DAOProducto extends DAO<Producto>{
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
-	
+	public Producto ProductoMasVendido() throws SQLException {
+		String sentencia="SELECT p.id,(p.valor*v.total)as facturado,p.nombre,p.valor from producto p\r\n"
+				+ "inner join vistaproductosxcantidad as v on v.idProducto=p.id\r\n"
+				+ "order by facturado DESC\r\n"
+				+ "limit 1;";
+		PreparedStatement ps=this.conn.prepareStatement(sentencia);
+		ResultSet resultado= ps.executeQuery();
+		if(resultado.next()) {
+			int id= resultado.getInt("id");
+			String nombre= resultado.getString("nombre");
+			int valor= resultado.getInt("valor");
+			Producto p= new Producto(id,nombre,valor);
+			resultado.close();
+			ps.close();
+			return p;
+		}
+		return null;
+	}
+	public void createView() throws SQLException {
+		String sentencia= 	"create view vistaproductosxcantidad AS"+
+				"select idProducto,sum(cantidad)as total"+
+				"from facturaproducto"+
+				"group by idProducto"+
+				"ORDER by total DESC;";
+		this.conn.prepareStatement(sentencia).execute();
+		this.conn.commit();
+		
+	}
 	
 
 

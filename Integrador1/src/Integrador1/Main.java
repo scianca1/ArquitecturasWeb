@@ -18,16 +18,16 @@ public class Main {
 		Factory factory= new FactoryMySQL();
 		
 	//creacion de Daos
-		DAO daoProd= factory.getDAOProducto();
+		DAOProducto daoProd= factory.getDAOProducto();
 		DAOFactura daoFac= factory.getDAOFactura();
 		DAO daoCli= factory.getDAOCliente();
 		DAOFacturaProducto daoFacProd= factory.getDAOFacturaProducto();
 		
-	//creacion de tablas
+	//creacion de tablas  (DESCOMENTAR PARA ENTREGAR)
 		//daoProd.createTable();
-		daoCli.createTable();
-		daoFac.createTable();
-		daoFacProd.createTable();
+//		daoCli.createTable();
+//		daoFac.createTable();
+//		daoFacProd.createTable();
 		
 	//creaccion de rutas de archivos
 		String csvProd= "../Integrador1/src/datasets/productos.csv";
@@ -35,33 +35,45 @@ public class Main {
 		String csvCli= "../Integrador1/src/datasets/clientes.csv";
 		String csvFacProd= "../Integrador1/src/datasets/facturas-productos.csv";
 		
-	//insercion de datos de los exels	
-		daoProd.readCSV(csvProd);
-		daoCli.readCSV(csvCli);
-		daoFac.readCSV(csvFac);
-		daoFacProd.readCSV(csvFacProd);
+	//insercion de datos de los exels  (DESCOMENTAR PARA ENTREGAR)	
 		
-	//creacion de relaciones
-		daoFac.createRelationships();
-		daoFacProd.createRelationships();
+//		daoProd.readCSV(csvProd);
+//		daoCli.readCSV(csvCli);
+//		daoFac.readCSV(csvFac);
+//		daoFacProd.readCSV(csvFacProd);
 		
+	//creacion de relaciones  (DESCOMENTAR PARA ENTREGAR)
 		
+//		daoFac.createRelationships();
+//		daoFacProd.createRelationships();
+		
+//creacion vistas (DESCOMENTAR PARA CREAR LA VISTA Y QUE ANDE EL PEDIDO SQL PUNTO 4)
+		//daoProd.createView();
 	
-		//Prueba fallida
+		//Prueba fallida (ELIMINAR PARA 1ER ENTREGA)
 //		Producto nuevo= new Producto(1, "dfsafs", 1);
 //		String[] valores= new String[2];
 //		valores[0]= "nisman";
 //		valores[1]= "100";
 //		daoProd.update(nuevo, valores);
 		
- //cerramos coneccion
-		factory.closeConnection();
+
+		
+//Probando producto mas vendido
+  Producto p= getTopGrossingProduct(daoProd);
+  System.out.println(p); 
+
+  //cerramos coneccion
+  factory.closeConnection();
 		
  }
 	
-	public Producto getTopGrossingProduct() {
-		Producto p=new Producto("juan",1);
+	public static Producto getTopGrossingProduct(DAOProducto D) throws SQLException {
+		
+		Producto p= D.ProductoMasVendido();
+		
 		return p;
+
 	}
 	
 	public List<Cliente> getTopBilledCustomer(){

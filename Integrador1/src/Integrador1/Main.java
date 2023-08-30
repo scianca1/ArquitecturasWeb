@@ -20,7 +20,7 @@ public class Main {
 	//creacion de Daos
 		DAOProducto daoProd= factory.getDAOProducto();
 		DAOFactura daoFac= factory.getDAOFactura();
-		DAO daoCli= factory.getDAOCliente();
+		DAOCliente daoCli= factory.getDAOCliente();
 		DAOFacturaProducto daoFacProd= factory.getDAOFacturaProducto();
 		
 	//creacion de tablas  (DESCOMENTAR PARA ENTREGAR)
@@ -49,6 +49,7 @@ public class Main {
 		
 //creacion vistas (DESCOMENTAR PARA CREAR LA VISTA Y QUE ANDE EL PEDIDO SQL PUNTO 4)
 		//daoProd.createView();
+		//daoCli.createView();
 	
 		//Prueba fallida (ELIMINAR PARA 1ER ENTREGA)
 //		Producto nuevo= new Producto(1, "dfsafs", 1);
@@ -61,7 +62,15 @@ public class Main {
 		
 //Probando producto mas vendido
   Producto p= getTopGrossingProduct(daoProd);
-  System.out.println(p); 
+  System.out.println("producto con mas facturacion= "+p); 
+  
+  System.out.println("");
+  
+  System.out.println(getTopBilledCustomer(daoCli));
+  
+  
+  
+ 
 
   //cerramos coneccion
   factory.closeConnection();
@@ -76,10 +85,14 @@ public class Main {
 
 	}
 	
-	public List<Cliente> getTopBilledCustomer(){
-		List<Cliente> resultado= new ArrayList<>();
+	public static List<Cliente> getTopBilledCustomer(DAOCliente D) throws SQLException{
+		List<Cliente> resultado= D.getFacturacionClientes();
 		return resultado;
 	}
+//	select fp.idFactura,sum(p.valor*fp.cantidad) as valor 
+//	from facturaproducto fp inner join producto p
+//	on fp.idProducto=p.id 
+//	group by fp.idFactura;
 
 
 }

@@ -149,6 +149,36 @@ public class DAOCliente extends DAO<Cliente>{
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
+	public List<Cliente> getFacturacionClientes() throws SQLException{
+		List<Cliente> clientes= new ArrayList<Cliente>();
+		String query= "select f.idCliente,c.email,c.nombre\r\n"
+				+ "from factura f inner join vistaprecioxfactura vf on f.id=vf.idFactura inner join cliente c on c.idCliente=f.idCliente\r\n"
+				+ "GROUP by f.idCliente\r\n"
+				+ "order by sum(vf.valor) DESC;";
+		PreparedStatement ps=this.conn.prepareStatement(query);
+		ResultSet resultado= ps.executeQuery();
+		while(resultado.next()) {
+			int id= resultado.getInt("idCliente");
+			String nombre= resultado.getString("nombre");
+			String email= resultado.getString("email");
+			Cliente c= new Cliente(id,nombre,email);
+			clientes.add(c);
+		}
+		resultado.close();
+		ps.close();
+		return clientes;
+	}
+	public void createView() throws SQLException {
+		String sentencia= "create view vistaproductosxcantidad AS"
+				+ "select fp.idFactura,sum(p.valor*fp.cantidad) as valor \r\n"
+				+ "	from facturaproducto fp inner join producto p\r\n"
+				+ "	on fp.idProducto=p.id \r\n"
+				+ "	group by fp.idFactura;";
+		this.conn.prepareStatement(sentencia).execute();
+		this.conn.commit();
+		
+	}
+	
 
 
 

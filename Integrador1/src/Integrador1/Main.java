@@ -50,13 +50,6 @@ public class Main {
 //creacion vistas (DESCOMENTAR PARA CREAR LA VISTA Y QUE ANDE EL PEDIDO SQL PUNTO 4)
 		//daoProd.createView();
 		//daoCli.createView();
-	
-		//Prueba fallida (ELIMINAR PARA 1ER ENTREGA)
-//		Producto nuevo= new Producto(1, "dfsafs", 1);
-//		String[] valores= new String[2];
-//		valores[0]= "nisman";
-//		valores[1]= "100";
-//		daoProd.update(nuevo, valores);
 		
 
 		

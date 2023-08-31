@@ -149,6 +149,7 @@ public class DAOCliente extends DAO<Cliente>{
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
+	
 	public List<Cliente> getFacturacionClientes() throws SQLException{
 		List<Cliente> clientes= new ArrayList<Cliente>();
 		String query= "select f.idCliente,c.email,c.nombre\r\n"
@@ -168,14 +169,17 @@ public class DAOCliente extends DAO<Cliente>{
 		ps.close();
 		return clientes;
 	}
+	
 	public void createView() throws SQLException {
-		String sentencia= "create view vistaproductosxcantidad AS"
-				+ "select fp.idFactura,sum(p.valor*fp.cantidad) as valor \r\n"
-				+ "	from facturaproducto fp inner join producto p\r\n"
-				+ "	on fp.idProducto=p.id \r\n"
+		String sentencia= "create view vistaprecioxfactura AS "
+				+ "select fp.idFactura,sum(p.valor*fp.cantidad) as valor"
+				+ "	from facturaproducto fp inner join producto p"
+				+ "	on fp.idProducto=p.id"
 				+ "	group by fp.idFactura;";
-		this.conn.prepareStatement(sentencia).execute();
+		PreparedStatement ps=this.conn.prepareStatement(sentencia);
+		ps.execute();
 		this.conn.commit();
+		ps.close();
 		
 	}
 	

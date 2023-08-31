@@ -13,7 +13,7 @@ public class FactoryMySQL extends Factory{
 		super();
 	}
 	@Override
-	public Connection startConnection() {
+	protected Connection startConnection() {
 		
 		try {
 			Class.forName(this.driver).getDeclaredConstructor().newInstance();
@@ -34,11 +34,7 @@ public class FactoryMySQL extends Factory{
 			return null;
 		}
 	}
-	
-	@Override
-	public void closeConnection() throws SQLException {
-		this.conn.close();
-	}
+
 	
 
 }

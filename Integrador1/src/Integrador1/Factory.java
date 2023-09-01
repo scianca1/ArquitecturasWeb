@@ -13,9 +13,11 @@ public abstract class Factory {
 		this.conn= this.startConnection();
 	}
 	
-	public abstract Connection startConnection();
+	protected abstract Connection startConnection();
 	
-	public abstract void closeConnection() throws SQLException;
+	public void closeConnection() throws SQLException{
+		this.conn.close();
+	}
 	
 	public DAOCliente getDAOCliente() {
 		return new DAOCliente(this.conn);

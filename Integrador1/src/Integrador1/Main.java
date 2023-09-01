@@ -89,10 +89,7 @@ public class Main {
 		List<Cliente> resultado= D.getFacturacionClientes();
 		return resultado;
 	}
-//	select fp.idFactura,sum(p.valor*fp.cantidad) as valor 
-//	from facturaproducto fp inner join producto p
-//	on fp.idProducto=p.id 
-//	group by fp.idFactura;
+
 
 
 }

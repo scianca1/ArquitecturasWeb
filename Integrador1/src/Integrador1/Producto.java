@@ -1,7 +1,7 @@
 package Integrador1;
 
 public class Producto {
-	private int id;
+	private int id,facturado;
 	private String nombre;
 	private int valor;
 	
@@ -42,8 +42,11 @@ public class Producto {
 	
 	@Override
 	public String toString() {
-		return nombre;
+		return nombre+" Facturo= "+ this.facturado;
 		
+	}
+	public void setFacturado(int f) {
+		this.facturado=f;
 	}
 	
 

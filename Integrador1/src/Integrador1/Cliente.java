@@ -2,9 +2,10 @@ package Integrador1;
 
 public class Cliente {
 	private static int nextId= 0;
-	private int id;
+	private int id,valor;
 	private String nombre;
 	private String email;
+	
 	
 	public Cliente(int id, String n, String e) {
 		this.id= id;
@@ -33,7 +34,10 @@ public class Cliente {
 	}
 	@Override
 	public String toString() {
-		return this.id+ "";
+		return "idCliente = "+ this.id+ " facturacion= "+this.valor;
+	}
+	public void setValor(int valor) {
+		this.valor=valor;
 	}
 	
 	

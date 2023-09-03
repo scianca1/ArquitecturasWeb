@@ -1,4 +1,4 @@
-package Integrador1;
+package FACTORYS;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -6,11 +6,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class FactoryMySQL extends Factory{
-	public static final String driver= "com.mysql.cj.jdbc.Driver";
-	public static final String url= "jdbc:mysql://localhost:3306/integrador1";
+	private static final String driver= "com.mysql.cj.jdbc.Driver";
+	private static final String url= "jdbc:mysql://localhost:3306/integrador1";
+	private static Factory instance= new FactoryMySQL();
+	
 
-	public FactoryMySQL() {
+	private FactoryMySQL() {
 		super();
+	}
+	public static Factory getInstance() {
+		return instance;
 	}
 	@Override
 	protected Connection startConnection() {

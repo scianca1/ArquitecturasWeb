@@ -1,4 +1,4 @@
-package Integrador1;
+package DAOS;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,9 +13,11 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-public class DAOFactura extends DAO<Factura>{
+import Integrador1.FacturaProducto;
+
+public class DAOFacturaProducto extends DAO<FacturaProducto>{
 	
-	public DAOFactura(Connection conn) {
+	public DAOFacturaProducto(Connection conn) {
 		super(conn);
 	}
 	
@@ -35,9 +37,10 @@ public class DAOFactura extends DAO<Factura>{
 	@Override
 	public void create(CSVParser parser) throws SQLException {
 		for(CSVRecord row: parser) {
-			int idf= Integer.parseInt(row.get("idFactura"));
-			int idc= Integer.parseInt(row.get("idCliente"));
-			Factura f= new Factura(idc,idf);
+			int idF= Integer.parseInt(row.get("idFactura"));
+			int idp= Integer.parseInt(row.get("idProducto"));
+			int cant= Integer.parseInt(row.get("cantidad"));
+			FacturaProducto f= new FacturaProducto(idF, idp, cant);
 			//System.out.println(p);
 			this.insert(f);
 		}
@@ -45,14 +48,16 @@ public class DAOFactura extends DAO<Factura>{
 	}
 
 	@Override
-	public boolean insert(Factura t) {
-		int id= t.getId();
-		int idc= t.getIdCliente();
-		String insert= "INSERT INTO Factura (id, idCliente) VALUES (?, ?)";
+	public boolean insert(FacturaProducto t) {
+		int idF= t.getIdFactura();
+		int idP= t.getIdProducto();
+		int cant= t.getCantidad();
+		String insert= "INSERT INTO FacturaProducto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
 		try {
 			PreparedStatement ps= this.conn.prepareStatement(insert);
-			ps.setInt(1, id);
-			ps.setInt(2, idc);
+			ps.setInt(1, idF);
+			ps.setInt(2, idP);
+			ps.setInt(3, cant);
 			ps.executeUpdate();
 			this.conn.commit();
 		} catch (SQLException e) {
@@ -64,17 +69,17 @@ public class DAOFactura extends DAO<Factura>{
 	}
 
 	@Override
-	public boolean update(Factura t, String[] params) {
+	public boolean update(FacturaProducto t, String[] params) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(Factura f) {
+	public boolean delete(FacturaProducto fp) {
 		try {
-			String delete= "DELETE FROM Factura WHERE id=?";
+			String delete= "DELETE FROM FacturaProducto WHERE idFactura=?";
 			PreparedStatement ps= this.conn.prepareStatement(delete);
-			ps.setInt(1, f.getId());
+			ps.setInt(1, fp.getIdFactura());
 			ps.executeUpdate();		
 			
 		} catch(Exception e) {
@@ -85,20 +90,21 @@ public class DAOFactura extends DAO<Factura>{
 	}
 
 	@Override
-	public Factura select(int id) {
-		Factura f;
+	public FacturaProducto select(int id) {
+		FacturaProducto fp;
 		try {
-			String select= "SELECT * FROM Factura WHERE id=?";
+			String select= "SELECT * FROM FacturaProducto WHERE idFactura=?";
 			PreparedStatement ps= this.conn.prepareStatement(select);
 			ps.setInt(1, id);
 			
 			ResultSet rs= ps.executeQuery();
 			if(rs.next()) {
-				int idC= rs.getInt("idCliente");
-				f= new Factura(id, idC);
+				int idP= rs.getInt("idProducto");
+				int cantidad= rs.getInt("cantidad");
+				fp= new FacturaProducto(id, idP, cantidad);
 				rs.close();
 				ps.close();
-				return f;
+				return fp;
 			}
 			rs.close();
 			ps.close();	
@@ -109,18 +115,19 @@ public class DAOFactura extends DAO<Factura>{
 	}
 
 	@Override
-	public List<Factura> selectAll() {
-		List<Factura> resultado= new ArrayList<>();
+	public List<FacturaProducto> selectAll() {
+		List<FacturaProducto> resultado= new ArrayList<>();
 		try {
-			String select= "SELECT * FROM Factura";
+			String select= "SELECT * FROM FacturaProducto";
 			PreparedStatement ps= this.conn.prepareStatement(select);
 			
 			ResultSet rs= ps.executeQuery();
 			while(rs.next()) {
-				int id= rs.getInt("id");
-				int idC= rs.getInt("idCliente");
-				Factura f= new Factura(id, idC);
-				resultado.add(f);
+				int idF= rs.getInt("idFactura");
+				int idP= rs.getInt("idProducto");
+				int cantidad= rs.getInt("cantidad");
+				FacturaProducto fp= new FacturaProducto(idF, idP, cantidad);
+				resultado.add(fp);
 			}
 			rs.close();
 			ps.close();
@@ -133,19 +140,22 @@ public class DAOFactura extends DAO<Factura>{
 	}
 	
 	public void createTable() throws SQLException {
-		String table= "CREATE TABLE Factura(" +
-		"id INT, " +
-		"idCliente INT," +
-		"PRIMARY KEY(id))";
+		String table= "CREATE TABLE FacturaProducto(" +
+		"idFactura INT, " +
+		"idProducto INT," +
+		"cantidad INT, " +
+		"PRIMARY KEY(idFactura, idProducto))";
 		this.conn.prepareStatement(table).execute();
 		this.conn.commit();
 	}
 	
 	public void createRelationships() throws SQLException {
-		String fk= "ALTER TABLE Factura ADD FOREIGN KEY (idCliente) REFERENCES Cliente (idCliente)";
+		String fk= "ALTER TABLE FacturaProducto ADD FOREIGN KEY (idProducto) REFERENCES Producto (id)";
 		this.conn.prepareStatement(fk).execute();
 		this.conn.commit();
+		String fk2= "ALTER TABLE FacturaProducto ADD FOREIGN KEY (idFactura) REFERENCES Factura (id)";
+		this.conn.prepareStatement(fk2).execute();
+		this.conn.commit();
 	}
-	
-}
 
+}

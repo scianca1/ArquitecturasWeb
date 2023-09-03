@@ -1,4 +1,4 @@
-package Integrador1;
+package DAOS;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +16,8 @@ import javax.sql.rowset.RowSetProvider;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
+import Integrador1.Producto;
 
 
 public class DAOProducto extends DAO<Producto>{
@@ -182,7 +184,9 @@ public class DAOProducto extends DAO<Producto>{
 			int id= resultado.getInt("id");
 			String nombre= resultado.getString("nombre");
 			int valor= resultado.getInt("valor");
+			int facturado= resultado.getInt("facturado");
 			Producto p= new Producto(id,nombre,valor);
+			p.setFacturado(facturado);
 			resultado.close();
 			ps.close();
 			return p;

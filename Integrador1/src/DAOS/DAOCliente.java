@@ -1,4 +1,4 @@
-package Integrador1;
+package DAOS;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +12,8 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
+import Integrador1.Cliente;
 
 public class DAOCliente extends DAO<Cliente>{
 	
@@ -152,7 +154,7 @@ public class DAOCliente extends DAO<Cliente>{
 	
 	public List<Cliente> getFacturacionClientes() throws SQLException{
 		List<Cliente> clientes= new ArrayList<Cliente>();
-		String query= "select f.idCliente,c.email,c.nombre\r\n"
+		String query= "select f.idCliente,c.email,c.nombre,sum(vf.valor)as facturacion\r\n"
 				+ "from factura f inner join vistaprecioxfactura vf on f.id=vf.idFactura inner join cliente c on c.idCliente=f.idCliente\r\n"
 				+ "GROUP by f.idCliente\r\n"
 				+ "order by sum(vf.valor) DESC;";
@@ -162,7 +164,9 @@ public class DAOCliente extends DAO<Cliente>{
 			int id= resultado.getInt("idCliente");
 			String nombre= resultado.getString("nombre");
 			String email= resultado.getString("email");
+			int facturacion= resultado.getInt("facturacion");
 			Cliente c= new Cliente(id,nombre,email);
+			c.setValor(facturacion);
 			clientes.add(c);
 		}
 		resultado.close();

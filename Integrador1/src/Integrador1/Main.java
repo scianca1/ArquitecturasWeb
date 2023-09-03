@@ -11,24 +11,32 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import DAOS.DAOCliente;
+import DAOS.DAOFactura;
+import DAOS.DAOFacturaProducto;
+import DAOS.DAOProducto;
+import FACTORYS.Factory;
+import FACTORYS.FactoryMySQL;
+
 public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SQLException {
 		
-		Factory factory= new FactoryMySQL();
+		// ACLARACION= Para que la base de datos de genere correctamente sera necesario que en la clase 
+		//FactoryMySQL, se cambie la variable url (url= "jdbc:mysql://localhost:3306/integrador1")
+		//a la ruta donde decea que se armen las tablas 
+		
+		Factory factory= FactoryMySQL.getInstance();
+		//creacion de tablas 
+		factory.CreateDB();
 		
 	//creacion de Daos
 		DAOProducto daoProd= factory.getDAOProducto();
-		DAOFactura daoFac= factory.getDAOFactura();
+        DAOFactura daoFac= factory.getDAOFactura();
 		DAOCliente daoCli= factory.getDAOCliente();
 		DAOFacturaProducto daoFacProd= factory.getDAOFacturaProducto();
 		
-	//creacion de tablas  (DESCOMENTAR PARA ENTREGAR)
-		//daoProd.createTable();
-//		daoCli.createTable();
-//		daoFac.createTable();
-//		daoFacProd.createTable();
-		
+
 	//creaccion de rutas de archivos
 		String csvProd= "../Integrador1/src/datasets/productos.csv";
 		String csvFac= "../Integrador1/src/datasets/facturas.csv";
@@ -37,51 +45,35 @@ public class Main {
 		
 	//insercion de datos de los exels  (DESCOMENTAR PARA ENTREGAR)	
 		
-//		daoProd.readCSV(csvProd);
-//		daoCli.readCSV(csvCli);
-//		daoFac.readCSV(csvFac);
-//		daoFacProd.readCSV(csvFacProd);
+		daoProd.readCSV(csvProd);
+		daoCli.readCSV(csvCli);
+		daoFac.readCSV(csvFac);
+		daoFacProd.readCSV(csvFacProd);
 		
-	//creacion de relaciones  (DESCOMENTAR PARA ENTREGAR)
-		
-//		daoFac.createRelationships();
-//		daoFacProd.createRelationships();
-		
-//creacion vistas (DESCOMENTAR PARA CREAR LA VISTA Y QUE ANDE EL PEDIDO SQL PUNTO 4)
-		//daoProd.createView();
-		//daoCli.createView();
+	
 		
 
 		
-//Probando producto mas vendido
-  Producto p= getTopGrossingProduct(daoProd);
-  System.out.println("producto con mas facturacion= "+p); 
-  
-  System.out.println("");
-  
-  System.out.println(getTopBilledCustomer(daoCli));
-  
-  
-  
- 
-
-  //cerramos coneccion
-  factory.closeConnection();
+		// Producto mas vendido
+		  Producto p= daoProd.ProductoMasVendido();
+		  System.out.println("producto con mas facturacion= "+p); 
+		  
+		  System.out.println("");
+		  
+		//  Clientes ordenados de mayor a menor facturacion total 
+		  
+		
+		  List<Cliente> resultado= daoCli.getFacturacionClientes();
+		  System.out.println(resultado);
+		  
+		 
+		
+		  //cerramos coneccion
+		  factory.closeConnection();
 		
  }
 	
-	public static Producto getTopGrossingProduct(DAOProducto D) throws SQLException {
-		
-		Producto p= D.ProductoMasVendido();
-		
-		return p;
 
-	}
-	
-	public static List<Cliente> getTopBilledCustomer(DAOCliente D) throws SQLException{
-		List<Cliente> resultado= D.getFacturacionClientes();
-		return resultado;
-	}
 
 
 

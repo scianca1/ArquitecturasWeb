@@ -1,4 +1,4 @@
-package Integrador1;
+package DAOS;
 
 import java.sql.Connection;
 import java.sql.SQLException;

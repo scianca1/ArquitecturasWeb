@@ -49,9 +49,6 @@ public class Main {
 //		daoCli.readCSV(csvCli);
 //		daoFac.readCSV(csvFac);
 //		daoFacProd.readCSV(csvFacProd);
-		
-	
-		
 
 		
 		// Producto mas vendido

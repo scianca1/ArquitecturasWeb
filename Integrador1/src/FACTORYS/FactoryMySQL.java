@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class FactoryMySQL extends Factory{
 	private static final String driver= "com.mysql.cj.jdbc.Driver";
-	private static final String url= "jdbc:mysql://localhost:3306/integrador1";
+	private static final String url= "jdbc:mysql://localhost:3306/arqui1";
 	private static Factory instance= new FactoryMySQL();
 	
 

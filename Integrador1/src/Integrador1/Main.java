@@ -28,7 +28,7 @@ public class Main {
 		
 		Factory factory= FactoryMySQL.getInstance();
 		//creacion de tablas 
-		factory.CreateDB();
+//		factory.CreateDB();
 		
 	//creacion de Daos
 		DAOProducto daoProd= factory.getDAOProducto();
@@ -45,10 +45,10 @@ public class Main {
 		
 	//insercion de datos de los exels  (DESCOMENTAR PARA ENTREGAR)	
 		
-		daoProd.readCSV(csvProd);
-		daoCli.readCSV(csvCli);
-		daoFac.readCSV(csvFac);
-		daoFacProd.readCSV(csvFacProd);
+//		daoProd.readCSV(csvProd);
+//		daoCli.readCSV(csvCli);
+//		daoFac.readCSV(csvFac);
+//		daoFacProd.readCSV(csvFacProd);
 		
 	
 		

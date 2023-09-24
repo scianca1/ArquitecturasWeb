@@ -38,10 +38,8 @@ public class EstudianteRepositorio extends Repositorio implements EstudianteInte
     public Estudiante getEstudianteById(Integer id) {
         EntityManager em = this.getEM();
         em.getTransaction().begin();
-        String jpql = "SELECT new clases.Estudiante(?1,e.nombre,e.apellido,e.edad,e.genero,e.ciudadResidencia,e.documento,e.numeroLibreta)  FROM Estudiante e WHERE e.id = ?2";
+        String jpql = "SELECT new clases.Estudiante("+id+",e.nombre,e.apellido,e.edad,e.genero,e.ciudadResidencia,e.documento,e.numeroLibreta)  FROM Estudiante e WHERE e.id ="+id;
         TypedQuery<Estudiante> typedQuery = em.createQuery(jpql, Estudiante.class);
-        typedQuery.setParameter(1, id);
-        typedQuery.setParameter(2, id);
         Estudiante rta = typedQuery.getSingleResult();
         em.getTransaction().commit();
         this.closeEM();

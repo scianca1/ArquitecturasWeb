@@ -47,7 +47,11 @@ public class EstudianteCarrera implements Serializable {
 
     public EstudianteCarrera(LocalDate inscripcion, LocalDate graduacion, Estudiante e, Carrera c) {
         this.inscripcion = inscripcion;
-        this.seGraduo = true;
+        if(graduacion.getYear()==0) {
+        	this.seGraduo= false;
+        }else {
+        	this.seGraduo = true;
+        }
         this.graduacion = graduacion;
         this.estudiante = e;
         this.carrera = c;

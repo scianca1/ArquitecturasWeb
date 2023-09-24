@@ -10,8 +10,9 @@ import java.util.Set;
 
 @Entity
 public class Estudiante {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
     private Integer id;
     @Column
     private String nombre;
@@ -32,7 +33,6 @@ public class Estudiante {
     public String getApellido() {
         return apellido;
     }
-
     public Integer getEdad() {
         return edad;
     }

@@ -49,6 +49,9 @@ public class ReadSCV {
 
     protected void createEstudiante(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
+        	
+        	Integer id=Integer.parseInt(row.get("id"));
+        	
             String nombre = row.get("nombre");
             String apellido = row.get("apellido");
             Integer edad = Integer.parseInt(row.get("edad"));
@@ -57,7 +60,7 @@ public class ReadSCV {
             String documento = row.get("DNI");
             Integer numeroLibreta = Integer.parseInt(row.get("LU"));
             //"hardcodeo" el insert
-            Estudiante e = new Estudiante(nombre, apellido, edad, genero, ciudadResidencia, documento, numeroLibreta);
+            Estudiante e = new Estudiante(id,nombre, apellido, edad, genero, ciudadResidencia, documento, numeroLibreta);
             EstudianteRepositorio er = new EstudianteRepositorio();
             er.insertEstudiante(e);
         }
@@ -71,11 +74,14 @@ public class ReadSCV {
     }
     protected void createCarrera(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
+        	
+        	Integer id= Integer.parseInt(row.get("id_carrera"));
+        	
             String nombre = row.get("carrera");
             Double duracion = Double.parseDouble(row.get("duracion"));
 
             //"hardcodeo" el insert
-            Carrera c = new Carrera(nombre, duracion);
+            Carrera c = new Carrera(id,nombre, duracion);
             CarreraRepositorio cr = new CarreraRepositorio();
             cr.insertCarrera(c);
         }
@@ -88,10 +94,14 @@ public class ReadSCV {
              LocalDate inscripcion =  LocalDate.of(Integer.parseInt(row.get("inscripcion")),1,1) ;
              LocalDate graduacion =  LocalDate.of(Integer.parseInt(row.get("graduacion")),1,1) ;
              EstudianteRepositorio er = new EstudianteRepositorio();
+             
+             System.out.println("id estudiante= "+ idEstudiante+"id carrera= "+ idCarrera);
+             
              Estudiante estudiante =  er.getEstudianteById(idEstudiante);
              CarreraRepositorio cr = new CarreraRepositorio();
              Carrera carrera =  cr.getCarreraById(idCarrera);
            //"hardcodeo" el insert
+             
              EstudianteCarrera ec = new EstudianteCarrera(inscripcion, graduacion, estudiante, carrera);
              EstudianteCarreraRepositorio ecr = new EstudianteCarreraRepositorio();
              ecr.insertEstudianteCarrera(ec);

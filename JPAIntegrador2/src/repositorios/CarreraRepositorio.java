@@ -13,7 +13,7 @@ public class CarreraRepositorio extends Repositorio implements CarreraInterface 
 
     @Override
     public List<CarreraDto> getCarrerasDto() {
-        return null;
+    	return null;
     }
 
     @Override
@@ -33,10 +33,8 @@ public class CarreraRepositorio extends Repositorio implements CarreraInterface 
     public Carrera getCarreraById(Integer id) {
         EntityManager em = this.getEM();
         em.getTransaction().begin();
-        String jpql = "SELECT new clases.Carrera(?1,c.nombre, c.duracionAnios)  FROM Carrera c WHERE c.id = ?2";
+        String jpql = "SELECT new clases.Carrera("+id+",c.nombre, c.duracionAnios)  FROM Carrera c WHERE c.id ="+id;
         TypedQuery<Carrera> typedQuery = em.createQuery(jpql, Carrera.class);
-        typedQuery.setParameter(1, id);
-        typedQuery.setParameter(2, id);
         Carrera rta = typedQuery.getSingleResult();
         em.getTransaction().commit();
         this.closeEM();

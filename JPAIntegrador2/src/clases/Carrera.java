@@ -18,7 +18,7 @@ public class Carrera {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column
     private String nombre;
@@ -26,6 +26,7 @@ public class Carrera {
     private Double duracionAnios;
     @OneToMany(mappedBy = "carrera")
     Set<EstudianteCarrera> estudiantes;
+    
     public Carrera(String nombre, Double duracionAnios) {
         this.nombre = nombre;
         this.duracionAnios = duracionAnios;

@@ -26,14 +26,14 @@ import javax.persistence.TypedQuery;
 public class Main {
     public static void main(String [] args) throws SQLException, FileNotFoundException, IOException {  
     	//leer y cargar datos (estudiantes, carreras y estudianteCarreras)
-//        cargarDatos();
+        cargarDatos();
     	
         //2A)dar de alta estudiante
-//       darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
+       darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
     	
 	   //2B)matricular un estudiante en una carrera
        
-//	  matricularEstudianteHoy(8000,15);
+	  matricularEstudianteHoy(8000,15);
 
     	//2C)Recuperar estudiantes ordenados por nombre
     	List<EstudianteDto> estudiantesOrdenados = getEstudiantesorderByName();

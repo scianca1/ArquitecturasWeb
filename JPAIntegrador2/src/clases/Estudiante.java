@@ -30,29 +30,7 @@ public class Estudiante {
     private Integer numeroLibreta;
     @OneToMany(mappedBy = "estudiante", fetch = FetchType.LAZY)
     private Set<EstudianteCarrera> carreras;
-    public String getApellido() {
-        return apellido;
-    }
-    public Integer getEdad() {
-        return edad;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public String getCiudadResidencia() {
-        return ciudadResidencia;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public Integer getNumeroLibreta() {
-        return numeroLibreta;
-    }
-
+    
     public Estudiante(String nombre, String apellido, Integer edad, String genero, String ciudadResidencia, String documento, Integer numeroLibreta) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -74,11 +52,27 @@ public class Estudiante {
         this.numeroLibreta = numeroLibreta;
         this.carreras = new HashSet<EstudianteCarrera>();
     }
-
     public Estudiante() {
         this.carreras = new HashSet<EstudianteCarrera>();
     }
-
+    public String getApellido() {
+        return apellido;
+    }
+    public Integer getEdad() {
+        return edad;
+    }
+    public String getGenero() {
+        return genero;
+    }
+    public String getCiudadResidencia() {
+        return ciudadResidencia;
+    }
+    public String getDocumento() {
+        return documento;
+    }
+    public Integer getNumeroLibreta() {
+        return numeroLibreta;
+    }
     public ArrayList<EstudianteCarrera> getCarreras(){
         if(this.carreras.isEmpty()){
             EstudianteCarreraRepositorio ecr = new EstudianteCarreraRepositorio();
@@ -90,7 +84,6 @@ public class Estudiante {
     public String getNombre(){
         return this.nombre;
     }
-
     public Integer getId() {
         return id;
     }

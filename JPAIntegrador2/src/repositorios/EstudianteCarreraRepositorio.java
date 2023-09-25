@@ -20,7 +20,6 @@ public class EstudianteCarreraRepositorio extends Repositorio implements Estudia
         em.getTransaction().commit();
         this.closeEM();
     }
-
     @Override
     public List<EstudianteCarrera> getEstudianteCarreraByIdEstudiante(Integer idEstudiante) {
         EntityManager em = this.getEM();

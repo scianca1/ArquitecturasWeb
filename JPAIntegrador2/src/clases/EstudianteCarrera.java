@@ -15,18 +15,15 @@ public class EstudianteCarrera implements Serializable {
     LocalDate graduacion;
     @Column
     private boolean seGraduo;
-
-
-
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "estudiante")
     private Estudiante estudiante;
-
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "carrera")
     private Carrera carrera;
+    
     public EstudianteCarrera() {
     }
     public EstudianteCarrera(LocalDate inscripcion, Estudiante e, Carrera c) {
@@ -36,7 +33,6 @@ public class EstudianteCarrera implements Serializable {
         this.estudiante = e;
         this.carrera = c;
     }
-
     public EstudianteCarrera(Estudiante e, Carrera c){
         this.carrera = c;
         this.estudiante = e;
@@ -44,7 +40,6 @@ public class EstudianteCarrera implements Serializable {
         this.graduacion = null;
         this.seGraduo = false;
     }
-
     public EstudianteCarrera(LocalDate inscripcion, LocalDate graduacion, Estudiante e, Carrera c) {
         this.inscripcion = inscripcion;
         if(graduacion.getYear()==0) {
@@ -59,19 +54,15 @@ public class EstudianteCarrera implements Serializable {
     public LocalDate getInscripcion() {
         return inscripcion;
     }
-
     public LocalDate getGraduacion() {
         return graduacion;
     }
-
     public boolean isSeGraduo() {
         return seGraduo;
     }
-
     public Estudiante getEstudiante() {
         return estudiante;
     }
-
     public Carrera getCarrera() {
         return carrera;
     }

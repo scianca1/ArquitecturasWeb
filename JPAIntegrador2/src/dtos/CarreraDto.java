@@ -5,6 +5,7 @@ public class CarreraDto {
     private Double duracionAnios;
     private long cantidadInscriptos;
     private Integer id;
+    
     public CarreraDto(String nombre, Double duracionAnios) {
         this.nombre = nombre;
         this.duracionAnios = duracionAnios;

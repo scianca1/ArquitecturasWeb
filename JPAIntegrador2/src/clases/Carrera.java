@@ -9,13 +9,7 @@ import java.util.Set;
 
 @Entity
 public class Carrera {
-    public String getNombre() {
-        return nombre;
-    }
-
-    public Double getDuracionAnios() {
-        return duracionAnios;
-    }
+   
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,20 +26,21 @@ public class Carrera {
         this.duracionAnios = duracionAnios;
         this.estudiantes = new HashSet<EstudianteCarrera>();
     }
-
-    //ya sabemos q es autoincremental, se usa para copiar un objeto.
     public Carrera(Integer id, String nombre, Double duracionAnios) {
         this.id = id;
         this.nombre = nombre;
         this.duracionAnios = duracionAnios;
         this.estudiantes = new HashSet<EstudianteCarrera>();
     }
-
     public Carrera() {
         super();
+    } 
+    public String getNombre() {
+        return nombre;
     }
-
-
+    public Double getDuracionAnios() {
+        return duracionAnios;
+    }
     public Integer getId() {
         return id;
     }

@@ -4,11 +4,7 @@ import clases.EstudianteCarrera;
 import java.util.ArrayList;
 
 public class EstudianteDto {
-    @Override
-	public String toString() {
-		return "EstudianteDto [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + "]";
-	}
-
+   
 	private Integer id;
     private String nombre;
     private String apellido;
@@ -36,9 +32,11 @@ public class EstudianteDto {
     public String getNombre() {
         return nombre;
     }
-
-
-    public String getApellido() {
+    @Override
+	public String toString() {
+		return "EstudianteDto [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + "]";
+	}
+ 	public String getApellido() {
         return apellido;
     }
 

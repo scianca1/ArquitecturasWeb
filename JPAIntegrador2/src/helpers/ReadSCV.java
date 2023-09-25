@@ -32,9 +32,7 @@ public class ReadSCV {
         }catch(IOException e) {
             e.printStackTrace();
         }
-
     }
-
     public void readCSVCarrera(String csv) throws SQLException {
         CSVParser parser;
         try {
@@ -44,9 +42,7 @@ public class ReadSCV {
         }catch(IOException e) {
             e.printStackTrace();
         }
-
     }
-
     protected void createEstudiante(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
         	Integer id=Integer.parseInt(row.get("id"));
@@ -68,7 +64,6 @@ public class ReadSCV {
     	 CSVParser parser;
     	 parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(csv));
          this.createEstudianteCarrera(parser);
-    	 
     }
     protected void createCarrera(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
@@ -80,8 +75,7 @@ public class ReadSCV {
             CarreraRepositorio cr = new CarreraRepositorio();
             cr.insertCarrera(c);
         }
-        
-    }
+     }
     protected void createEstudianteCarrera(CSVParser parser)throws SQLException{
     	 for(CSVRecord row: parser) {
     		 Integer idEstudiante = Integer.parseInt(row.get("id_estudiante"));
@@ -93,7 +87,6 @@ public class ReadSCV {
              CarreraRepositorio cr = new CarreraRepositorio();
              Carrera carrera =  cr.getCarreraById(idCarrera);
            //"hardcodeo" el insert
-             
              EstudianteCarrera ec = new EstudianteCarrera(inscripcion, graduacion, estudiante, carrera);
              EstudianteCarreraRepositorio ecr = new EstudianteCarreraRepositorio();
              ecr.insertEstudianteCarrera(ec);

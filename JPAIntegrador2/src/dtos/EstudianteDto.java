@@ -14,6 +14,7 @@ public class EstudianteDto {
     private String documento;
     private Integer numeroLibreta;
     private ArrayList<EstudianteCarrera> carreras;
+    private String nombreCarrera;
 
     public EstudianteDto(String nombre, String apellido, Integer edad, String genero, String ciudadResidencia, String documento, Integer numeroLibreta) {
         this.nombre = nombre;
@@ -23,6 +24,17 @@ public class EstudianteDto {
         this.ciudadResidencia = ciudadResidencia;
         this.documento = documento;
         this.numeroLibreta = numeroLibreta;
+    }
+    
+    public EstudianteDto(String nombre, String apellido, Integer edad, String genero, String ciudadResidencia, String documento, Integer numeroLibreta, String nombreCarrera) {
+    	  this.nombre = nombre;
+          this.apellido = apellido;
+          this.edad = edad;
+          this.genero = genero;
+          this.ciudadResidencia = ciudadResidencia;
+          this.documento = documento;
+          this.numeroLibreta = numeroLibreta;
+          this.nombreCarrera = nombreCarrera;
     }
 
     public Integer getId() {

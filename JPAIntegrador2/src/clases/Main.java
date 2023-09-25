@@ -29,36 +29,40 @@ public class Main {
 //        cargarDatos();
     	
         //2A)dar de alta estudiante
-       //darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
+//       darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
     	
 	   //2B)matricular un estudiante en una carrera
-	  //matricularEstudianteHoy(8000,20);
+       
+//	  matricularEstudianteHoy(8000,15);
 
     	//2C)Recuperar estudiantes ordenados por nombre
-//    	List<EstudianteDto> estudiantesOrdenados = getEstudiantesorderByName();
+    	List<EstudianteDto> estudiantesOrdenados = getEstudiantesorderByName();
+    	System.out.println(estudiantesOrdenados);
     	
     	//2D)recuperar estudiante en base a su numero de libreta universitaria
-        //EstudianteDto est = getEstudianteByNroLibreta(75247);
-        //System.out.println(est.getNombre());
+        EstudianteDto est = getEstudianteByNroLibreta(75247);
+        System.out.println(est.getNombre());
     	
     	//2E)recuperar estudiantes filtrados por genero
-        //List<EstudianteDto> estByGenero = getEstudiantesByGenero("Male");
+        List<EstudianteDto> estByGenero = getEstudiantesByGenero("Male");
+        System.out.println(estByGenero);
     	
     	//2F)recuperar carreras con estudiante inscriptos, ordenadas x cantidad dde inscriptos
-//        List<CarreraDto> rta = getCarrerasOrderByInscriptos();
-//        System.out.println(rta);
-    	
+        List<CarreraDto> rta = getCarrerasOrderByInscriptos();
+        System.out.println(rta);
+        
+        
     	//2G)recuperar estudiantes de una determinada carrera filtrado por ciudad de residencia
-        //List<EstudianteDto> rta = getEstudiantesByCarreraAndResidencia(1, "Ganhe");
-    	
+        List<EstudianteDto>rta1= getEstudiantesByCarreraAndResidencia(2,"Ganhe");
+        System.out.println(rta1);
     	
     	
    //3)genero Reporte 
-//    	List<CarreraReporteDTO>reporte= getReporte();
-//    	for (CarreraReporteDTO cr:reporte) {
-//    		System.out.println(cr);
-//    	}
-       
+    	List<CarreraReporteDTO>reporte= getReporte();
+    	for (CarreraReporteDTO cr:reporte) {
+    		System.out.println(cr);
+    	}
+    
 
     }
     

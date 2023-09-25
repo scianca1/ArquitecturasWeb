@@ -4,6 +4,7 @@ import clases.Carrera;
 import clases.Estudiante;
 import clases.EstudianteCarrera;
 import dtos.CarreraDto;
+import dtos.CarreraReporteDTO;
 import dtos.EstudianteDto;
 import helpers.ReadSCV;
 import repositorios.CarreraRepositorio;
@@ -19,45 +20,76 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 public class Main {
-    public static void main(String [] args) throws SQLException, FileNotFoundException, IOException {
-        //dar de alta estudiante
-//        darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
-
-
-        //dar de alta carrera
-//        darDeAltaUnaCarrera(20,"cualquiera",2.5);
-
-        //recuperar todos los estudiantes
-//        List<EstudianteDto> estudiantes =  getAllEstudiantes();
-//        System.out.println(estudiantes);
-
-        //recuperar estudiante por id
-//        EstudianteDto est = getEstudianteById(102);
-//        System.out.println(est);
-
-        //recuperar carrera por id
-//        CarreraDto carr = getCarreraById(2);
-//        System.out.println(carr);
-
-        //matricular un estudiante en una carrera
-//        matricularEstudianteHoy(8000,20);
-
-        //ver carreras de un estudiante
-        //ArrayList<EstudianteCarrera> carrs = verCarrerasDeEstudiante(102);
-
-        //leer y cargar datos (estudiantes, carreras y estudianteCarreras)
+    public static void main(String [] args) throws SQLException, FileNotFoundException, IOException {  
+    	//leer y cargar datos (estudiantes, carreras y estudianteCarreras)
 //        cargarDatos();
     	
-    	//recuperar carreras con estudiante inscriptos, ordenadas x cantidad dde inscriptos
-        List<CarreraDto> rta = getCarrerasOrderByInscriptos();
-        System.out.println(rta);
+        //2A)dar de alta estudiante
+       //darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
+    	
+	   //2B)matricular un estudiante en una carrera
+	  //matricularEstudianteHoy(8000,20);
 
-
+    	//2C)Recuperar estudiantes ordenados por nombre
+//    	List<EstudianteDto> estudiantesOrdenados = getEstudiantesorderByName();
+    	
+    	//2D)recuperar estudiante en base a su numero de libreta universitaria
+        //EstudianteDto est = getEstudianteByNroLibreta(75247);
+        //System.out.println(est.getNombre());
+    	
+    	//2E)recuperar estudiantes filtrados por genero
+        //List<EstudianteDto> estByGenero = getEstudiantesByGenero("Male");
+    	
+    	//2F)recuperar carreras con estudiante inscriptos, ordenadas x cantidad dde inscriptos
+//        List<CarreraDto> rta = getCarrerasOrderByInscriptos();
+//        System.out.println(rta);
+    	
+    	//2G)recuperar estudiantes de una determinada carrera filtrado por ciudad de residencia
+        //List<EstudianteDto> rta = getEstudiantesByCarreraAndResidencia(1, "Ganhe");
+    	
+    	
+    	
+   //3)genero Reporte 
+//    	List<CarreraReporteDTO>reporte= getReporte();
+//    	for (CarreraReporteDTO cr:reporte) {
+//    		System.out.println(cr);
+//    	}
+       
 
     }
+    
+    public static List<EstudianteDto> getEstudiantesByCarreraAndResidencia(Integer idCarrera, String nombreCiudad){
+    	 EstudianteRepositorio er = new EstudianteRepositorio();
+         List<EstudianteDto> estByCarrera =  er.getEstudiantesByCarreraAndCity(idCarrera, nombreCiudad);
+         return estByCarrera;
+    }
+   private static List<EstudianteDto> getEstudiantesByGenero(String genero) {
+	   EstudianteRepositorio er = new EstudianteRepositorio();
+       List<EstudianteDto> estudiantes =  er.getEstudianteByGenero(genero);
+       return estudiantes;
+   }
+public static EstudianteDto getEstudianteByNroLibreta(Integer nroLibreta){
+    	 EstudianteRepositorio er = new EstudianteRepositorio();
+         EstudianteDto estudiante =  er.getEstudianteByNroLibreta(nroLibreta);
+         return estudiante;
+    }
 
-    public static void darDeAltaUnEstudiante(Integer id,String nombre,String apellido,Integer edad, String genero, String ciudadResidencia,String dni ,Integer numeroLibreta ){
+	public static List<EstudianteDto> getEstudiantesorderByName(){
+    	EstudianteRepositorio er = new EstudianteRepositorio();
+        List<EstudianteDto> estudiantes =  er.getEstudiantesDtoOrderedByName();
+        return estudiantes;
+    }
+
+	private static List<CarreraReporteDTO> getReporte() {
+		CarreraRepositorio cr= new CarreraRepositorio();
+		return cr.getCarrerasReport();
+	}
+
+	public static void darDeAltaUnEstudiante(Integer id,String nombre,String apellido,Integer edad, String genero, String ciudadResidencia,String dni ,Integer numeroLibreta ){
         Estudiante estudiante = new Estudiante(id,nombre, apellido, edad,genero,ciudadResidencia,dni ,numeroLibreta);
         EstudianteRepositorio er = new EstudianteRepositorio();
         er.insertEstudiante(estudiante);
@@ -123,6 +155,6 @@ public class Main {
         CarreraRepositorio cr = new CarreraRepositorio();
         List<CarreraDto> carrInscriptos = cr.getCarrerasOrderByInscriptos();
         return carrInscriptos;
-        }
+    }
     
 }

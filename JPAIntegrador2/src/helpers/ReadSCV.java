@@ -49,10 +49,8 @@ public class ReadSCV {
 
     protected void createEstudiante(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
-        	
         	Integer id=Integer.parseInt(row.get("id"));
-        	
-            String nombre = row.get("nombre");
+        	String nombre = row.get("nombre");
             String apellido = row.get("apellido");
             Integer edad = Integer.parseInt(row.get("edad"));
             String genero = row.get("genero");
@@ -74,12 +72,9 @@ public class ReadSCV {
     }
     protected void createCarrera(CSVParser parser) throws SQLException {
         for(CSVRecord row: parser) {
-        	
         	Integer id= Integer.parseInt(row.get("id_carrera"));
-        	
-            String nombre = row.get("carrera");
+        	String nombre = row.get("carrera");
             Double duracion = Double.parseDouble(row.get("duracion"));
-
             //"hardcodeo" el insert
             Carrera c = new Carrera(id,nombre, duracion);
             CarreraRepositorio cr = new CarreraRepositorio();
@@ -94,9 +89,6 @@ public class ReadSCV {
              LocalDate inscripcion =  LocalDate.of(Integer.parseInt(row.get("inscripcion")),1,1) ;
              LocalDate graduacion =  LocalDate.of(Integer.parseInt(row.get("graduacion")),1,1) ;
              EstudianteRepositorio er = new EstudianteRepositorio();
-             
-             System.out.println("id estudiante= "+ idEstudiante+"id carrera= "+ idCarrera);
-             
              Estudiante estudiante =  er.getEstudianteById(idEstudiante);
              CarreraRepositorio cr = new CarreraRepositorio();
              Carrera carrera =  cr.getCarreraById(idCarrera);

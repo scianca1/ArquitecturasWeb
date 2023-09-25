@@ -22,41 +22,48 @@ import java.util.List;
 public class Main {
     public static void main(String [] args) throws SQLException, FileNotFoundException, IOException {
         //dar de alta estudiante
-        //this.darDeAltaUnEstudiante("nombre","apellido",edad,"genero","ciudadResidencia",dni,numeroLibreta);
+//        darDeAltaUnEstudiante(8000,"nombre","apellido",15,"genero","ciudadResidencia","dni",254871);
 
 
         //dar de alta carrera
-        //darDeAltaUnaCarrera("tudai","2.5");
+//        darDeAltaUnaCarrera(20,"cualquiera",2.5);
 
         //recuperar todos los estudiantes
-        //List<EstudianteDto> estudiantes =  getAllEstudiantes();
-
+//        List<EstudianteDto> estudiantes =  getAllEstudiantes();
+//        System.out.println(estudiantes);
 
         //recuperar estudiante por id
-        //EstudianteDto est = getEstudianteById(102);
+//        EstudianteDto est = getEstudianteById(102);
+//        System.out.println(est);
 
         //recuperar carrera por id
-        //CarreraDto carr = getCarreraById(2);
+//        CarreraDto carr = getCarreraById(2);
+//        System.out.println(carr);
 
         //matricular un estudiante en una carrera
-        //matricularEstudianteHoy(102,1);
+//        matricularEstudianteHoy(8000,20);
 
         //ver carreras de un estudiante
         //ArrayList<EstudianteCarrera> carrs = verCarrerasDeEstudiante(102);
 
         //leer y cargar datos (estudiantes, carreras y estudianteCarreras)
-        cargarDatos();
+//        cargarDatos();
+    	
+    	//recuperar carreras con estudiante inscriptos, ordenadas x cantidad dde inscriptos
+        List<CarreraDto> rta = getCarrerasOrderByInscriptos();
+        System.out.println(rta);
+
 
 
     }
 
-    public static void darDeAltaUnEstudiante(String nombre,String apellido,Integer edad, String genero, String ciudadResidencia,String dni ,Integer numeroLibreta ){
-        Estudiante estudiante = new Estudiante(nombre, apellido, edad,genero,ciudadResidencia,dni ,numeroLibreta);
+    public static void darDeAltaUnEstudiante(Integer id,String nombre,String apellido,Integer edad, String genero, String ciudadResidencia,String dni ,Integer numeroLibreta ){
+        Estudiante estudiante = new Estudiante(id,nombre, apellido, edad,genero,ciudadResidencia,dni ,numeroLibreta);
         EstudianteRepositorio er = new EstudianteRepositorio();
         er.insertEstudiante(estudiante);
     }
-    public static void darDeAltaUnaCarrera(String nombreCarrera, double duracionAnios){
-        Carrera carrera = new Carrera(nombreCarrera, duracionAnios);
+    public static void darDeAltaUnaCarrera(Integer id,String nombreCarrera, double duracionAnios){
+        Carrera carrera = new Carrera(id,nombreCarrera, duracionAnios);
         CarreraRepositorio cr = new CarreraRepositorio();
         cr.insertCarrera(carrera);
     }
@@ -101,15 +108,21 @@ public class Main {
     public static void cargarDatos()throws SQLException, FileNotFoundException, IOException{
     	ReadSCV rscv = new ReadSCV();
     	//carga estudiantes
-//        String scvEstudiantes = "../JPAIntegrador2/src/datasets/estudiantes.csv";
-//        rscv.readCSVEstudiante(scvEstudiantes);
+        String scvEstudiantes = "../JPAIntegrador2/src/datasets/estudiantes.csv";
+        rscv.readCSVEstudiante(scvEstudiantes);
         
         //carga carreras
-//        String scvCarreras = "../JPAIntegrador2/src/datasets/carreras.csv";
-//        rscv.readCSVCarrera(scvCarreras);
+        String scvCarreras = "../JPAIntegrador2/src/datasets/carreras.csv";
+        rscv.readCSVCarrera(scvCarreras);
         
       //carga EstudianteCarreras
         String scvEstudianteCarrera = "../JPAIntegrador2/src/datasets/estudianteCarrera.csv";
         rscv.readCSVEstudianteCarrera(scvEstudianteCarrera);
     }
+    public static List<CarreraDto> getCarrerasOrderByInscriptos(){
+        CarreraRepositorio cr = new CarreraRepositorio();
+        List<CarreraDto> carrInscriptos = cr.getCarrerasOrderByInscriptos();
+        return carrInscriptos;
+        }
+    
 }

@@ -1,5 +1,6 @@
 /META-INF/
-/dtos/
 /clases/
-/repositorios/
+/dtos/
 /helpers/
+/interfaces/
+/repositorios/

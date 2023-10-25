@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/pruebaMicroservicio/primerMicroservicio/pom.xml" />
         <option value="$PROJECT_DIR$/microMonopatines/pom.xml" />
         <option value="$PROJECT_DIR$/microUsuarios/pom.xml" />
+        <option value="$PROJECT_DIR$/microViaje/pom.xml" />
+        <option value="$PROJECT_DIR$/microAdmin/pom.xml" />
       </list>
     </option>
   </component>

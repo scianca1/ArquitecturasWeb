@@ -34,7 +34,7 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
         Usuario usuario = new Usuario( usuarioDto.getNombre(), usuarioDto.getNombreDeUsuario(),usuarioDto.getTelefono(),usuarioDto.getEmail());
         Usuario aux = this.repositorio.save(usuario);
         return new UsuarioDto(aux.getNombre(), aux.getNombreDeUsuario(),aux.getTelefono(),aux.getEmail());
- }
+    }
 
     @Override
     public UsuarioDto delete(Long id) throws Exception {

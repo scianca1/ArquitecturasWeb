@@ -48,4 +48,10 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
         }
         return null;
     }
+
+    public UsuarioDto put(UsuarioDto usuarioDto) {
+        Usuario usuario = new Usuario(usuarioDto.getId(),usuarioDto.getNombre(), usuarioDto.getNombreDeUsuario(),usuarioDto.getTelefono(),usuarioDto.getEmail());
+        repositorio.put(usuario,usuario.getId());
+        return usuarioDto;
+    }
 }

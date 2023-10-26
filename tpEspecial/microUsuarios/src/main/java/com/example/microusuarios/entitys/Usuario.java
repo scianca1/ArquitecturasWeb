@@ -42,6 +42,15 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(Long id, String nombre, String nombreDeUsuario, Long telefono, String email) {
+        this.id=id;
+        this.nombre = nombre;
+        this.nombreDeUsuario = nombreDeUsuario;
+        this.telefono = telefono;
+        this.email = email;
+        this.cuentas = new ArrayList<Cuenta>();
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

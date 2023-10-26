@@ -38,4 +38,12 @@ public class UsuarioControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    @PutMapping("/put")
+    public ResponseEntity<?> editar(@RequestBody UsuarioDto u){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.put(u));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
 }

@@ -29,6 +29,8 @@ public interface BaseServicio<E> {
      */
     public E save(E entity)throws  Exception;
 
+    public E delete(Long id)throws Exception;
+
     /**
      * Servicio encargado de actualizar una entidad.
      * @param id Identificador único de la entidad a actualizar.

@@ -6,6 +6,7 @@ import com.example.microusuarios.repositorios.UsuarioRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -34,4 +35,17 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
         Usuario aux = this.repositorio.save(usuario);
         return new UsuarioDto(aux.getNombre(), aux.getNombreDeUsuario(),aux.getTelefono(),aux.getEmail());
  }
+
+    @Override
+    public UsuarioDto delete(Long id) throws Exception {
+        Optional<Usuario> u= repositorio.findById(id);
+
+        if (u.isPresent()) {
+            Usuario usuario = u.get();
+            UsuarioDto udto= new UsuarioDto(usuario);
+            repositorio.delete(usuario);
+            return  udto;
+        }
+        return null;
+    }
 }

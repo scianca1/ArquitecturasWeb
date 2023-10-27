@@ -4,25 +4,33 @@ import com.example.entitys.Viaje;
 import jakarta.persistence.Column;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
 public class ViajeDto {
-    private Date fechaInicio;
-    private double horaInicio;
-    private Date fechaFin;
-    private double horaFin;
+    private LocalDate fechaInicio;
+    private LocalTime horaInicio;
+    private LocalDate fechaFin;
+    private LocalTime horaFin;
     private Long idUsuario;
     private Long idMonopatin;
+    private Long idCuenta;
+    private Long idParadaOrigen;
+    private Long idParadaDestino;
     private int pausa;
 
-    public ViajeDto(Date fechaInicio, double horaInicio, Date fechaFin, double horaFin, Long idUsuario, Long idMonopatin, int pausa) {
+    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino) {
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
         this.horaFin = horaFin;
         this.idUsuario = idUsuario;
         this.idMonopatin = idMonopatin;
+        this.idCuenta=idCuenta;
+        this.idParadaOrigen=idParadaOrigen;
+        this.idParadaDestino=idParadaDestino;
         this.pausa = pausa;
     }
 
@@ -33,6 +41,9 @@ public class ViajeDto {
         this.horaFin = viaje.getHoraFin();
         this.idUsuario = viaje.getIdUsuario();
         this.idMonopatin = viaje.getIdMonopatin();
+        this.idCuenta= viaje.getIdCuenta();
+        this.idParadaOrigen=viaje.getIdParadaOrigen();
+        this.idParadaDestino=viaje.getIdParadaDestino();
         this.pausa = viaje.getPausa();
     }
 }

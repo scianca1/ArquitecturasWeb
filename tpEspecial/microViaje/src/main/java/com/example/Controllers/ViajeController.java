@@ -52,9 +52,9 @@ public class ViajeController {
     }
 
     @PostMapping("usuario/{usuarioId}/monopatin/{monoparinId}")
-        public ResponseEntity<?> save(@RequestBody Long usuarioId, Long monopatinId){
+        public ResponseEntity<?> save(@RequestBody Long usuarioId, Long monopatinId, Long cuentaId,Long paradaOrigenId, Long paradaDestinoId){
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(service.save(usuarioId,monopatinId));
+                return ResponseEntity.status(HttpStatus.OK).body(service.save(usuarioId,monopatinId, cuentaId,paradaOrigenId,paradaDestinoId));
             }
             catch(Exception e){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");

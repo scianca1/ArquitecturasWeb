@@ -14,9 +14,9 @@ public class MicroMonopatinesApplication {
         SpringApplication.run(MicroMonopatinesApplication.class, args);
     }
 
-    @PostConstruct
-    public void init() throws IOException{
-        MonopatinServicio servicio= new MonopatinServicio();
-        servicio.probando(1L);
-    }
+//    @PostConstruct
+//    public void init() throws IOException {
+//        MonopatinServicio servicio= new MonopatinServicio();
+//        servicio.probando(1L);
+//    }
 }

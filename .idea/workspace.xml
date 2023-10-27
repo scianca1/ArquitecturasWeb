@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38f08229-8ca9-409a-ae5d-9c3476aa6bd9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/ArquitecturasWeb.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/config/AppConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/controlers/AdminControlador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/controlers/ReporteMonopatinControlador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/AdminDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/CuentaDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/MonopatinDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/ParadaDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/UsuarioDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/reporteDto/ReporteDeUsoPorKm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/reporteDto/ReportePorCantViajes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/reporteDto/ReportePorTiempoConPausas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/dtos/reporteDto/ReportePorTiempoSinPausas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/entitys/Administrador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/entitys/Mantenimiento.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/entitys/ReporteMonopatin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/repositorios/AdminRepositorio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/repositorios/ReporteMonopatinRepositorio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/repositorios/RepositorioBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/servicios/AdminServicio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/servicios/BaseServicio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tpEspecial/microAdmin/src/main/java/com/example/microadmin/servicios/ReporteMonopatinServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tpEspecial/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tpEspecial/.idea/misc.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2XHAAqQfKBDFsEEAUZNQIQ7e74k" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/tudai 2do/arquitecturas web/integradoresfinal/tpEspecial&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="integradoresfinal" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="integradoresfinal" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="38f08229-8ca9-409a-ae5d-9c3476aa6bd9" name="Changes" comment="" />
+      <created>1698275490480</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698275490480</updated>
+      <workItem from="1698275491630" duration="25000" />
+      <workItem from="1698355953477" duration="80000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/ArquiWEB.iml" filepath="$PROJECT_DIR$/.idea/ArquiWEB.iml" />
+=======
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/.idea/integradoresfinal.iml" filepath="$PROJECT_DIR$/.idea/integradoresfinal.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/ArquitecturasWeb.iml" filepath="$PROJECT_DIR$/.idea/ArquitecturasWeb.iml" />
+>>>>>>> eb50fb1989d8243881e6936ca6e7b2c4e65042ef
+>>>>>>> de3ca1309a440d514c87bcaf08c310e42026b04b
     </modules>
   </component>
 </project>

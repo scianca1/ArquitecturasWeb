@@ -1,4 +1,4 @@
-package com.example.microusuarios.servicios;
+package com.example.micromonopatines.servicios;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public interface BaseServicio<E> {
      * @param id Identificador único de la entidad a eliminar.
      * @return True en caso de eliminación exitosa, caso contrario false.
      * @throws Exception e
-    */
+     */
 
 
 }

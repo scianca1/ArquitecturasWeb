@@ -20,13 +20,29 @@ public class UsuarioControlador {
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
-}
-}
+        }
+    }
     @GetMapping ("id/{idUsuario}")
     public ResponseEntity<?> findById(@PathVariable  Long idUsuario ){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.findById(idUsuario));
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+    @PutMapping("/put")
+    public ResponseEntity<?> editar(@RequestBody UsuarioDto u){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.put(u));
+        }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }

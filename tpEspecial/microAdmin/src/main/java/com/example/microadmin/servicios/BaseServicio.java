@@ -1,4 +1,4 @@
-package com.example.microusuarios.servicios;
+package com.example.microadmin.servicios;
 
 import java.util.List;
 
@@ -28,8 +28,6 @@ public interface BaseServicio<E> {
      * @throws Exception e
      */
     public E save(E entity)throws  Exception;
-
-    public E delete(Long id)throws Exception;
 
     /**
      * Servicio encargado de actualizar una entidad.

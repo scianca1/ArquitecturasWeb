@@ -3,28 +3,19 @@ package com.example.micromonopatines.servicios;
 import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.MonopatinDto;
 import com.example.micromonopatines.entitys.Monopatin;
-import com.example.micromonopatines.dtos.UsuarioDto;
 import com.example.micromonopatines.repositorios.MonopatinRepositorio;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MonopatinServicio implements BaseServicio<MonopatinDto>{
     MonopatinRepositorio repositorio;
-    private RestTemplate rest;
     public MonopatinServicio(MonopatinRepositorio mr) {
         this.repositorio = mr;
-        rest= new RestTemplate();
-    }
-    public void  probando(Long usuarioId){
-        ResponseEntity<UsuarioDto> respuesta=this.rest.getForEntity("http://localhost:8080/usuario/id/"+usuarioId, UsuarioDto.class);
-        UsuarioDto usuario=respuesta.getBody();
-        System.out.println(usuario.getNombre());
     }
 
 
@@ -54,6 +45,18 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
         Monopatin monopatin = new Monopatin(monopatinDtoConId);
         this.repositorio.put(monopatin,monopatin.getId());
         return monopatinDtoConId;
+    }
+    public MonopatinDtoConId habilitar(Long id, boolean isHabilitado) throws Exception {
+            MonopatinDtoConId monopatin = this.findById(id);
+            if(monopatin != null){
+                Monopatin mono = new Monopatin(monopatin) ;
+                mono.setHabilitado(isHabilitado);
+                this.repositorio.put(mono,monopatin.getId());
+                return monopatin;
+            }
+            else {
+                throw new Exception();
+            }
     }
 
     @Override

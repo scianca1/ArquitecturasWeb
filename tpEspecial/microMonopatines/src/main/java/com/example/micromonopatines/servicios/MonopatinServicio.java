@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MonopatinServicio implements BaseServicio<MonopatinDto>{
@@ -49,8 +50,22 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
         return new MonopatinDtoConId(monopatin);
     }
 
+    public MonopatinDtoConId put(MonopatinDtoConId monopatinDtoConId) {
+        Monopatin monopatin = new Monopatin(monopatinDtoConId);
+        this.repositorio.put(monopatin,monopatin.getId());
+        return monopatinDtoConId;
+    }
+
     @Override
-    public MonopatinDtoConId delete(Long id) throws Exception {
+    public MonopatinDto delete(Long id) throws Exception {
+        Optional<Monopatin> m = repositorio.findById(id);
+
+        if (m.isPresent()) {
+            Monopatin monopatin = m.get();
+            MonopatinDto mDto = new MonopatinDto(monopatin);
+            this.repositorio.delete(monopatin);
+            return  mDto;
+        }
         return null;
     }
 }

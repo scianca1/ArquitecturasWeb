@@ -72,6 +72,14 @@ public class ViajeService {
         }
     }
 
+    public void finalizarViaje(Long id) {
+        //Ver si existe el id en Viaje llamando al findById de mi servicio
+        //calcular valor viaje con tarifa de admin y con tiempo calculado por mi
+        //corroborar que la ubicacion del monopatin sea igual que la parada destino
+        //Modificar valores de viaje: fecha de finalizacion, hora de finalizacion, kmRecorridos,valorViaje
+        //Pasar valor de viaje a Cuenta
+    }
+
     public void update(Long id, ViajeDto viajeDto) {
         Viaje viaje = repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido"));
@@ -93,4 +101,6 @@ public class ViajeService {
         repositorio.delete(repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido")));
     }
+
+
 }

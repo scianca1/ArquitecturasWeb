@@ -61,6 +61,16 @@ public class ViajeController {
             }
         }
 
+    @PutMapping("id/{id}")
+    public ResponseEntity<?> finalizarViaje(@PathVariable long id){
+        try{
+            service.finalizarViaje(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Se finalizo correctamente");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo finalizar.\"\n\"error\":\"" + e.getMessage()+"\"}");
+        }
+    }
+
     }
 
 

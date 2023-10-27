@@ -53,6 +53,9 @@ public class Viaje {
     @Column
     private int valorViaje;
 
+    @Column
+    private Long kmRecorridos;
+
     public Viaje(){
     }
 
@@ -66,6 +69,8 @@ public class Viaje {
         this.fechaFin=null;
         this.horaInicio= LocalTime.now();
         this.horaFin= null;
+        this.valorViaje=0;
+        this.kmRecorridos=null;
         this.pausa=15;
     }
 

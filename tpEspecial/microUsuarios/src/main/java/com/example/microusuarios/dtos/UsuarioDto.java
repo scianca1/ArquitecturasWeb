@@ -21,7 +21,7 @@ public class UsuarioDto {
 
     private String email;
 
-    private List<Cuenta> cuentas;
+    private List<CuentaDto> cuentas;
     public UsuarioDto() {
         super();
     }
@@ -36,7 +36,11 @@ public class UsuarioDto {
         this.nombreDeUsuario = nombreDeUsuario;
         this.telefono = telefono;
         this.email = email;
-        this.cuentas = cuentas;
+        ArrayList<CuentaDto> aux=new ArrayList<CuentaDto>();
+        for(Cuenta c:cuentas){
+            aux.add(new CuentaDto(c));
+        }
+        this.cuentas = aux;
     }
 
     public UsuarioDto(String nombre, String nombreDeUsuario, Long telefono, String email) {
@@ -54,6 +58,8 @@ public class UsuarioDto {
         this.nombreDeUsuario = usuario.getNombreDeUsuario();
         this.telefono = usuario.getTelefono();
         this.email = usuario.getEmail();
-        this.cuentas= new ArrayList<>();
+        this.cuentas= new ArrayList<CuentaDto>();
+
     }
+
 }

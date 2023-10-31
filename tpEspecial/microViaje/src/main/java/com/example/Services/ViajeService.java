@@ -87,7 +87,10 @@ public class ViajeService {
         ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
 
         //Parada destino de viaje
-
+        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+        ParadaDto paradaDto= paradaDestino.getBody();
+        long ubiXDestino= paradaDto.getX();
+        long ubiYDestino= paradaDto.getY();
         //Ubicacion monopatin
         long ubiXMonopatin= monopatin.getBody().getX();
         long ubiYMonopatin= monopatin.getBody().getY();

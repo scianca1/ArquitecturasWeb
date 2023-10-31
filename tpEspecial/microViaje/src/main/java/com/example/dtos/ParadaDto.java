@@ -1,15 +1,17 @@
 package com.example.dtos;
 
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParadaDto {
     private Long x;
     private Long y;
 
-    public ParadaDto(Long x, Long y) {
-        this.x = x;
-        this.y = y;
-    }
 }

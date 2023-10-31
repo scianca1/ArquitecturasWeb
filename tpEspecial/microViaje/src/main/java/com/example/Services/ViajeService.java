@@ -44,16 +44,16 @@ public class ViajeService {
         CuentaDto cuentaDto= cuenta.getBody();
 
         //MONOPATIN
-        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), MonopatinDto.class);
 
         //PARADA
-        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id" + viaje.getIdParadaOrigen(), ParadaDto.class);
-        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id" + viaje.getIdParadaDestino(), ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
 
         //CONSULTO POR ID USUARIO E ID MONOPATIN
         if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK) {
             //CONSULTO POR SALDO EN CUENTA
-            if(cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()!=false){
+            if(cuenta.getStatusCode()== HttpStatus.OK && cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()!=false){
                 //CONSULTO POR ID PARADA ORIGEN Y DESTINO
                 if(paradaOrigen.getStatusCode()==HttpStatus.OK && paradaDestino.getStatusCode()==HttpStatus.OK){
                     Viaje viajeNuevo= new Viaje(viaje.getIdUsuario(), viaje.getIdMonopatin(),viaje.getIdCuenta(), viaje.getIdParadaOrigen(), viaje.getIdParadaDestino());
@@ -85,13 +85,20 @@ public class ViajeService {
         ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
         //Monopatin
         ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+
+        //Parada destino de viaje
+
+        //Ubicacion monopatin
+        long ubiXMonopatin= monopatin.getBody().getX();
+        long ubiYMonopatin= monopatin.getBody().getY();
+
+
+
         //Calcular duracion en minutos del viaje
         Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
         long minutosViaje= duracionViaje.toMinutes();
 
 
-        int valorViaje=
-        viaje.setValorViaje();
 
         //ver si existe el id de viaje
         //calcular valor viaje con tarifa de admin y con tiempo calculado por mi

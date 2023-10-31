@@ -26,8 +26,4 @@ public class ViajeRepository implements BaseRepository<Viaje, Integer> {
 
     }
 
-    @Override
-    public Viaje save(Viaje persisted) {
-        return null;
-    }
 }

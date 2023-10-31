@@ -42,10 +42,22 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
     }
 
     public MonopatinDtoConId put(MonopatinDtoConId monopatinDtoConId) {
-        Monopatin monopatin = new Monopatin(monopatinDtoConId);
-        this.repositorio.put(monopatin,monopatin.getId());
-        return monopatinDtoConId;
+        Optional<Monopatin> opM = repositorio.findById(monopatinDtoConId.getId());
+        if(opM.isPresent()){
+            Monopatin monopatin = opM.get();
+            monopatin.setX(monopatinDtoConId.getX());
+            monopatin.setY(monopatinDtoConId.getY());
+            monopatin.setId(monopatinDtoConId.getId());
+            monopatin.setHabilitado(monopatinDtoConId.isHabilitado());
+            monopatin.setKmRecorridos(monopatinDtoConId.getKmRecorridos());
+            monopatin.setTiempoDeUso(monopatinDtoConId.getTiempoDeUso());
+            monopatin.setTiempoDeUsoConPausa(monopatinDtoConId.getTiempoDeUsoConPausa());
+            repositorio.save(monopatin);
+            return monopatinDtoConId;
+        }
+        return null;
     }
+
     public MonopatinDtoConId habilitar(Long id, boolean isHabilitado) throws Exception {
             MonopatinDtoConId monopatin = this.findById(id);
             if(monopatin != null){

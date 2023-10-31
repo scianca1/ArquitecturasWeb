@@ -39,9 +39,16 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
     }
 
     public ParadaDtoConId put(ParadaDtoConId paradaDtoConId) {
-        Parada parada = new Parada(paradaDtoConId);
-        this.repositorio.put(parada,parada.getId());
-        return paradaDtoConId;
+        Optional<Parada> opP = this.repositorio.findById(paradaDtoConId.getId());
+        if(opP.isPresent()){
+            Parada parada = opP.get();
+            parada.setX(paradaDtoConId.getX());
+            parada.setY(paradaDtoConId.getY());
+            parada.setId(paradaDtoConId.getId());
+            repositorio.save(parada);
+            return paradaDtoConId;
+        }
+        return null;
     }
 
     @Override

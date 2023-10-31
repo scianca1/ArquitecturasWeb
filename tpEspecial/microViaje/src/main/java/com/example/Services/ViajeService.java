@@ -4,6 +4,7 @@ import com.example.Repositories.ViajeRepository;
 import com.example.dtos.*;
 import com.example.entitys.Viaje;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -114,10 +115,6 @@ public class ViajeService {
 
 
 
-
-
-
-
         //ver si existe el id de viaje
         //calcular valor viaje con tarifa de admin y con tiempo calculado por mi
         //corroborar que la ubicacion del monopatin sea igual que la parada destino
@@ -125,7 +122,58 @@ public class ViajeService {
         //Pasar valor de viaje a Cuenta
     }
 
-    public void update(Long id, ViajeDto viajeDto) {
+
+    public ViajeDto pausarViaje(Long id){
+        Viaje viaje = repositorio.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("id invalido"));
+        viaje.setViajePausado(true);
+        LocalTime horaPausa= LocalTime.now();
+        if(viaje.getHoraInicioPausa()==null){
+            viaje.setHoraInicioPausa(horaPausa);
+        }
+
+
+
+        /*
+        while(viaje.isViajePausado()){
+            LocalTime horaActual= LocalTime.now();
+            Duration duracionPausa= Duration.between(horaPausa, horaActual);
+            long minutosViaje= duracionPausa.toMinutes();
+            if(viaje.getPausa()<minutosViaje){
+                viaje.setPausa(-1);
+                viaje.setHoraInicioPausa(horaPausa);
+            }
+        }
+        */
+
+        ViajeDto respuesta= new ViajeDto(viaje);
+        return respuesta;
+    }
+
+    public ViajeDto despausarViaje(Long id){
+        Viaje viaje = repositorio.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("id invalido"));
+        viaje.setViajePausado(false);
+        LocalTime horaDespausa= LocalTime.now();
+        if(viaje.getHoraFinPausa()==null){
+            viaje.setHoraFinPausa(horaDespausa);
+        }
+        Duration duracionPausa= Duration.between(viaje.getHoraInicioPausa(), horaDespausa);
+
+
+
+        long minutosViaje= duracionPausa.toMinutes();
+
+
+
+
+
+
+        ViajeDto respuesta= new ViajeDto(viaje);
+        return respuesta;
+    }
+
+    public ViajeDto update(Long id, ViajeDto viajeDto) {
         Viaje viaje = repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido"));
         viaje.setIdUsuario(viajeDto.getIdUsuario());
@@ -139,6 +187,7 @@ public class ViajeService {
         viaje.setIdParadaOrigen(viajeDto.getIdParadaOrigen());
         viaje.setIdParadaDestino(viajeDto.getIdParadaDestino());
         repositorio.save(viaje);
+        return viajeDto;
     }
 
 

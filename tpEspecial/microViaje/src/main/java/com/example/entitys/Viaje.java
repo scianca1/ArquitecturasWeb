@@ -2,7 +2,9 @@ package com.example.entitys;
 
 import com.example.dtos.UsuarioDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
@@ -56,6 +58,15 @@ public class Viaje {
     @Column
     private Long kmRecorridos;
 
+    @Column
+    private boolean viajePausado;
+
+    @Column
+    private LocalTime horaInicioPausa;
+
+    @Column
+    private LocalTime horaFinPausa;
+
     public Viaje(){
     }
 
@@ -72,6 +83,10 @@ public class Viaje {
         this.valorViaje=0;
         this.kmRecorridos=null;
         this.pausa=15;
+        this.viajePausado=false;
+        this.horaInicioPausa=null;
+        this.horaFinPausa=null;
+
     }
 
     public void setId(Long id) {

@@ -71,6 +71,26 @@ public class ViajeController {
         }
     }
 
+    @PutMapping("id/{id}")
+    public ResponseEntity<?> pausarViaje(@PathVariable long id){
+        try{
+            service.pausarViaje(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Se pauso correctamente el viaje");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo pausar.\"\n\"error\":\"" + e.getMessage()+"\"}");
+        }
+    }
+
+    @PutMapping("id/{id}")
+    public ResponseEntity<?> despausarViaje(@PathVariable long id){
+        try{
+            service.despausarViaje(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Se despauso correctamente el viaje");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo despausar.\"\n\"error\":\"" + e.getMessage()+"\"}");
+        }
+    }
+
     }
 
 

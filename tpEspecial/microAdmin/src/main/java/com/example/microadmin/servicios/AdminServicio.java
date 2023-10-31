@@ -30,7 +30,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<>(m, cabecera);
         ResponseEntity<MonopatinIdDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/put",
+                "http://localhost:8001//monopatin/put",
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
@@ -53,6 +53,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     public MonopatinDto agregarMonopatin(MonopatinDto monopatin) {
+        System.out.println("acaservicio");
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
@@ -70,7 +71,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Long> objetoMonopatin = new HttpEntity<>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/" + idMonopatin,
+                "http://localhost:8001/monopatin/delete/" + idMonopatin,
                 HttpMethod.DELETE,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {}

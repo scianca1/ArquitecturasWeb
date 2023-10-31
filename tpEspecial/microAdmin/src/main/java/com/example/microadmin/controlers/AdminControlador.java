@@ -16,7 +16,7 @@ public class AdminControlador {
     @Autowired
     private AdminServicio service;
 
-    @PostMapping("/editarMonopatin")
+    @PutMapping("/editarMonopatin")
     public ResponseEntity<?> editarMonopatin(@RequestBody MonopatinIdDto m){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.editarMonopatin(m));
@@ -39,13 +39,14 @@ public class AdminControlador {
     @PostMapping("/monopatines")
     public ResponseEntity<?> addMonopatin(@RequestBody MonopatinDto monopatin){
         try{
+            System.out.println("acaservicio");
             return ResponseEntity.status(HttpStatus.OK).body(service.agregarMonopatin(monopatin));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
 
-    @DeleteMapping("/monopatines/{idMonopatin}")
+    @DeleteMapping("/monopatin/{idMonopatin}")
     public ResponseEntity<?> eliminarMonopatin(@PathVariable Long idMonopatin){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.eliminarMonopatin(idMonopatin));

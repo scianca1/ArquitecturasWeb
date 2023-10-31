@@ -15,15 +15,16 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
-public class ViajeService {
+public class    ViajeService {
 
     @Autowired
     private ViajeRepository repositorio;
 
     private RestTemplate rest;
     
-    public ViajeService() {
+    public ViajeService(ViajeRepository r) {
         rest= new RestTemplate();
+        this.repositorio=r;
     }
 
     public List<ViajeDto> findAll() throws Exception {
@@ -36,11 +37,12 @@ public class ViajeService {
     }
 
     public ViajeDto iniciarViaje(ViajeDto viaje) throws Exception {
+        System.out.println("service");
         //USUARIO
         ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+viaje.getIdUsuario(), UsuarioDto.class);
 
         //CUENTA
-        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/IdUsuario/"+ viaje.getIdUsuario() + "IdCuenta/" + viaje.getIdCuenta(), CuentaDto.class);
+        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/IdUsuario/"+ viaje.getIdUsuario() + "/IdCuenta/" + viaje.getIdCuenta(), CuentaDto.class);
         CuentaDto cuentaDto= cuenta.getBody();
 
         //MONOPATIN

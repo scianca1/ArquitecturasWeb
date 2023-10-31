@@ -14,6 +14,10 @@ public class ViajeController {
         @Autowired
         private ViajeService service;
 
+        public ViajeController(ViajeService s){
+            this.service=s;
+        }
+
         @GetMapping("")
         public ResponseEntity<?> getAll(){
             try{
@@ -41,7 +45,7 @@ public class ViajeController {
             }
         }
 
-        @PutMapping("id/{id}")
+        @PutMapping("/editar/id/{id}")
         public ResponseEntity<?> update(@PathVariable long id, @RequestBody ViajeDto viajeDto){
         try{
             service.update(id, viajeDto);
@@ -51,9 +55,10 @@ public class ViajeController {
         }
     }
 
-    @PostMapping("iniciarViaje")
+    @PostMapping("/iniciarViaje")
         public ResponseEntity<?> iniciarViaje(@RequestBody ViajeDto viajeDto){
             try {
+                System.out.println("Controler");
                 return ResponseEntity.status(HttpStatus.OK).body(service.iniciarViaje(viajeDto));
             }
             catch(Exception e){
@@ -61,7 +66,7 @@ public class ViajeController {
             }
         }
 
-    @PutMapping("id/{id}")
+    @PutMapping("/finalizar/id/{id}")
     public ResponseEntity<?> finalizarViaje(@PathVariable long id){
         try{
             service.finalizarViaje(id);
@@ -71,7 +76,7 @@ public class ViajeController {
         }
     }
 
-    @PutMapping("id/{id}")
+    @PutMapping("/pausar/id/{id}")
     public ResponseEntity<?> pausarViaje(@PathVariable long id){
         try{
             service.pausarViaje(id);
@@ -81,7 +86,7 @@ public class ViajeController {
         }
     }
 
-    @PutMapping("id/{id}")
+    @PutMapping("/despausar/id/{id}")
     public ResponseEntity<?> despausarViaje(@PathVariable long id){
         try{
             service.despausarViaje(id);

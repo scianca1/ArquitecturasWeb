@@ -1,12 +1,13 @@
-package com.example.microViaje.Repositories;
+package com.example.microviaje.microadmin.repositorios;
 
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+
 @NoRepositoryBean
-public interface BaseRepository<T,ID extends Serializable> extends org.springframework.data.repository.Repository<T,ID> {
+public interface RepositorioBase<T,ID extends Serializable> extends org.springframework.data.repository.Repository<T,ID> {
     /**
      * Elimina una entidad de la BD.
      * @param deleted entidad a borrar.
@@ -37,7 +38,7 @@ public interface BaseRepository<T,ID extends Serializable> extends org.springfra
      * Elimina una entidad correspondiente al id ingresado por parámetro.
      * @param id Identificador único de la entidad.
      */
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
     /**
      * Persiste una entidad ingresada por parámetro.

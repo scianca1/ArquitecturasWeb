@@ -1,6 +1,5 @@
 package com.example.microadmin.repositorios;
-
-import com.example.microadmin.entitys.Administrador;
+/*
 import com.example.microadmin.entitys.ReporteMonopatin;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,3 +23,5 @@ public interface ReporteMonopatinRepositorio extends RepositorioBase <ReporteMon
     @Query(value = "SELECT new com.example.microadmin.dtos.reporteDto.ReportePorCantViajes(rm.id, rm.kmRecorridos, rm.viajesTotales) FROM ReporteMonopatin rm WHERE rm.viajesTotales > ?1 ORDER BY rm.viajesTotales DESC")
     List<Serializable> getReportePorViajePorAnio(int a);
 }
+
+ */

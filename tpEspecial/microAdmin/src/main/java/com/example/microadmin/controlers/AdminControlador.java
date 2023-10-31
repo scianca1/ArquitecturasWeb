@@ -2,6 +2,7 @@ package com.example.microadmin.controlers;
 
 import com.example.microadmin.dtos.AdminDto;
 import com.example.microadmin.dtos.MonopatinDto;
+import com.example.microadmin.dtos.MonopatinIdDto;
 import com.example.microadmin.servicios.AdminServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,20 +16,20 @@ public class AdminControlador {
     @Autowired
     private AdminServicio service;
 
-    @PostMapping("/iniciarMantenimiento/{idMonopatin}")
-    public ResponseEntity<?> iniciarMantenimiento(@PathVariable Long idMonopatin){
+    @PostMapping("/editarMonopatin")
+    public ResponseEntity<?> editarMonopatin(@RequestBody MonopatinIdDto m){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.iniciarMantenimiento(idMonopatin));
+            return ResponseEntity.status(HttpStatus.OK).body(service.editarMonopatin(m));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
 
-    @PutMapping("/finalizarMantenimiento/{idMonopatin}")
-    public ResponseEntity<?> finalizarMantenimiento(@PathVariable Long idMonopatin){
+    @PutMapping("/editarMantenimiento/{idMonopatin}/habilitado/{estado}")
+    public ResponseEntity<?> editarMantenimiento(@PathVariable Long idMonopatin, @PathVariable boolean estado){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.finalizarMantenimiento(idMonopatin));
+            return ResponseEntity.status(HttpStatus.OK).body(service.editarMantenimiento(idMonopatin, estado));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
@@ -38,7 +39,7 @@ public class AdminControlador {
     @PostMapping("/monopatines")
     public ResponseEntity<?> addMonopatin(@RequestBody MonopatinDto monopatin){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.addMonopatin(monopatin));
+            return ResponseEntity.status(HttpStatus.OK).body(service.agregarMonopatin(monopatin));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
@@ -53,7 +54,26 @@ public class AdminControlador {
         }
     }
 
-    /*
+    @PutMapping("/anularCuenta/{idCuenta}/estado/{estado}")
+    public ResponseEntity<?> anularCuenta(@PathVariable Long idCuenta, @PathVariable boolean estado){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.anularCuenta(idCuenta, estado));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+
+    @PutMapping ("/actualizarTarifas/{tarifaNormal}/{tarifaPorPausaExtensa}")
+    public ResponseEntity<?> actualizarTarifas(@PathVariable int tarifaNormal, @PathVariable int tarifaPorPausaExtensa){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody AdminDto a){
         try {
@@ -73,5 +93,13 @@ public class AdminControlador {
         }
     }
 
-     */
+    @GetMapping ("/tarifas")
+    public ResponseEntity<?> getTarifaConPausa(){
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(service.getTarifas());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+
 }

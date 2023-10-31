@@ -1,10 +1,11 @@
 package com.example.microadmin.servicios;
 
 import com.example.microadmin.dtos.AdminDto;
+import com.example.microadmin.dtos.CuentaDto;
 import com.example.microadmin.dtos.MonopatinDto;
+import com.example.microadmin.dtos.MonopatinIdDto;
 import com.example.microadmin.entitys.Administrador;
 import com.example.microadmin.repositorios.AdminRepositorio;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class AdminServicio implements BaseServicio{
+public class AdminServicio implements BaseServicio<AdminDto>{
 
     private AdminRepositorio repositorio;
 
@@ -25,59 +26,33 @@ public class AdminServicio implements BaseServicio{
         this.repositorio= ar;
     }
 
-    public MonopatinDto iniciarMantenimiento (Long idMonopatin){
-        //  traigo el monopatin mediante su id
+    public MonopatinIdDto editarMonopatin (MonopatinIdDto m){
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
-        ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/" + idMonopatin,
-                HttpMethod.GET,
-                solicitud1,
-                new ParameterizedTypeReference<>() {});
-
-        // Edito el monopatin
-        MonopatinDto monopatin = respuesta.getBody();
-        monopatin.setHabilitado(false);
-
-        // Lo guardo modificado
-        HttpEntity<MonopatinDto> solicitud2 = new HttpEntity<>(monopatin, cabecera);
-        ResponseEntity<MonopatinDto> respuesta2 = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/" + idMonopatin,
+        HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<>(m, cabecera);
+        ResponseEntity<MonopatinIdDto> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8001/monopatines/put",
                 HttpMethod.PUT,
-                solicitud2,
+                solicitud1,
                 new ParameterizedTypeReference<>() {});
         cabecera.setContentType(MediaType.APPLICATION_JSON);
 
-        return respuesta2.getBody();
+        return respuesta.getBody();
     }
 
-    public MonopatinDto finalizarMantenimiento (Long idMonopatin){
-        //  traigo el monopatin mediante su id
+    public MonopatinDto editarMantenimiento (Long idMonopatin, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/" + idMonopatin,
-                HttpMethod.GET,
-                solicitud1,
-                new ParameterizedTypeReference<>() {});
-
-        // Edito el monopatin
-        MonopatinDto monopatin = respuesta.getBody();
-        monopatin.setHabilitado(true);
-
-        // Lo guardo modificado
-        HttpEntity<MonopatinDto> solicitud2 = new HttpEntity<>(monopatin, cabecera);
-        ResponseEntity<MonopatinDto> respuesta2 = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/" + idMonopatin,
+                "http://localhost:8001/monopatines/mantenimiento/" + idMonopatin + "/estado/" + estado,
                 HttpMethod.PUT,
-                solicitud2,
+                solicitud1,
                 new ParameterizedTypeReference<>() {});
         cabecera.setContentType(MediaType.APPLICATION_JSON);
 
-        return respuesta2.getBody();
+        return respuesta.getBody();
     }
 
-    public MonopatinDto addMonopatin(MonopatinDto monopatin) {
+    public MonopatinDto agregarMonopatin(MonopatinDto monopatin) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
@@ -105,30 +80,47 @@ public class AdminServicio implements BaseServicio{
         return respuesta.getBody();
     }
 
+    public CuentaDto anularCuenta (Long id, boolean estado){
+        HttpHeaders cabecera = new HttpHeaders();
+        HttpEntity<CuentaDto> solicitud1 = new HttpEntity<>(cabecera);
+        ResponseEntity<CuentaDto> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8003/cuenta/" + id + "/anular/" + estado,
+                HttpMethod.PUT,
+                solicitud1,
+                new ParameterizedTypeReference<>() {});
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+
+        return respuesta.getBody();
+    }
+
+    public AdminDto actualizarTarifas(int tarifaNormal, int tarifaPorPausaExtensa){
+        Administrador a= repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
+        return new AdminDto(a);
+    }
+
+    public AdminDto getTarifas(){
+        Administrador administrador= repositorio.getTarifas();
+        return new AdminDto(administrador);
+    }
+
     @Override
     public List<AdminDto> findAll() throws Exception {
         return null;
     }
 
     @Override
-    public AdminDto findById(Long id) throws Exception {
+    public AdminDto findById(Long id) {
         return repositorio.findById(id).map(AdminDto::new).orElseThrow(
                 ()->new IllegalArgumentException("ID invalido:"+id)
         );
     }
 
     @Override
-    public Object save(Object entity) throws Exception {
-        return null;
+    public AdminDto save(AdminDto adminDto) throws Exception {
+        Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());
+        Administrador aux = this.repositorio.save(admin);
+        return new AdminDto(aux.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());
     }
 
-    /*
-    @Override
-    public AdminDto save(AdminDto adminDto) throws Exception {
-        Administrador admin = new Administrador(adminDto.getId());
-        Administrador aux = this.repositorio.save(admin);
-        return new AdminDto(aux.getId());
-    }
-     */
 
 }

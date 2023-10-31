@@ -11,10 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MonopatinDto {
 
-     private int x;
-     private int y;
+     private Long x;
+     private Long y;
      private boolean habilitado;
-     private double kmRecorridos;
+     private Long kmRecorridos;
      private double tiempoDeUso;
      private double tiempoDeUsoConPausa;
 

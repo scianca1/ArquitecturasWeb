@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CuentaDto {
-
+public class MonopatinIdDto extends MonopatinDto {
     private Long id;
-    private boolean anulada;
 
 }

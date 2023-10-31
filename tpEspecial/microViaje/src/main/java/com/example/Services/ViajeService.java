@@ -83,23 +83,38 @@ public class ViajeService {
 
         //Tarifa
         ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
+
         //Monopatin
         ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+        MonopatinDto monopatinDto= monopatin.getBody();
+
+        //Ubicacion monopatin
+        long ubiXMonopatin= monopatinDto.getX();
+        long ubiYMonopatin= monopatinDto.getY();
 
         //Parada destino de viaje
         ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
         ParadaDto paradaDto= paradaDestino.getBody();
+
+        //Ubicacion parada destino
         long ubiXDestino= paradaDto.getX();
         long ubiYDestino= paradaDto.getY();
-        //Ubicacion monopatin
-        long ubiXMonopatin= monopatin.getBody().getX();
-        long ubiYMonopatin= monopatin.getBody().getY();
+
+       if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
+           //Calcular duracion en minutos del viaje
+           Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
+           long minutosViaje= duracionViaje.toMinutes();
 
 
 
-        //Calcular duracion en minutos del viaje
-        Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
-        long minutosViaje= duracionViaje.toMinutes();
+       }
+       else {
+           throw new IllegalArgumentException("La ubicacion del monopatin no es la que indicaste como parada destino al iniciar tu viaje");
+       }
+
+
+
+
 
 
 

@@ -12,4 +12,5 @@ import lombok.Setter;
 public class MonopatinIdDto extends MonopatinDto {
     private Long id;
 
+
 }

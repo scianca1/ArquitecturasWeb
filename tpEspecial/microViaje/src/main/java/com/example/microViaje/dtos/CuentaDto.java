@@ -1,4 +1,4 @@
-package com.example.dtos;
+package com.example.microViaje.dtos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToMany;

@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.microViaje.config;
 
 
 import jakarta.persistence.Column;

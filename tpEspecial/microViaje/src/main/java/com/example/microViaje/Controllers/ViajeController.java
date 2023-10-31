@@ -1,7 +1,7 @@
-package com.example.Controllers;
+package com.example.microViaje.Controllers;
 
-import com.example.Services.ViajeService;
-import com.example.dtos.ViajeDto;
+import com.example.microViaje.Services.ViajeService;
+import com.example.microViaje.dtos.ViajeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

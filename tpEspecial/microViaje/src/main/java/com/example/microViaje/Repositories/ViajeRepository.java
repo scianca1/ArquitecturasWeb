@@ -1,6 +1,6 @@
-package com.example.Repositories;
+package com.example.microViaje.Repositories;
 
-import com.example.entitys.Viaje;
+import com.example.microViaje.entitys.Viaje;
 
 import java.util.List;
 import java.util.Optional;

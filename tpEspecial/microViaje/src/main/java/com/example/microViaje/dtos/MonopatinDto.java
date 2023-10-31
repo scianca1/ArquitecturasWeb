@@ -1,6 +1,5 @@
-package com.example.dtos;
+package com.example.microViaje.dtos;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParadaDto {
+public class MonopatinDto {
     private Long x;
     private Long y;
-
+    private boolean habilitado;
+    private Long kmRecorridos;
+    private double tiempoDeUso;
+    private double tiempoDeUsoConPausa;
 }

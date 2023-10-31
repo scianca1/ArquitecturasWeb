@@ -1,4 +1,4 @@
-package com.example.Repositories;
+package com.example.microViaje.Repositories;
 
 import org.springframework.data.repository.NoRepositoryBean;
 

@@ -1,12 +1,10 @@
-package com.example.dtos;
+package com.example.microViaje.dtos;
 
-import com.example.entitys.Viaje;
-import jakarta.persistence.Column;
+import com.example.microViaje.entitys.Viaje;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Getter
 public class ViajeDto {

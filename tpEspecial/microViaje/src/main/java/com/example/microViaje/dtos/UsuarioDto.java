@@ -1,4 +1,4 @@
-package com.example.dtos;
+package com.example.microViaje.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,17 +1,10 @@
-package com.example.entitys;
+package com.example.microViaje.entitys;
 
-import com.example.dtos.UsuarioDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.time.LocalDate;
 @Entity
 @Table(name = "viaje")

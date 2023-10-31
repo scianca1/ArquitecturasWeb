@@ -1,10 +1,10 @@
-package com.example.Services;
+package com.example.microViaje.Services;
 
-import com.example.Repositories.ViajeRepository;
-import com.example.dtos.*;
-import com.example.entitys.Viaje;
+import com.example.microViaje.Repositories.ViajeRepository;
+import com.example.microViaje.dtos.*;
+import com.example.microViaje.entitys.Viaje;
+import com.example.microViaje.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -84,7 +83,7 @@ public class ViajeService {
 
         //Tarifa
         ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
-
+        AdministradorDto adminDto= tarifa.getBody();
         //Monopatin
         ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
         MonopatinDto monopatinDto= monopatin.getBody();
@@ -101,10 +100,25 @@ public class ViajeService {
         long ubiXDestino= paradaDto.getX();
         long ubiYDestino= paradaDto.getY();
 
+        int valorViaje=0;
        if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
-           //Calcular duracion en minutos del viaje
-           Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
-           long minutosViaje= duracionViaje.toMinutes();
+
+           if(viaje.getPausa()==-1){
+
+               Duration duracionTarifaNormal= Duration.between(viaje.getHoraInicio(), viaje.getHoraInicioPausa().plusMinutes(15));
+               int primerosMinutos= (int)duracionTarifaNormal.toMinutes();
+               Duration duracionTarifaAumentada= Duration.between(viaje.getHoraInicioPausa().plusMinutes(15), viaje.getHoraFin());
+               //int primerosMinutos= (int)duracionTarifaNormal.toMinutes();
+               //valorViaje= (primerosMinutos*adminDto.getTarifa() + )
+           }
+           else{
+               //Calcular duracion en minutos del viaje
+               Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
+               int minutosViaje= (int)duracionViaje.toMinutes();
+               valorViaje= adminDto.getTarifa()*minutosViaje;
+           }
+
+
 
 
 
@@ -132,20 +146,6 @@ public class ViajeService {
             viaje.setHoraInicioPausa(horaPausa);
         }
 
-
-
-        /*
-        while(viaje.isViajePausado()){
-            LocalTime horaActual= LocalTime.now();
-            Duration duracionPausa= Duration.between(horaPausa, horaActual);
-            long minutosViaje= duracionPausa.toMinutes();
-            if(viaje.getPausa()<minutosViaje){
-                viaje.setPausa(-1);
-                viaje.setHoraInicioPausa(horaPausa);
-            }
-        }
-        */
-
         ViajeDto respuesta= new ViajeDto(viaje);
         return respuesta;
     }
@@ -158,16 +158,13 @@ public class ViajeService {
         if(viaje.getHoraFinPausa()==null){
             viaje.setHoraFinPausa(horaDespausa);
         }
+
         Duration duracionPausa= Duration.between(viaje.getHoraInicioPausa(), horaDespausa);
+        long minutosPausa= duracionPausa.toMinutes();
 
-
-
-        long minutosViaje= duracionPausa.toMinutes();
-
-
-
-
-
+        if(viaje.getPausa()<minutosPausa){
+            viaje.setPausa(-1);
+        }
 
         ViajeDto respuesta= new ViajeDto(viaje);
         return respuesta;

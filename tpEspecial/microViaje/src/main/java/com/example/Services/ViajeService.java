@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class ViajeService {
     private ViajeRepository repositorio;
 
     private RestTemplate rest;
+    
     public ViajeService() {
         rest= new RestTemplate();
     }
@@ -32,20 +35,20 @@ public class ViajeService {
                 () -> new IllegalArgumentException("ID de estacion invalido: " + id));
     }
 
-    public ViajeDto save(Long usuarioId, Long monopatinId, Long cuentaId,Long paradaOrigenId, Long paradaDestinoId) throws Exception {
+    public ViajeDto iniciarViaje(ViajeDto viaje) throws Exception {
         //USUARIO
-        ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+usuarioId, UsuarioDto.class);
+        ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+viaje.getIdUsuario(), UsuarioDto.class);
 
         //CUENTA
-        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/cuenta/"+cuentaId, CuentaDto.class);
+        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/IdUsuario/"+ viaje.getIdUsuario() + "IdCuenta/" + viaje.getIdCuenta(), CuentaDto.class);
         CuentaDto cuentaDto= cuenta.getBody();
 
         //MONOPATIN
-        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + monopatinId, MonopatinDto.class);
+        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
 
         //PARADA
-        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id" + paradaOrigenId, ParadaDto.class);
-        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id" + paradaDestinoId, ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id" + viaje.getIdParadaOrigen(), ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id" + viaje.getIdParadaDestino(), ParadaDto.class);
 
         //CONSULTO POR ID USUARIO E ID MONOPATIN
         if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK) {
@@ -53,8 +56,8 @@ public class ViajeService {
             if(cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()!=false){
                 //CONSULTO POR ID PARADA ORIGEN Y DESTINO
                 if(paradaOrigen.getStatusCode()==HttpStatus.OK && paradaDestino.getStatusCode()==HttpStatus.OK){
-                    Viaje viaje= new Viaje(usuarioId, monopatinId,cuentaId,paradaOrigenId,paradaDestinoId);
-                    ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
+                    Viaje viajeNuevo= new Viaje(viaje.getIdUsuario(), viaje.getIdMonopatin(),viaje.getIdCuenta(), viaje.getIdParadaOrigen(), viaje.getIdParadaDestino());
+                    ViajeDto respuesta= new ViajeDto(repositorio.save(viajeNuevo));
                     return respuesta;
                 }
                 else{
@@ -72,8 +75,25 @@ public class ViajeService {
         }
     }
 
-    public void finalizarViaje(Long id) {
-        //Ver si existe el id en Viaje llamando al findById de mi servicio
+    public void finalizarViaje(Long id) throws Exception {
+        //Ver si existe el id
+        Viaje viaje = repositorio.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("id invalido"));
+        viaje.setHoraFin(LocalTime.now());
+
+        //Tarifa
+        ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
+        //Monopatin
+        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+        //Calcular duracion en minutos del viaje
+        Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
+        long minutosViaje= duracionViaje.toMinutes();
+
+
+        int valorViaje=
+        viaje.setValorViaje();
+
+        //ver si existe el id de viaje
         //calcular valor viaje con tarifa de admin y con tiempo calculado por mi
         //corroborar que la ubicacion del monopatin sea igual que la parada destino
         //Modificar valores de viaje: fecha de finalizacion, hora de finalizacion, kmRecorridos,valorViaje

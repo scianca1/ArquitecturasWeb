@@ -51,10 +51,10 @@ public class ViajeController {
         }
     }
 
-    @PostMapping("usuario/{usuarioId}/monopatin/{monoparinId}")
-        public ResponseEntity<?> save(@RequestBody Long usuarioId, Long monopatinId, Long cuentaId,Long paradaOrigenId, Long paradaDestinoId){
+    @PostMapping("iniciarViaje")
+        public ResponseEntity<?> iniciarViaje(@RequestBody ViajeDto viajeDto){
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(service.save(usuarioId,monopatinId, cuentaId,paradaOrigenId,paradaDestinoId));
+                return ResponseEntity.status(HttpStatus.OK).body(service.iniciarViaje(viajeDto));
             }
             catch(Exception e){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");

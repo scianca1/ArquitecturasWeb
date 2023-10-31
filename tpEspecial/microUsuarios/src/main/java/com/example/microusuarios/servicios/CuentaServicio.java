@@ -2,11 +2,15 @@ package com.example.microusuarios.servicios;
 
 import com.example.microusuarios.dtos.CuentaDto;
 import com.example.microusuarios.dtos.UsuarioDto;
+import com.example.microusuarios.entitys.Cuenta;
 import com.example.microusuarios.repositorios.CuentaRepositorio;
 import com.example.microusuarios.repositorios.UsuarioRepositorio;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CuentaServicio implements BaseServicio<CuentaDto>{
     private CuentaRepositorio repositorio;
@@ -26,11 +30,26 @@ public class CuentaServicio implements BaseServicio<CuentaDto>{
 
     @Override
     public CuentaDto save(CuentaDto c) throws Exception {
-        return null;
+        Cuenta cuenta = new Cuenta(c.isAnulada(), c.getCuentaMercadoPago(), c.getFechaDeAlta(), c.getSaldo());
+        Cuenta aux = repositorio.save(cuenta);
+        return new CuentaDto(cuenta);
     }
 
     @Override
     public CuentaDto delete(Long id) throws Exception {
+        return null;
+    }
+
+
+    public CuentaDto setAnulada(long idCuenta, boolean anulada) {
+        Optional<Cuenta> opC=repositorio.findById(idCuenta);
+        if(opC.isPresent()){
+            Cuenta c=opC.get();
+            c.setAnulada(anulada);
+            CuentaDto cdto= new CuentaDto(c);
+            repositorio.save(c);
+            return cdto;
+        }
         return null;
     }
 }

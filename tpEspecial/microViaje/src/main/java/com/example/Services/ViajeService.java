@@ -1,9 +1,7 @@
 package com.example.Services;
 
 import com.example.Repositories.ViajeRepository;
-import com.example.dtos.MonopatinDto;
-import com.example.dtos.UsuarioDto;
-import com.example.dtos.ViajeDto;
+import com.example.dtos.*;
 import com.example.entitys.Viaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,18 +32,52 @@ public class ViajeService {
                 () -> new IllegalArgumentException("ID de estacion invalido: " + id));
     }
 
-    public ViajeDto save(Long usuarioId, Long monopatinId) throws Exception {
+    public ViajeDto save(Long usuarioId, Long monopatinId, Long cuentaId,Long paradaOrigenId, Long paradaDestinoId) throws Exception {
+        //USUARIO
         ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+usuarioId, UsuarioDto.class);
-        //Ver como poner cuenta
-        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + monopatinId, MonopatinDto.class);
-        if (usuario.getStatusCode() != HttpStatus.OK || monopatin.getStatusCode()  != HttpStatus.OK) {
-            throw new IllegalArgumentException("id de usuario o monopatin invalido");
-        }
 
-        //VER ATRIBUTOS
-        Viaje viaje= new Viaje(usuarioId, monopatinId, );
-        ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
-        return respuesta;
+        //CUENTA
+        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/cuenta/"+cuentaId, CuentaDto.class);
+        CuentaDto cuentaDto= cuenta.getBody();
+
+        //MONOPATIN
+        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + monopatinId, MonopatinDto.class);
+
+        //PARADA
+        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id" + paradaOrigenId, ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id" + paradaDestinoId, ParadaDto.class);
+
+        //CONSULTO POR ID USUARIO E ID MONOPATIN
+        if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK) {
+            //CONSULTO POR SALDO EN CUENTA
+            if(cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()!=false){
+                //CONSULTO POR ID PARADA ORIGEN Y DESTINO
+                if(paradaOrigen.getStatusCode()==HttpStatus.OK && paradaDestino.getStatusCode()==HttpStatus.OK){
+                    Viaje viaje= new Viaje(usuarioId, monopatinId,cuentaId,paradaOrigenId,paradaDestinoId);
+                    ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
+                    return respuesta;
+                }
+                else{
+                    throw new IllegalArgumentException("Alguna de las paradas no es valida");
+                }
+
+            }
+            else{
+                throw new IllegalArgumentException("La cuenta no tiene saldo");
+            }
+
+        }
+        else {
+            throw new IllegalArgumentException("Id de usuario o  Id monopatin invalido");
+        }
+    }
+
+    public void finalizarViaje(Long id) {
+        //Ver si existe el id en Viaje llamando al findById de mi servicio
+        //calcular valor viaje con tarifa de admin y con tiempo calculado por mi
+        //corroborar que la ubicacion del monopatin sea igual que la parada destino
+        //Modificar valores de viaje: fecha de finalizacion, hora de finalizacion, kmRecorridos,valorViaje
+        //Pasar valor de viaje a Cuenta
     }
 
     public void update(Long id, ViajeDto viajeDto) {
@@ -58,6 +90,9 @@ public class ViajeService {
         viaje.setFechaFin(viajeDto.getFechaFin());
         viaje.setHoraFin(viajeDto.getHoraFin());
         viaje.setHoraInicio((viajeDto.getHoraInicio()));
+        viaje.setIdCuenta(viajeDto.getIdCuenta());
+        viaje.setIdParadaOrigen(viajeDto.getIdParadaOrigen());
+        viaje.setIdParadaDestino(viajeDto.getIdParadaDestino());
         repositorio.save(viaje);
     }
 
@@ -66,4 +101,6 @@ public class ViajeService {
         repositorio.delete(repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido")));
     }
+
+
 }

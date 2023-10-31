@@ -47,4 +47,8 @@ public class Cuenta {
     public Long getId() {
         return id;
     }
+
+    public void addUsuario(Usuario usuario) {
+        this.usuarios.add(usuario);
+    }
 }

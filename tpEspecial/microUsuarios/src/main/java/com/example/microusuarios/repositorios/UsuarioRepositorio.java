@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 public interface UsuarioRepositorio extends RepositorioBase<Usuario, Integer> {
 
-    @Query("UPDATE Usuario u SET u.email = :#{#us.email}, u.nombre = :#{#us.nombre}, u.nombreDeUsuario = :#{#us.nombreDeUsuario}, u.telefono = :#{#us.telefono} WHERE u.id = :usuarioId")
+    @Query("UPDATE Usuario u SET u.email = :#{#us.email}, u.nombre = :#{#us.nombre}, u.nombreDeUsuario = :#{#us.nombreDeUsuario}, u.telefono = :#{#us.telefono}  WHERE u.id = :usuarioId")
     @Modifying
     @Transactional
     public void put(@Param("us") Usuario usuario, @Param("usuarioId") Long usuarioId);

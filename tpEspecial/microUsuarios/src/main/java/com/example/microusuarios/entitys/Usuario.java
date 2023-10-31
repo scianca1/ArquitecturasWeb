@@ -58,4 +58,19 @@ public class Usuario {
     public Long getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return this.cuentas.toString();
+    }
+
+    public void addCuenta(Cuenta cuenta) {
+        this.cuentas.add(cuenta);
+    }
+
+    public void removeCuenta(Cuenta c) {
+        this.cuentas.remove(c);
+    }
 }
+
+

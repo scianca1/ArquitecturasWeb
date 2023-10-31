@@ -56,7 +56,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines",
+                "http://localhost:8001/monopatin",
                 HttpMethod.POST,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {}

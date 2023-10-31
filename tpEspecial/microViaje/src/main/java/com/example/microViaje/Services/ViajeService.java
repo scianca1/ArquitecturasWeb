@@ -68,7 +68,6 @@ public class ViajeService {
             else{
                 throw new IllegalArgumentException("La cuenta no tiene saldo");
             }
-
         }
         else {
             throw new IllegalArgumentException("Id de usuario o  Id monopatin invalido");
@@ -104,12 +103,11 @@ public class ViajeService {
        if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
 
            if(viaje.getPausa()==-1){
-
                Duration duracionTarifaNormal= Duration.between(viaje.getHoraInicio(), viaje.getHoraInicioPausa().plusMinutes(15));
-               int primerosMinutos= (int)duracionTarifaNormal.toMinutes();
+               int minutosNormal= (int)duracionTarifaNormal.toMinutes();
                Duration duracionTarifaAumentada= Duration.between(viaje.getHoraInicioPausa().plusMinutes(15), viaje.getHoraFin());
-               //int primerosMinutos= (int)duracionTarifaNormal.toMinutes();
-               //valorViaje= (primerosMinutos*adminDto.getTarifa() + )
+               int minutosExtendidos= (int)duracionTarifaAumentada.toMinutes();
+               valorViaje= (minutosNormal*adminDto.getTarifa() + minutosExtendidos*adminDto.getTarifaPorPausaExtensa());
            }
            else{
                //Calcular duracion en minutos del viaje
@@ -117,23 +115,11 @@ public class ViajeService {
                int minutosViaje= (int)duracionViaje.toMinutes();
                valorViaje= adminDto.getTarifa()*minutosViaje;
            }
-
-
-
-
-
+           viaje.setValorViaje(valorViaje);
        }
        else {
            throw new IllegalArgumentException("La ubicacion del monopatin no es la que indicaste como parada destino al iniciar tu viaje");
        }
-
-
-
-        //ver si existe el id de viaje
-        //calcular valor viaje con tarifa de admin y con tiempo calculado por mi
-        //corroborar que la ubicacion del monopatin sea igual que la parada destino
-        //Modificar valores de viaje: fecha de finalizacion, hora de finalizacion, kmRecorridos,valorViaje
-        //Pasar valor de viaje a Cuenta
     }
 
 

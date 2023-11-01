@@ -60,7 +60,7 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/mantenimiento/{id}/editado/{isHabilitado}")
+    @PutMapping("/id/{id}/habilitado/{isHabilitado}")
     public ResponseEntity<?> habilitar(@PathVariable Long id, @PathVariable boolean isHabilitado){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.habilitar(id, isHabilitado));

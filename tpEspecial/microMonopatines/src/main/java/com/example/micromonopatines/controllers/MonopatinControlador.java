@@ -68,4 +68,13 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+
+    @PutMapping("/addKilometros/id/{id}/km/{km}")
+    public ResponseEntity<?> addKmRecorridos(@PathVariable Long id, @PathVariable long km){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.addKmRecorridos(id, km));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
 }

@@ -61,7 +61,19 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
             if(monopatin != null){
                 Monopatin mono = new Monopatin(monopatin) ;
                 mono.setHabilitado(isHabilitado);
-                this.repositorio.put(mono,monopatin.getId());
+                this.repositorio.save(mono);
+                return monopatin;
+            }
+            else {
+                throw new Exception();
+            }
+    }
+    public MonopatinDtoConId addKmRecorridos(Long id, long kms) throws Exception {
+            MonopatinDtoConId monopatin = this.findById(id);
+            if(monopatin != null){
+                Monopatin mono = new Monopatin(monopatin) ;
+                mono.setKmRecorridos(mono.getKmRecorridos() + kms);
+                this.repositorio.save(mono);
                 return monopatin;
             }
             else {

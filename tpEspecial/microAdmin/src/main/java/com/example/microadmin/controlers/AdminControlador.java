@@ -77,7 +77,7 @@ public class AdminControlador {
 
 
     @PutMapping ("/actualizarTarifas/{tarifaNormal}/{tarifaPorPausaExtensa}")
-    public ResponseEntity<?> actualizarTarifas(@PathVariable int tarifaNormal, @PathVariable int tarifaPorPausaExtensa){
+    public ResponseEntity<?> actualizarTarifas(@PathVariable Integer tarifaNormal, @PathVariable Integer tarifaPorPausaExtensa){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa));
         }
@@ -85,6 +85,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
     @GetMapping ("/totalFacturadoEntre/mes1/{mes1}/mes2/{mes2}/anio/{anio}")
     public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2, @PathVariable Integer anio){
@@ -95,6 +96,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
     @GetMapping ("/id/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id ){

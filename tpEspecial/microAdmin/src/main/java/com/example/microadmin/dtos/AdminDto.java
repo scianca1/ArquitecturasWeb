@@ -38,7 +38,6 @@ public class AdminDto {
         this.id= a.getId();
         this.tarifa= a.getTarifa();
         this.tarifaPorPausaExtensa= a.getTarifaPorPausaExtensa();
-        this.fechaActualizacionPrecios= a.getFechaActualizacionPrecios();
     }
 
     public AdminDto() {

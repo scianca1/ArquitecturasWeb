@@ -61,6 +61,8 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
+
 
     @PutMapping("/anularCuenta/{idCuenta}/estado/{estado}")
     public ResponseEntity<?> anularCuenta(@PathVariable Long idCuenta, @PathVariable boolean estado){
@@ -84,10 +86,10 @@ public class AdminControlador {
         }
     }
 
-    @PutMapping ("/totalFacturadoEntre/{mes1}/{mes2}")
-    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2){
+    @GetMapping ("/totalFacturadoEntre/mes1/{mes1}/mes2/{mes2}/anio/{anio}")
+    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2, @PathVariable Integer anio){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2));
+            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2, anio));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
@@ -102,6 +104,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    // PROBADO OK
 
     @GetMapping ("/tarifas")
     public ResponseEntity<?> getTarifas(){
@@ -111,6 +114,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    // PROBADO OK
 
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody AdminDto a){
@@ -121,5 +125,6 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    // PROBADO OK
 
 }

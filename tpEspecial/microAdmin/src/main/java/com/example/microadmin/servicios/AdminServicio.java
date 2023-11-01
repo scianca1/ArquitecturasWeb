@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminServicio implements BaseServicio<AdminDto>{
@@ -26,10 +27,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         this.repositorio= ar;
     }
 
-    @Transactional
-    public AdminDto getAdmin() {
-        return new AdminDto(repositorio.getAdmin());
-    }
+
 
     @Transactional
     public MonopatinIdDto editarMonopatin (MonopatinIdDto m){
@@ -105,31 +103,32 @@ public class AdminServicio implements BaseServicio<AdminDto>{
 
     @Transactional
     public AdminDto actualizarTarifas(int tarifaNormal, int tarifaPorPausaExtensa){
-        AdminDto admin= this.getAdmin();
-        if (admin.getFechaActualizacionPrecios().isAfter(LocalDate.now())) {
-            repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
-            return admin;
-        } else {
-            throw new IllegalArgumentException("Usted quiere actualizar los precios en una fecha invalida. Revise que dia se actualizan los precios");
-        }
-
+        Optional<Administrador> admin = repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
+        Administrador administrador= admin.get();
+        return new AdminDto(administrador);
     }
 
     @Transactional
     public AdminDto getTarifas(){
-        Administrador administrador= repositorio.getTarifas();
-        return new AdminDto(administrador);
+        Optional<Administrador> aux= repositorio.getAdmin();
+        if(aux.isPresent()) {
+            Administrador administrador= aux.get();
+            return new AdminDto(administrador);
+        }
+       return null;
     }
 
-    public String totalFacturado(Integer mes1, Integer mes2) {
+    public String totalFacturado(Integer mes1, Integer mes2, Integer anio) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
+        System.out.println("entro a servicio");
         ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8004/viaje/viajesEntreMeses/" + mes1 + "/" + mes2,
+                "http://localhost:8004/viajesPorAnioEntreMeses/anio/" + anio + "/mes1/" + mes1 + "/mes2/" + mes2,
                 HttpMethod.GET,
                 solicitud,
                 new ParameterizedTypeReference<>() {}
         );
+        System.out.println("paso por servicio y trajo la lista de flor");
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<ViajeDto> lista = respuesta.getBody();
         int contador = 0;
@@ -156,7 +155,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     @Transactional
     @Override
     public AdminDto save(AdminDto adminDto) throws Exception {
-        Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa(), adminDto.getFechaActualizacionPrecios());
+        Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());
         this.repositorio.save(admin);
         return new AdminDto(admin);
     }

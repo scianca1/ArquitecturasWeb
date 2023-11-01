@@ -19,23 +19,10 @@ public class Administrador {
     private Long id;
 
     @Column
-    private int tarifa;
+    private Integer tarifa;
 
     @Column
-    private int tarifaPorPausaExtensa;
+    private Integer tarifaPorPausaExtensa;
 
-    @Column
-    private LocalDate fechaActualizacionPrecios;
-
-    /*
-    public void actualizarPrecios(int nuevaTarifa, int nuevaTarifaPorPausaExtensa) {
-        if (fechaActualizacionPrecios.isAfter(LocalDate.now())) {
-            this.setTarifa(nuevaTarifa);
-            this.setTarifaPorPausaExtensa(nuevaTarifaPorPausaExtensa);
-        } else {
-            throw new IllegalArgumentException("La fecha de ajuste de precios debe ser en el futuro.");
-        }
-    }
-     */
 
 }

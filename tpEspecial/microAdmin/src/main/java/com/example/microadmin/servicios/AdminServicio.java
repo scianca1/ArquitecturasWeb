@@ -102,10 +102,13 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     @Transactional
-    public AdminDto actualizarTarifas(int tarifaNormal, int tarifaPorPausaExtensa){
-        Optional<Administrador> admin = repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
+        public AdminDto actualizarTarifas(Integer tarifaNormal, Integer tarifaPorPausaExtensa){
+        Optional<Administrador> admin = repositorio.getAdmin();
         Administrador administrador= admin.get();
-        return new AdminDto(administrador);
+        administrador.setTarifa(tarifaNormal);
+        administrador.setTarifaPorPausaExtensa(tarifaPorPausaExtensa);
+        AdminDto dto = new AdminDto(repositorio.save(administrador));
+        return dto;
     }
 
     @Transactional
@@ -123,7 +126,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
         System.out.println("entro a servicio");
         ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8004/viajesPorAnioEntreMeses/anio/" + anio + "/mes1/" + mes1 + "/mes2/" + mes2,
+                "http://localhost:8004/viaje/viajesPorAnioEntreMeses/anio/" + anio + "/mes1/" + mes1 + "/mes2/" + mes2,
                 HttpMethod.GET,
                 solicitud,
                 new ParameterizedTypeReference<>() {}

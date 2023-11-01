@@ -19,10 +19,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="microAdmin" options="" />
-      <module name="microMonopatines" options="" />
+      <module name="microAdmin" options="-parameters" />
+      <module name="microMonopatines" options="-parameters" />
       <module name="microUsuarios" options="-parameters" />
-      <module name="microViaje" options="" />
+      <module name="microViaje" options="-parameters" />
       <module name="primerMicroservicio" options="-parameters" />
     </option>
   </component>

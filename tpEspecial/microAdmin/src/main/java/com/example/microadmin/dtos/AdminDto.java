@@ -12,20 +12,13 @@ public class AdminDto {
     private Long id;
     private int tarifa;
     private int tarifaPorPausaExtensa;
-    private LocalDate fechaActualizacionPrecios;
-
-    public AdminDto(Long id, int tarifa, int tarifaPorPausaExtensa, LocalDate fechaActualizacion) {
-        this.id = id;
-        this.tarifa = tarifa;
-        this.tarifaPorPausaExtensa = tarifaPorPausaExtensa;
-        this.fechaActualizacionPrecios= fechaActualizacion;
-    }
 
     public AdminDto(Long id, int tarifa, int tarifaPorPausaExtensa) {
         this.id = id;
         this.tarifa = tarifa;
         this.tarifaPorPausaExtensa = tarifaPorPausaExtensa;
     }
+
     public AdminDto(int tarifa, int tarifaPorPausaExtensa) {
         this.tarifa = tarifa;
         this.tarifaPorPausaExtensa = tarifaPorPausaExtensa;

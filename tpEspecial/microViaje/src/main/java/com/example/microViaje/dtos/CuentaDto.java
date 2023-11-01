@@ -14,8 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CuentaDto {
+    private Long id;
+
+    private List<UsuarioDto> usuarios;
+
     private boolean anulada;
+
     private String cuentaMercadoPago;
+
     private Date fechaDeAlta;
+
     private Integer saldo;
+
 }

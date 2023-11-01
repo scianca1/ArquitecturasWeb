@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,5 +15,6 @@ import lombok.Setter;
 public class ParadaDto {
     private Long x;
     private Long y;
+    private  List<MonopatinDto> monopatines;
 
 }

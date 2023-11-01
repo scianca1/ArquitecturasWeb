@@ -6,29 +6,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 @Repository
-public class ViajeRepository implements BaseRepository<Viaje, Integer> {
-    @Override
-    public void delete(Viaje deleted) {
+public interface ViajeRepository extends BaseRepository<Viaje, Integer> {
 
-    }
 
-    @Override
-    public List<Viaje> findAll() {
-        return null;
-    }
 
-    @Override
-    public Optional<Viaje> findById(Long id) {
-        return Optional.empty();
-    }
 
-    @Override
-    public void deleteById(Integer id) {
 
-    }
 
-    @Override
-    public Viaje save(Viaje persisted) {
-        return null;
-    }
+
+
 }

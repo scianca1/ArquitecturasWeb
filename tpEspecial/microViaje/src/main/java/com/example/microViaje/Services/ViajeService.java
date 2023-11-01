@@ -4,6 +4,7 @@ import com.example.microViaje.Repositories.ViajeRepository;
 import com.example.microViaje.dtos.*;
 import com.example.microViaje.entitys.Viaje;
 import com.example.microViaje.dtos.*;
+import com.example.microViaje.dtos.CuentaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class    ViajeService {
     }
 
     public ViajeDto iniciarViaje(ViajeDto viaje) throws Exception {
-        System.out.println("service");
+
         //USUARIO
         ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+viaje.getIdUsuario(), UsuarioDto.class);
 
@@ -49,17 +50,20 @@ public class    ViajeService {
         ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), MonopatinDto.class);
 
         //PARADA
-        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
-        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
-
+        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+        System.out.println("service");
         //CONSULTO POR ID USUARIO E ID MONOPATIN
         if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK) {
             //CONSULTO POR SALDO EN CUENTA
-            if(cuenta.getStatusCode()== HttpStatus.OK && cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()!=false){
+            if(cuenta.getStatusCode()== HttpStatus.OK && cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()==false){
                 //CONSULTO POR ID PARADA ORIGEN Y DESTINO
                 if(paradaOrigen.getStatusCode()==HttpStatus.OK && paradaDestino.getStatusCode()==HttpStatus.OK){
+
                     Viaje viajeNuevo= new Viaje(viaje.getIdUsuario(), viaje.getIdMonopatin(),viaje.getIdCuenta(), viaje.getIdParadaOrigen(), viaje.getIdParadaDestino());
+
                     ViajeDto respuesta= new ViajeDto(repositorio.save(viajeNuevo));
+                    System.out.println("service");
                     return respuesta;
                 }
                 else{

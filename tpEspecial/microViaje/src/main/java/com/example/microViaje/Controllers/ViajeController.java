@@ -62,7 +62,7 @@ public class ViajeController {
                 return ResponseEntity.status(HttpStatus.OK).body(service.iniciarViaje(viajeDto));
             }
             catch(Exception e){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente."+e);
             }
         }
 

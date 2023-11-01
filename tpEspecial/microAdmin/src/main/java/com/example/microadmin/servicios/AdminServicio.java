@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,6 +28,12 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         this.repositorio= ar;
     }
 
+    @Transactional
+    public AdminDto getAdmin() {
+        return new AdminDto(repositorio.getAdmin());
+    }
+
+    @Transactional
     public MonopatinIdDto editarMonopatin (MonopatinIdDto m){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<>(m, cabecera);
@@ -39,6 +47,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
+    @Transactional
     public MonopatinDto editarMantenimiento (Long idMonopatin, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
@@ -52,8 +61,8 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
+    @Transactional
     public MonopatinDto agregarMonopatin(MonopatinDto monopatin) {
-        System.out.println("acaservicio");
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
@@ -67,7 +76,8 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-        public MonopatinDto eliminarMonopatin(Long idMonopatin) throws Exception {
+    @Transactional
+    public MonopatinDto eliminarMonopatin(Long idMonopatin) throws Exception {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Long> objetoMonopatin = new HttpEntity<>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
@@ -81,6 +91,10 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
+    public List<ViajeDto> getCantViajesMonopatinPorAnio() {
+    }
+
+    @Transactional
     public CuentaDto anularCuenta (Long id, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<CuentaDto> solicitud1 = new HttpEntity<>(cabecera);
@@ -94,11 +108,19 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
+    @Transactional
     public AdminDto actualizarTarifas(int tarifaNormal, int tarifaPorPausaExtensa){
-        Administrador a= repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
-        return new AdminDto(a);
+        AdminDto admin= this.getAdmin();
+        if (admin.getFechaActualizacionPrecios().isAfter(LocalDate.now())) {
+            repositorio.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa);
+            return admin;
+        } else {
+            throw new IllegalArgumentException("Usted quiere actualizar los precios en una fecha invalida. Revise que dia se actualizan los precios");
+        }
+
     }
 
+    @Transactional
     public AdminDto getTarifas(){
         Administrador administrador= repositorio.getTarifas();
         return new AdminDto(administrador);
@@ -109,6 +131,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return null;
     }
 
+    @Transactional
     @Override
     public AdminDto findById(Long id) {
         return repositorio.findById(id).map(AdminDto::new).orElseThrow(
@@ -116,12 +139,14 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         );
     }
 
+    @Transactional
     @Override
     public AdminDto save(AdminDto adminDto) throws Exception {
-        Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());
-        Administrador aux = this.repositorio.save(admin);
-        return new AdminDto(aux.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());
+        Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa(), adminDto.getFechaActualizacionPrecios());
+        this.repositorio.save(admin);
+        return new AdminDto(admin);
     }
+
 
 
 }

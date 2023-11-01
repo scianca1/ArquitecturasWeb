@@ -1,10 +1,8 @@
 package com.example.microadmin.servicios;
 
 import com.example.microadmin.dtos.MonopatinIdDto;
-import com.example.microadmin.dtos.reporteDto.ReporteDeUsoPorKm;
-import com.example.microadmin.dtos.reporteDto.ReportePorCantViajes;
-import com.example.microadmin.dtos.reporteDto.ReportePorTiempoConPausas;
-import com.example.microadmin.dtos.reporteDto.ReportePorTiempoSinPausas;
+import com.example.microadmin.dtos.reporteDto.*;
+import com.example.microadmin.repositorios.ReporteMonopatinRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -18,6 +16,8 @@ public class ReporteMonopatinServicio implements BaseServicio{
 
     @Autowired
     private RestTemplate monopatinClienteRest;
+    @Autowired
+    private ReporteMonopatinRepositorio repositorio;
 
     @Override
     public List findAll() throws Exception {
@@ -33,7 +33,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> objetoMonopatin = new HttpEntity<>(cabecera);
         ResponseEntity<List<MonopatinIdDto>> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines",
+                "http://localhost:8001/monopatin",
                 HttpMethod.GET,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {
@@ -51,6 +51,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
+
     public List<ReportePorTiempoConPausas> getReportePortiempoConPausa() {
         ReportePorTiempoConPausas r = new ReportePorTiempoConPausas();
         List<MonopatinIdDto> lista = this.getMonopatines();
@@ -62,6 +63,13 @@ public class ReporteMonopatinServicio implements BaseServicio{
         ReportePorTiempoSinPausas r= new ReportePorTiempoSinPausas();
         List<MonopatinIdDto> lista= this.getMonopatines();
         List<ReportePorTiempoSinPausas> reporte= r.generarReporte(lista);
+        return reporte;
+    }
+
+    public Object getReporteOperablesVsMantenimiento() {
+        ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
+        List<MonopatinIdDto> lista= this.getMonopatines();
+        ReporteOperablesVsMantenimiento reporte= r.generarReporte(lista);
         return reporte;
     }
 
@@ -80,4 +88,6 @@ public class ReporteMonopatinServicio implements BaseServicio{
     public Object save(Object entity) throws Exception {
         return null;
     }
+
+
 }

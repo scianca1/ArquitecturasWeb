@@ -1,10 +1,10 @@
 package com.example.microadmin.servicios;
 
+import com.example.microadmin.dtos.MonopatinDto;
 import com.example.microadmin.dtos.MonopatinIdDto;
-import com.example.microadmin.dtos.reporteDto.ReporteDeUsoPorKm;
-import com.example.microadmin.dtos.reporteDto.ReportePorCantViajes;
-import com.example.microadmin.dtos.reporteDto.ReportePorTiempoConPausas;
-import com.example.microadmin.dtos.reporteDto.ReportePorTiempoSinPausas;
+import com.example.microadmin.dtos.ViajeDto;
+import com.example.microadmin.dtos.reporteDto.*;
+import com.example.microadmin.repositorios.ReporteMonopatinRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -18,6 +18,8 @@ public class ReporteMonopatinServicio implements BaseServicio{
 
     @Autowired
     private RestTemplate monopatinClienteRest;
+    @Autowired
+    private ReporteMonopatinRepositorio repositorio;
 
     @Override
     public List findAll() throws Exception {
@@ -33,11 +35,10 @@ public class ReporteMonopatinServicio implements BaseServicio{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> objetoMonopatin = new HttpEntity<>(cabecera);
         ResponseEntity<List<MonopatinIdDto>> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines",
+                "http://localhost:8001/monopatin",
                 HttpMethod.GET,
                 objetoMonopatin,
-                new ParameterizedTypeReference<>() {
-                }
+                new ParameterizedTypeReference<>(){}
         );
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<MonopatinIdDto> lista = respuesta.getBody();
@@ -50,6 +51,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         List<ReporteDeUsoPorKm> reporte= r.generarReporte(lista);
         return reporte;
     }
+
 
     public List<ReportePorTiempoConPausas> getReportePortiempoConPausa() {
         ReportePorTiempoConPausas r = new ReportePorTiempoConPausas();
@@ -65,19 +67,34 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    public List<ReportePorCantViajes> getReportePorViajePorAnio(int anio) {
-        ReportePorCantViajes r= new ReportePorCantViajes();
+    public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento() {
+        ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
         List<MonopatinIdDto> lista= this.getMonopatines();
-        List<ReportePorCantViajes> reporte= r.generarReporte(lista);
+        ReporteOperablesVsMantenimiento reporte= r.generarReporte(lista);
         return reporte;
     }
 
-    public List<Serializable> getReportePorKmYTiempoConPausa() {
-        return null;
+    public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio) {
+        HttpHeaders cabecera = new HttpHeaders();
+        HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
+        ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8004/viaje/anio/" + anio,
+                HttpMethod.GET,
+                solicitud,
+                new ParameterizedTypeReference<>() {}
+        );
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        List<ViajeDto> lista = respuesta.getBody();
+
+        ReportePorCantViajes r= new ReportePorCantViajes();
+        List<ReportePorCantViajes> reporte = r.generarReporte(lista, cant);
+        return reporte;
     }
 
     @Override
     public Object save(Object entity) throws Exception {
         return null;
     }
+
+
 }

@@ -9,12 +9,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/administrador")
 public class AdminControlador {
 
     @Autowired
     private AdminServicio service;
+
+
+    @PostMapping("/monopatin")
+    public ResponseEntity<?> addMonopatin(@RequestBody MonopatinDto monopatin){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.agregarMonopatin(monopatin));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+    // PROBADO OK
+
+    @DeleteMapping("/monopatin/{idMonopatin}")
+    public ResponseEntity<?> eliminarMonopatin(@PathVariable Long idMonopatin){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.eliminarMonopatin(idMonopatin));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+    // PROBADO OK
 
     @PutMapping("/editarMonopatin")
     public ResponseEntity<?> editarMonopatin(@RequestBody MonopatinIdDto m){
@@ -25,6 +50,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
     @PutMapping("/editarMantenimiento/{idMonopatin}/habilitado/{estado}")
     public ResponseEntity<?> editarMantenimiento(@PathVariable Long idMonopatin, @PathVariable boolean estado){
@@ -32,25 +58,6 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.OK).body(service.editarMantenimiento(idMonopatin, estado));
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
-        }
-    }
-
-    @PostMapping("/monopatines")
-    public ResponseEntity<?> addMonopatin(@RequestBody MonopatinDto monopatin){
-        try{
-            System.out.println("acaservicio");
-            return ResponseEntity.status(HttpStatus.OK).body(service.agregarMonopatin(monopatin));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
-        }
-    }
-
-    @DeleteMapping("/monopatin/{idMonopatin}")
-    public ResponseEntity<?> eliminarMonopatin(@PathVariable Long idMonopatin){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.eliminarMonopatin(idMonopatin));
-        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
@@ -64,6 +71,8 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
+
 
     @PutMapping ("/actualizarTarifas/{tarifaNormal}/{tarifaPorPausaExtensa}")
     public ResponseEntity<?> actualizarTarifas(@PathVariable int tarifaNormal, @PathVariable int tarifaPorPausaExtensa){
@@ -75,18 +84,18 @@ public class AdminControlador {
         }
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody AdminDto a){
+    @PutMapping ("/totalFacturadoEntre/{mes1}/{mes2}")
+    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.save(a));
+            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2));
         }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
 
-    @GetMapping ("id/{id}")
-    public ResponseEntity<?> findById(@PathVariable  Long id ){
+    @GetMapping ("/id/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id ){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
         } catch (Exception e) {
@@ -95,10 +104,20 @@ public class AdminControlador {
     }
 
     @GetMapping ("/tarifas")
-    public ResponseEntity<?> getTarifaConPausa(){
+    public ResponseEntity<?> getTarifas(){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.getTarifas());
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> save(@RequestBody AdminDto a){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.save(a));
+        }
+        catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }

@@ -18,16 +18,17 @@ public class ReporteDeUsoPorKm implements Serializable {
     public double kmRecorridos;
 
     public List<ReporteDeUsoPorKm> generarReporte(List<MonopatinIdDto> monopatines) {
-        List<ReporteDeUsoPorKm> reporte = new ArrayList<>();
+        List<ReporteDeUsoPorKm> reportes = new ArrayList<>();
 
         for (MonopatinIdDto monopatin : monopatines) {
             ReporteDeUsoPorKm r = new ReporteDeUsoPorKm();
             r.setId(monopatin.getId());
             r.setKmRecorridos(monopatin.getKmRecorridos());
-            reporte.add(r);
+
+            reportes.add(r);
         }
-        Collections.sort(reporte, Comparator.comparing(ReporteDeUsoPorKm::getKmRecorridos).reversed());
-        return reporte;
+        Collections.sort(reportes, Comparator.comparing(ReporteDeUsoPorKm::getKmRecorridos).reversed());
+        return reportes;
     }
 
 }

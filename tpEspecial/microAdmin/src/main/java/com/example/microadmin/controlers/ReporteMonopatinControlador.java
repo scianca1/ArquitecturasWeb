@@ -23,6 +23,7 @@ public class ReporteMonopatinControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
     @GetMapping("/reportePorTiempoSinPausas")
     public ResponseEntity<?> reportePorTiempoSinPausa (){
@@ -33,6 +34,7 @@ public class ReporteMonopatinControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
     @GetMapping("/reportePorTiempoConPausas")
     public ResponseEntity<?> reportePorTiempoConPausa (){
@@ -43,7 +45,27 @@ public class ReporteMonopatinControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
+    // PROBADO OK
 
+    @GetMapping("/reporteOperablesVsMantenimiento")
+    public ResponseEntity<?> reporteOperablesVsMantenimiento (){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getReporteOperablesVsMantenimiento());
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+    // PROBADO OK
+
+    @GetMapping ("/reporteCantidadViajes/{cant}/anio/{anio}")
+    public ResponseEntity<?> getCantViajesMonopatinPorAnio(int cant, Integer anio){
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(service.getCantViajesMonopatinPorAnio(cant, anio));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
 
 
 }

@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AdminRepositorio extends RepositorioBase <Administrador, Integer> {
 
+    @Query("SELECT a FROM Administrador a")
+    Administrador getAdmin();
+
     @Query("UPDATE Administrador a SET a.tarifa = :tarifaNormal, a.tarifaPorPausaExtensa = :tarifaAumentada")
     Administrador actualizarTarifas(int tarifaNormal, int tarifaAumentada);
 

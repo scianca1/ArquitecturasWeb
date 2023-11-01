@@ -4,12 +4,22 @@ import com.example.microadmin.entitys.Administrador;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class AdminDto {
     private Long id;
     private int tarifa;
     private int tarifaPorPausaExtensa;
+    private LocalDate fechaActualizacionPrecios;
+
+    public AdminDto(Long id, int tarifa, int tarifaPorPausaExtensa, LocalDate fechaActualizacion) {
+        this.id = id;
+        this.tarifa = tarifa;
+        this.tarifaPorPausaExtensa = tarifaPorPausaExtensa;
+        this.fechaActualizacionPrecios= fechaActualizacion;
+    }
 
     public AdminDto(Long id, int tarifa, int tarifaPorPausaExtensa) {
         this.id = id;
@@ -20,15 +30,20 @@ public class AdminDto {
         this.tarifa = tarifa;
         this.tarifaPorPausaExtensa = tarifaPorPausaExtensa;
     }
-
     public AdminDto(Long id) {
         this.id= id;
     }
 
     public AdminDto(Administrador a){
+        this.id= a.getId();
         this.tarifa= a.getTarifa();
         this.tarifaPorPausaExtensa= a.getTarifaPorPausaExtensa();
+        this.fechaActualizacionPrecios= a.getFechaActualizacionPrecios();
     }
+
+    public AdminDto() {
+    }
+
 
 
 }

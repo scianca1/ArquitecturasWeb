@@ -1,7 +1,6 @@
 package com.example.microadmin.controlers;
 
 
-import com.example.microadmin.dtos.reporteDto.ReporteDeUsoPorKm;
 import com.example.microadmin.servicios.ReporteMonopatinServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

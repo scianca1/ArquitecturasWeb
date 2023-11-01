@@ -1,6 +1,5 @@
 package com.example.micromonopatines.repositorios;
 
-import com.example.micromonopatines.entitys.Monopatin;
 import com.example.micromonopatines.entitys.Parada;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;

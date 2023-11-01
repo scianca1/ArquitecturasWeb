@@ -1,10 +1,10 @@
-package com.example.microviaje;
+package com.example.microadmin.microviaje.microadmin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MicroViajeApplicationTests {
+class MicroAdminApplicationTests {
 
     @Test
     void contextLoads() {

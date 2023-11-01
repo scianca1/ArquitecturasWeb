@@ -1,7 +1,7 @@
-package com.example.Controllers;
+package com.example.microviaje.Controllers;
 
-import com.example.Services.ViajeService;
-import com.example.dtos.ViajeDto;
+import com.example.microviaje.Services.ViajeService;
+import com.example.microviaje.dtos.ViajeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,10 @@ public class ViajeController {
 
         @Autowired
         private ViajeService service;
+
+        public ViajeController(ViajeService s){
+            this.service=s;
+        }
 
         @GetMapping("")
         public ResponseEntity<?> getAll(){
@@ -41,7 +45,7 @@ public class ViajeController {
             }
         }
 
-        @PutMapping("id/{id}")
+        @PutMapping("/editar/id/{id}")
         public ResponseEntity<?> update(@PathVariable long id, @RequestBody ViajeDto viajeDto){
         try{
             service.update(id, viajeDto);
@@ -51,23 +55,44 @@ public class ViajeController {
         }
     }
 
-    @PostMapping("usuario/{usuarioId}/monopatin/{monoparinId}")
-        public ResponseEntity<?> save(@RequestBody Long usuarioId, Long monopatinId, Long cuentaId,Long paradaOrigenId, Long paradaDestinoId){
+    @PostMapping("/iniciarViaje")
+        public ResponseEntity<?> iniciarViaje(@RequestBody ViajeDto viajeDto){
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(service.save(usuarioId,monopatinId, cuentaId,paradaOrigenId,paradaDestinoId));
+                System.out.println("Controler");
+                return ResponseEntity.status(HttpStatus.OK).body(service.iniciarViaje(viajeDto));
             }
             catch(Exception e){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente."+e);
             }
         }
 
-    @PutMapping("id/{id}")
+    @PutMapping("/finalizar/id/{id}")
     public ResponseEntity<?> finalizarViaje(@PathVariable long id){
         try{
             service.finalizarViaje(id);
             return ResponseEntity.status(HttpStatus.OK).body("Se finalizo correctamente");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo finalizar.\"\n\"error\":\"" + e.getMessage()+"\"}");
+        }
+    }
+
+    @PutMapping("/pausar/id/{id}")
+    public ResponseEntity<?> pausarViaje(@PathVariable long id){
+        try{
+            service.pausarViaje(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Se pauso correctamente el viaje");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo pausar.\"\n\"error\":\"" + e.getMessage()+"\"}");
+        }
+    }
+
+    @PutMapping("/despausar/id/{id}")
+    public ResponseEntity<?> despausarViaje(@PathVariable long id){
+        try{
+            service.despausarViaje(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Se despauso correctamente el viaje");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo despausar.\"\n\"error\":\"" + e.getMessage()+"\"}");
         }
     }
 

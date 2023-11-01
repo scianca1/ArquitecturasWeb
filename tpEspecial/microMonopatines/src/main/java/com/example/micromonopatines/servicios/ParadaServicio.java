@@ -1,12 +1,9 @@
 package com.example.micromonopatines.servicios;
 
-import com.example.micromonopatines.dtos.MonopatinDto;
-import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.ParadaDto;
-import com.example.micromonopatines.dtos.ParadaDtoConId;
-import com.example.micromonopatines.entitys.Monopatin;
-import com.example.micromonopatines.entitys.Parada;
 import com.example.micromonopatines.repositorios.ParadaRepositorio;
+import com.example.micromonopatines.dtos.ParadaDtoConId;
+import com.example.micromonopatines.entitys.Parada;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

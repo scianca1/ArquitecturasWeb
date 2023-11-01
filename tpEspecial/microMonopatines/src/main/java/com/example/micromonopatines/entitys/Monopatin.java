@@ -1,8 +1,8 @@
 package com.example.micromonopatines.entitys;
 import java.io.Serializable;
 
-import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.MonopatinDto;
+import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

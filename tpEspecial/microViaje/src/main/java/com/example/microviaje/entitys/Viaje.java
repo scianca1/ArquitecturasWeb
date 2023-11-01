@@ -1,15 +1,10 @@
-package com.example.entitys;
+package com.example.microviaje.entitys;
 
-import com.example.dtos.UsuarioDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.time.LocalDate;
 @Entity
 @Table(name = "viaje")
@@ -56,6 +51,15 @@ public class Viaje {
     @Column
     private Long kmRecorridos;
 
+    @Column
+    private boolean viajePausado;
+
+    @Column
+    private LocalTime horaInicioPausa;
+
+    @Column
+    private LocalTime horaFinPausa;
+
     public Viaje(){
     }
 
@@ -72,6 +76,10 @@ public class Viaje {
         this.valorViaje=0;
         this.kmRecorridos=null;
         this.pausa=15;
+        this.viajePausado=false;
+        this.horaInicioPausa=null;
+        this.horaFinPausa=null;
+
     }
 
     public void setId(Long id) {

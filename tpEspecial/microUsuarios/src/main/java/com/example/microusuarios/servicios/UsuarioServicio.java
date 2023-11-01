@@ -1,10 +1,10 @@
 package com.example.microusuarios.servicios;
 
 import com.example.microusuarios.dtos.CuentaDto;
-import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.entitys.Cuenta;
 import com.example.microusuarios.entitys.Usuario;
 import com.example.microusuarios.repositorios.CuentaRepositorio;
+import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.repositorios.UsuarioRepositorio;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +78,7 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
 
 
     }
-    public CuentaDto addCuenta(Long idUsuario,Long idCuenta)throws Exception {
+    public CuentaDto addCuenta(Long idUsuario, Long idCuenta)throws Exception {
 
         Optional<Usuario> opU=repositorio.findById(idUsuario);
         Optional<Cuenta> opC=repositoriocuenta.findById(idCuenta);

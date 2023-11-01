@@ -1,13 +1,10 @@
 package com.example.microusuarios.servicios;
 
-import com.example.microusuarios.dtos.CuentaDto;
-import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.entitys.Cuenta;
+import com.example.microusuarios.dtos.CuentaDto;
 import com.example.microusuarios.repositorios.CuentaRepositorio;
-import com.example.microusuarios.repositorios.UsuarioRepositorio;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

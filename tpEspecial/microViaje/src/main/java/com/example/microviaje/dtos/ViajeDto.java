@@ -1,12 +1,10 @@
-package com.example.dtos;
+package com.example.microviaje.dtos;
 
-import com.example.entitys.Viaje;
-import jakarta.persistence.Column;
+import com.example.microviaje.entitys.Viaje;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Getter
 public class ViajeDto {
@@ -23,6 +21,8 @@ public class ViajeDto {
     private Long kmRecorridos;
     private int pausa;
 
+    public ViajeDto(){}
+
     public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, int valor, Long km) {
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
@@ -36,6 +36,13 @@ public class ViajeDto {
         this.valorViaje=valor;
         this.kmRecorridos=km;
         this.pausa = pausa;
+    }
+    public ViajeDto( Long idUsuario, Long idMonopatin, Long idCuenta, Long idParadaOrigen, Long idParadaDestino) {
+        this.idUsuario = idUsuario;
+        this.idMonopatin = idMonopatin;
+        this.idCuenta=idCuenta;
+        this.idParadaOrigen=idParadaOrigen;
+        this.idParadaDestino=idParadaDestino;
     }
 
     public ViajeDto(Viaje viaje){

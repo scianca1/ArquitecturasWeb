@@ -1,12 +1,10 @@
 package com.example.micromonopatines.servicios;
 
-import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.MonopatinDto;
+import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.entitys.Monopatin;
 import com.example.micromonopatines.repositorios.MonopatinRepositorio;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;

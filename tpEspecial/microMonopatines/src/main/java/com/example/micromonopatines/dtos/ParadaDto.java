@@ -1,6 +1,5 @@
 package com.example.micromonopatines.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

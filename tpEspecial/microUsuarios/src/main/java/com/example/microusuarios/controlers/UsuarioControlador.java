@@ -1,7 +1,7 @@
 package com.example.microusuarios.controlers;
 
-import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.servicios.UsuarioServicio;
+import com.example.microusuarios.dtos.UsuarioDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Date;
 
 @RestController
@@ -60,15 +62,6 @@ public class AdminControlador {
         }
     }
 
-    @GetMapping ("/cantidadViajes/{cant}/anio/{anio}")
-    public ResponseEntity<?> getCantViajesMonopatinPorAnio(int cant, Date anio){
-        try{
-            return  ResponseEntity.status(HttpStatus.OK).body(service.getCantViajesMonopatinPorAnio());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
-        }
-    }
-
     @PutMapping("/anularCuenta/{idCuenta}/estado/{estado}")
     public ResponseEntity<?> anularCuenta(@PathVariable Long idCuenta, @PathVariable boolean estado){
         try {
@@ -85,6 +78,16 @@ public class AdminControlador {
     public ResponseEntity<?> actualizarTarifas(@PathVariable int tarifaNormal, @PathVariable int tarifaPorPausaExtensa){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
+
+    @PutMapping ("/totalFacturadoEntre/{mes1}/{mes2}")
+    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");

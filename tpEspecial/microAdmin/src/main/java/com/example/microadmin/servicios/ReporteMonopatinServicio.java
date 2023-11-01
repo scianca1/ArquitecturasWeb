@@ -1,6 +1,8 @@
 package com.example.microadmin.servicios;
 
+import com.example.microadmin.dtos.MonopatinDto;
 import com.example.microadmin.dtos.MonopatinIdDto;
+import com.example.microadmin.dtos.ViajeDto;
 import com.example.microadmin.dtos.reporteDto.*;
 import com.example.microadmin.repositorios.ReporteMonopatinRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
                 "http://localhost:8001/monopatin",
                 HttpMethod.GET,
                 objetoMonopatin,
-                new ParameterizedTypeReference<>() {
-                }
+                new ParameterizedTypeReference<>(){}
         );
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<MonopatinIdDto> lista = respuesta.getBody();
@@ -66,22 +67,28 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    public Object getReporteOperablesVsMantenimiento() {
+    public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento() {
         ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
         List<MonopatinIdDto> lista= this.getMonopatines();
         ReporteOperablesVsMantenimiento reporte= r.generarReporte(lista);
         return reporte;
     }
 
-    public List<ReportePorCantViajes> getReportePorViajePorAnio(int anio) {
-        ReportePorCantViajes r= new ReportePorCantViajes();
-        List<MonopatinIdDto> lista= this.getMonopatines();
-        List<ReportePorCantViajes> reporte= r.generarReporte(lista);
-        return reporte;
-    }
+    public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio) {
+        HttpHeaders cabecera = new HttpHeaders();
+        HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
+        ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8004/viaje/anio/" + anio,
+                HttpMethod.GET,
+                solicitud,
+                new ParameterizedTypeReference<>() {}
+        );
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        List<ViajeDto> lista = respuesta.getBody();
 
-    public List<Serializable> getReportePorKmYTiempoConPausa() {
-        return null;
+        ReportePorCantViajes r= new ReportePorCantViajes();
+        List<ReportePorCantViajes> reporte = r.generarReporte(lista, cant);
+        return reporte;
     }
 
     @Override

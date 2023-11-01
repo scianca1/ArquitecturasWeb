@@ -1,9 +1,7 @@
 package com.example.microadmin.servicios;
 
-import com.example.microadmin.dtos.AdminDto;
-import com.example.microadmin.dtos.CuentaDto;
-import com.example.microadmin.dtos.MonopatinDto;
-import com.example.microadmin.dtos.MonopatinIdDto;
+import com.example.microadmin.dtos.*;
+import com.example.microadmin.dtos.reporteDto.ReportePorCantViajes;
 import com.example.microadmin.entitys.Administrador;
 import com.example.microadmin.repositorios.AdminRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +50,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatines/mantenimiento/" + idMonopatin + "/estado/" + estado,
+                "http://localhost:8001/monopatin/id/" + idMonopatin + "/habilitado/" + estado,
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
@@ -91,9 +89,6 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    public List<ViajeDto> getCantViajesMonopatinPorAnio() {
-    }
-
     @Transactional
     public CuentaDto anularCuenta (Long id, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
@@ -124,6 +119,25 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     public AdminDto getTarifas(){
         Administrador administrador= repositorio.getTarifas();
         return new AdminDto(administrador);
+    }
+
+    public String totalFacturado(Integer mes1, Integer mes2) {
+        HttpHeaders cabecera = new HttpHeaders();
+        HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
+        ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8004/viaje/viajesEntreMeses/" + mes1 + "/" + mes2,
+                HttpMethod.GET,
+                solicitud,
+                new ParameterizedTypeReference<>() {}
+        );
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        List<ViajeDto> lista = respuesta.getBody();
+        int contador = 0;
+        for (ViajeDto viaje : lista){
+            contador += viaje.getValorViaje();
+        }
+        String total = "El total facturado entre " + mes1 + " y " + mes2 + " es de $" + contador ;
+        return total;
     }
 
     @Override

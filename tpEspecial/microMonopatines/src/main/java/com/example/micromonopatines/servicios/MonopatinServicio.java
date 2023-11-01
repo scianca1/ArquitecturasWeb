@@ -68,7 +68,7 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
                 throw new Exception();
             }
     }
-    public MonopatinDtoConId addKmRecorridos(Long id, long kms) throws Exception {
+    public MonopatinDtoConId addKmRecorridos(Long id, double kms) throws Exception {
             MonopatinDtoConId monopatin = this.findById(id);
             if(monopatin != null){
                 Monopatin mono = new Monopatin(monopatin) ;

@@ -70,7 +70,7 @@ public class MonopatinControlador{
     }
 
     @PutMapping("/addKilometros/id/{id}/km/{km}")
-    public ResponseEntity<?> addKmRecorridos(@PathVariable Long id, @PathVariable long km){
+    public ResponseEntity<?> addKmRecorridos(@PathVariable Long id, @PathVariable double km){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.addKmRecorridos(id, km));
         }catch(Exception e){

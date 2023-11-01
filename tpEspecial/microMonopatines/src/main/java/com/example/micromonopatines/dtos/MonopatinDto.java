@@ -10,7 +10,7 @@ public class MonopatinDto {
     protected Long x;
     protected Long y;
     protected boolean habilitado;
-    protected Long kmRecorridos;
+    protected double kmRecorridos;
     protected double tiempoDeUso;
     protected double tiempoDeUsoConPausa;
 
@@ -23,7 +23,7 @@ public class MonopatinDto {
         this.tiempoDeUsoConPausa = monopatin.getTiempoDeUsoConPausa();
     }
 
-    public MonopatinDto(Long x, Long y, boolean habilitado, Long kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
+    public MonopatinDto(Long x, Long y, boolean habilitado, double kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
         this.x = x;
         this.y = y;
         this.habilitado = habilitado;

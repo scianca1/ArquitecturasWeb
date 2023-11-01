@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +46,8 @@ public class    ViajeService {
         return respuesta;
     }
 
-    public List<ViajeDto> viajesEntreMeses(Integer mes1, Integer mes2) throws Exception {
-        List<Viaje> v= this.repositorio.viajesEntreMeses(mes1,mes2);
+    public List<ViajeDto> viajesPorAñoEntreMeses(Integer anio,Integer mes1, Integer mes2) throws Exception {
+        List<Viaje> v= this.repositorio.viajesPorAñoEntreMeses(anio,mes1,mes2);
         List<ViajeDto> respuesta= new ArrayList<>();
         for(Viaje viaje:v){
             ViajeDto dto= new ViajeDto(viaje);
@@ -76,7 +78,7 @@ public class    ViajeService {
         ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
         System.out.println("service");
         //CONSULTO POR ID USUARIO E ID MONOPATIN
-        if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK) {
+        if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK && monopatin.getBody().isHabilitado()) {
             //CONSULTO POR SALDO EN CUENTA
             if(cuenta.getStatusCode()== HttpStatus.OK && cuentaDto.getSaldo()>0 && cuentaDto.isAnulada()==false){
                 //CONSULTO POR ID PARADA ORIGEN Y DESTINO
@@ -109,12 +111,14 @@ public class    ViajeService {
         if(optional.isPresent()){
             Viaje viaje= optional.get();
             viaje.setHoraFin(LocalTime.now());
+            viaje.setFechaFin(LocalDate.now());
 
-            //Tarifa
             ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
             AdministradorDto adminDto= tarifa.getBody();
+            System.out.println(adminDto.getTarifa());
+
             //Monopatin
-            ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+            ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), MonopatinDto.class);
             MonopatinDto monopatinDto= monopatin.getBody();
 
             //Ubicacion monopatin
@@ -122,7 +126,7 @@ public class    ViajeService {
             long ubiYMonopatin= monopatinDto.getY();
 
             //Parada destino de viaje
-            ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+            ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
             ParadaDto paradaDto= paradaDestino.getBody();
 
             //Ubicacion parada destino
@@ -130,6 +134,7 @@ public class    ViajeService {
             long ubiYDestino= paradaDto.getY();
 
             int valorViaje=0;
+
             if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
 
                 if(viaje.getPausa()==-1){
@@ -145,6 +150,36 @@ public class    ViajeService {
                     int minutosViaje= (int)duracionViaje.toMinutes();
                     valorViaje= adminDto.getTarifa()*minutosViaje;
                 }
+
+                //PARADA ORIGEN
+                ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
+                ParadaDto paradaDtoOrigen= paradaOrigen.getBody();
+
+
+                long ubiXOrigen= paradaDtoOrigen.getX();
+                long ubiYOrigen= paradaDtoOrigen.getY();
+                double kmX= ubiXOrigen-ubiXDestino;
+
+                if(kmX<0){
+                    kmX= kmX*-1;
+                }
+                double kmY= ubiYOrigen-ubiYDestino;
+                if(kmY<0){
+                    kmY= kmY*-1;
+                }
+
+                double km= kmX+ kmY;
+                System.out.println(km);
+                HttpHeaders cabecera = new HttpHeaders();
+                HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
+                ResponseEntity<MonopatinDto> response = rest.exchange(
+                        "http://localhost:8001/monopatin/addKilometros/id/" + viaje.getIdMonopatin() + "/km/" + km,
+                        HttpMethod.PUT,
+                        solicitud1,
+                        new ParameterizedTypeReference<>() {});
+                cabecera.setContentType(MediaType.APPLICATION_JSON);
+                System.out.println(response.getBody());
+
                 viaje.setValorViaje(valorViaje);
                 ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
                 return respuesta;
@@ -165,11 +200,8 @@ public class    ViajeService {
                 () -> new IllegalArgumentException("id invalido"));
         viaje.setViajePausado(true);
         LocalTime horaPausa= LocalTime.now();
-        if(viaje.getHoraInicioPausa()==null){
-            viaje.setHoraInicioPausa(horaPausa);
-        }
-
-        ViajeDto respuesta= new ViajeDto(viaje);
+        viaje.setHoraInicioPausa(horaPausa);
+        ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
         return respuesta;
     }
 
@@ -178,9 +210,7 @@ public class    ViajeService {
                 () -> new IllegalArgumentException("id invalido"));
         viaje.setViajePausado(false);
         LocalTime horaDespausa= LocalTime.now();
-        if(viaje.getHoraFinPausa()==null){
-            viaje.setHoraFinPausa(horaDespausa);
-        }
+        viaje.setHoraFinPausa(horaDespausa);
 
         Duration duracionPausa= Duration.between(viaje.getHoraInicioPausa(), horaDespausa);
         long minutosPausa= duracionPausa.toMinutes();
@@ -189,7 +219,7 @@ public class    ViajeService {
             viaje.setPausa(-1);
         }
 
-        ViajeDto respuesta= new ViajeDto(viaje);
+        ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
         return respuesta;
     }
 

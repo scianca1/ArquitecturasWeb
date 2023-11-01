@@ -44,10 +44,10 @@ public class ViajeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente nuevamente.\"\n\"error\":\"" + e.getMessage()+"\"}");
         }
     }
-    @GetMapping("viajesEntreMeses/{mes1}/{mes2}")
-    public ResponseEntity<?> getViajesEntreMeses(@PathVariable Integer mes1, @PathVariable Integer mes2){
+    @GetMapping("viajesPorAnioEntreMeses/anio/{anio}/mes1/{mes1}/mes2/{mes2}")
+    public ResponseEntity<?> getViajesEntreMeses(@PathVariable Integer anio,@PathVariable Integer mes1, @PathVariable Integer mes2){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.viajesEntreMeses(mes1,mes2));
+            return ResponseEntity.status(HttpStatus.OK).body(service.viajesPorAñoEntreMeses(anio,mes1,mes2));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente nuevamente.\"\n\"error\":\"" + e.getMessage()+"\"}");
         }

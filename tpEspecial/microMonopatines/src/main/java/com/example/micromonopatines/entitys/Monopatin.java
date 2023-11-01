@@ -26,7 +26,7 @@ public class Monopatin implements Serializable {
     @Column
     private boolean habilitado;
     @Column
-    private long kmRecorridos;
+    private double kmRecorridos;
     @Column
     private double tiempoDeUso;
     @Column

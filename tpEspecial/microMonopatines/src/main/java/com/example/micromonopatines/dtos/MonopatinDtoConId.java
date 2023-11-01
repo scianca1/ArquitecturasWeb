@@ -13,7 +13,7 @@ public class MonopatinDtoConId extends MonopatinDto {
         super(monopatin);
         this.id = monopatin.getId();
     }
-    public MonopatinDtoConId(Long id, Long x, Long y, boolean habilitado, Long kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
+    public MonopatinDtoConId(Long id, Long x, Long y, boolean habilitado, double kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
         super(x, y, habilitado, kmRecorridos, tiempoDeUso, tiempoDeUsoConPausa);
         this.id = id;
     }

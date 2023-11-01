@@ -15,8 +15,8 @@ public class ViajeDtoId extends ViajeDto{
         this.id= viaje.getId();
     }
 
-    public ViajeDtoId( LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, int valor) {
-        super(fechaInicio,horaInicio,fechaFin,horaFin,idUsuario,idMonopatin,pausa,idCuenta,idParadaOrigen,idParadaDestino,valor);
+    public ViajeDtoId( LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, boolean pausado,int valor,  LocalTime horaInicioPausa,LocalTime horaFinPausa) {
+        super(fechaInicio,horaInicio,fechaFin,horaFin,idUsuario,idMonopatin,pausa,idCuenta,idParadaOrigen,idParadaDestino,pausado,valor,horaInicioPausa, horaFinPausa);
         this.id = id;
     }
 

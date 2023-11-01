@@ -1,6 +1,7 @@
 package com.example.microviaje.dtos;
 
 import com.example.microviaje.entitys.Viaje;
+import jakarta.persistence.Column;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -17,12 +18,15 @@ public class ViajeDto {
     private Long idCuenta;
     private Long idParadaOrigen;
     private Long idParadaDestino;
+    private boolean viajePausado;
     private int valorViaje;
     private int pausa;
+    private LocalTime horaInicioPausa;
+    private LocalTime horaFinPausa;
 
     public ViajeDto(){}
 
-    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, int valor) {
+    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, boolean pausado, int valor, LocalTime horaInicioPausa, LocalTime horaFinPausa) {
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
@@ -34,6 +38,9 @@ public class ViajeDto {
         this.idParadaDestino=idParadaDestino;
         this.valorViaje=valor;
         this.pausa = pausa;
+        this.viajePausado= pausado;
+        this.horaInicioPausa=horaInicioPausa;
+        this.horaFinPausa=horaFinPausa;
     }
     public ViajeDto( Long idUsuario, Long idMonopatin, Long idCuenta, Long idParadaOrigen, Long idParadaDestino) {
         this.idUsuario = idUsuario;
@@ -55,5 +62,8 @@ public class ViajeDto {
         this.idParadaDestino=viaje.getIdParadaDestino();
         this.valorViaje= viaje.getValorViaje();
         this.pausa = viaje.getPausa();
+        this.viajePausado=viaje.isViajePausado();
+        this.horaInicioPausa=viaje.getHoraInicioPausa();
+        this.horaFinPausa=viaje.getHoraFinPausa();
     }
 }

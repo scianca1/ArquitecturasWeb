@@ -18,12 +18,11 @@ public class ViajeDto {
     private Long idParadaOrigen;
     private Long idParadaDestino;
     private int valorViaje;
-    private Long kmRecorridos;
     private int pausa;
 
     public ViajeDto(){}
 
-    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, int valor, Long km) {
+    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, int valor) {
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
@@ -34,7 +33,6 @@ public class ViajeDto {
         this.idParadaOrigen=idParadaOrigen;
         this.idParadaDestino=idParadaDestino;
         this.valorViaje=valor;
-        this.kmRecorridos=km;
         this.pausa = pausa;
     }
     public ViajeDto( Long idUsuario, Long idMonopatin, Long idCuenta, Long idParadaOrigen, Long idParadaDestino) {
@@ -56,7 +54,6 @@ public class ViajeDto {
         this.idParadaOrigen=viaje.getIdParadaOrigen();
         this.idParadaDestino=viaje.getIdParadaDestino();
         this.valorViaje= viaje.getValorViaje();
-        this.kmRecorridos= viaje.getKmRecorridos();
         this.pausa = viaje.getPausa();
     }
 }

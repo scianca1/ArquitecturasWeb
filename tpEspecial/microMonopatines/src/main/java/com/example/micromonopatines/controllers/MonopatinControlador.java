@@ -60,10 +60,19 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/mantenimiento/{id}/editado/{isHabilitado}")
+    @PutMapping("/id/{id}/habilitado/{isHabilitado}")
     public ResponseEntity<?> habilitar(@PathVariable Long id, @PathVariable boolean isHabilitado){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.habilitar(id, isHabilitado));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+
+    @PutMapping("/addKilometros/id/{id}/km/{km}")
+    public ResponseEntity<?> addKmRecorridos(@PathVariable Long id, @PathVariable long km){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.addKmRecorridos(id, km));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }

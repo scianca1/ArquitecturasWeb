@@ -2,16 +2,20 @@ package com.example.microviaje.Services;
 
 import com.example.microviaje.Repositories.ViajeRepository;
 import com.example.microviaje.dtos.*;
+import com.example.microviaje.dtos.CuentaDto;
 import com.example.microviaje.entitys.Viaje;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class    ViajeService {
@@ -28,6 +32,26 @@ public class    ViajeService {
 
     public List<ViajeDto> findAll() throws Exception {
         return this.repositorio.findAll().stream().map(ViajeDto::new).toList();
+    }
+
+    public List<ViajeDto> viajesByAnio(Integer anio) throws Exception {
+        List<Viaje> v= this.repositorio.viajeByAnio(anio);
+        List<ViajeDto> respuesta= new ArrayList<>();
+        for(Viaje viaje:v){
+            ViajeDto dto= new ViajeDto(viaje);
+            respuesta.add(dto);
+        }
+        return respuesta;
+    }
+
+    public List<ViajeDto> viajesEntreMeses(Integer mes1, Integer mes2) throws Exception {
+        List<Viaje> v= this.repositorio.viajesEntreMeses(mes1,mes2);
+        List<ViajeDto> respuesta= new ArrayList<>();
+        for(Viaje viaje:v){
+            ViajeDto dto= new ViajeDto(viaje);
+            respuesta.add(dto);
+        }
+        return respuesta;
     }
 
     public ViajeDto findById(Long id) throws Exception {
@@ -61,7 +85,6 @@ public class    ViajeService {
                     Viaje viajeNuevo= new Viaje(viaje.getIdUsuario(), viaje.getIdMonopatin(),viaje.getIdCuenta(), viaje.getIdParadaOrigen(), viaje.getIdParadaDestino());
 
                     ViajeDto respuesta= new ViajeDto(repositorio.save(viajeNuevo));
-                    System.out.println("service");
                     return respuesta;
                 }
                 else{
@@ -78,52 +101,62 @@ public class    ViajeService {
         }
     }
 
-    public void finalizarViaje(Long id) throws Exception {
+    public ViajeDto finalizarViaje(Long id) throws Exception {
+
         //Ver si existe el id
-        Viaje viaje = repositorio.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("id invalido"));
-        viaje.setHoraFin(LocalTime.now());
+        Optional<Viaje> optional= this.repositorio.findById(id);
 
-        //Tarifa
-        ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
-        AdministradorDto adminDto= tarifa.getBody();
-        //Monopatin
-        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
-        MonopatinDto monopatinDto= monopatin.getBody();
+        if(optional.isPresent()){
+            Viaje viaje= optional.get();
+            viaje.setHoraFin(LocalTime.now());
 
-        //Ubicacion monopatin
-        long ubiXMonopatin= monopatinDto.getX();
-        long ubiYMonopatin= monopatinDto.getY();
+            //Tarifa
+            ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
+            AdministradorDto adminDto= tarifa.getBody();
+            //Monopatin
+            ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id" + viaje.getIdMonopatin(), MonopatinDto.class);
+            MonopatinDto monopatinDto= monopatin.getBody();
 
-        //Parada destino de viaje
-        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
-        ParadaDto paradaDto= paradaDestino.getBody();
+            //Ubicacion monopatin
+            long ubiXMonopatin= monopatinDto.getX();
+            long ubiYMonopatin= monopatinDto.getY();
 
-        //Ubicacion parada destino
-        long ubiXDestino= paradaDto.getX();
-        long ubiYDestino= paradaDto.getY();
+            //Parada destino de viaje
+            ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/parada/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+            ParadaDto paradaDto= paradaDestino.getBody();
 
-        int valorViaje=0;
-       if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
+            //Ubicacion parada destino
+            long ubiXDestino= paradaDto.getX();
+            long ubiYDestino= paradaDto.getY();
 
-           if(viaje.getPausa()==-1){
-               Duration duracionTarifaNormal= Duration.between(viaje.getHoraInicio(), viaje.getHoraInicioPausa().plusMinutes(15));
-               int minutosNormal= (int)duracionTarifaNormal.toMinutes();
-               Duration duracionTarifaAumentada= Duration.between(viaje.getHoraInicioPausa().plusMinutes(15), viaje.getHoraFin());
-               int minutosExtendidos= (int)duracionTarifaAumentada.toMinutes();
-               valorViaje= (minutosNormal*adminDto.getTarifa() + minutosExtendidos*adminDto.getTarifaPorPausaExtensa());
-           }
-           else{
-               //Calcular duracion en minutos del viaje
-               Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
-               int minutosViaje= (int)duracionViaje.toMinutes();
-               valorViaje= adminDto.getTarifa()*minutosViaje;
-           }
-           viaje.setValorViaje(valorViaje);
-       }
-       else {
-           throw new IllegalArgumentException("La ubicacion del monopatin no es la que indicaste como parada destino al iniciar tu viaje");
-       }
+            int valorViaje=0;
+            if(ubiXDestino==ubiXMonopatin && ubiYDestino==ubiYMonopatin){
+
+                if(viaje.getPausa()==-1){
+                    Duration duracionTarifaNormal= Duration.between(viaje.getHoraInicio(), viaje.getHoraInicioPausa().plusMinutes(15));
+                    int minutosNormal= (int)duracionTarifaNormal.toMinutes();
+                    Duration duracionTarifaAumentada= Duration.between(viaje.getHoraInicioPausa().plusMinutes(15), viaje.getHoraFin());
+                    int minutosExtendidos= (int)duracionTarifaAumentada.toMinutes();
+                    valorViaje= (minutosNormal*adminDto.getTarifa() + minutosExtendidos*adminDto.getTarifaPorPausaExtensa());
+                }
+                else{
+                    //Calcular duracion en minutos del viaje
+                    Duration duracionViaje= Duration.between(viaje.getHoraInicio(), viaje.getHoraFin());
+                    int minutosViaje= (int)duracionViaje.toMinutes();
+                    valorViaje= adminDto.getTarifa()*minutosViaje;
+                }
+                viaje.setValorViaje(valorViaje);
+                ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
+                return respuesta;
+            }
+            else {
+                throw new IllegalArgumentException("La ubicacion del monopatin no es la que indicaste como parada destino al iniciar tu viaje");
+            }
+        }
+        else{
+            return null;
+        }
+
     }
 
 

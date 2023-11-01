@@ -1,5 +1,6 @@
 package com.example.microviaje.entitys;
 
+import com.example.microviaje.dtos.ViajeDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,9 +50,6 @@ public class Viaje {
     private int valorViaje;
 
     @Column
-    private Long kmRecorridos;
-
-    @Column
     private boolean viajePausado;
 
     @Column
@@ -74,7 +72,6 @@ public class Viaje {
         this.horaInicio= LocalTime.now();
         this.horaFin= null;
         this.valorViaje=0;
-        this.kmRecorridos=null;
         this.pausa=15;
         this.viajePausado=false;
         this.horaInicioPausa=null;
@@ -82,6 +79,19 @@ public class Viaje {
 
     }
 
+    public Viaje(ViajeDto viaje){
+        this.fechaInicio = viaje.getFechaInicio();
+        this.horaInicio = viaje.getHoraInicio();
+        this.fechaFin = viaje.getFechaFin();
+        this.horaFin = viaje.getHoraFin();
+        this.idUsuario = viaje.getIdUsuario();
+        this.idMonopatin = viaje.getIdMonopatin();
+        this.idCuenta= viaje.getIdCuenta();
+        this.idParadaOrigen=viaje.getIdParadaOrigen();
+        this.idParadaDestino=viaje.getIdParadaDestino();
+        this.valorViaje= viaje.getValorViaje();
+        this.pausa = viaje.getPausa();
+    }
     public void setId(Long id) {
         this.id = id;
     }

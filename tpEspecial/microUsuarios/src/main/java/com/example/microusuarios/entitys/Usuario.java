@@ -26,6 +26,10 @@ public class Usuario {
     private Long telefono;
     @Column
     private String email;
+    @Column
+    private Long x;
+    @Column
+    private Long y;
     @ManyToMany
     private List<Cuenta> cuentas;
 
@@ -69,6 +73,9 @@ public class Usuario {
     public void removeCuenta(Cuenta c) {
         this.cuentas.remove(c);
     }
+    public Long getX(){return this.x;}
+
+    public Long getY(){return this.y;}
 }
 
 

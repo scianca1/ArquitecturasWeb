@@ -59,13 +59,14 @@ public class ReporteMonopatinControlador {
     // PROBADO OK
 
     @GetMapping ("/reporteCantidadViajes/{cant}/anio/{anio}")
-    public ResponseEntity<?> getCantViajesMonopatinPorAnio(int cant, Integer anio){
+    public ResponseEntity<?> getCantViajesMonopatinPorAnio(@PathVariable int cant, @PathVariable Integer anio){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.getCantViajesMonopatinPorAnio(cant, anio));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    // PROBADO OK
 
 
 }

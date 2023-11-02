@@ -24,5 +24,10 @@ public class Administrador {
     @Column
     private Integer tarifaPorPausaExtensa;
 
+    /*
+    @Column
+    private LocalDate fechaActualizacionTarifas;
+     */
+
 
 }

@@ -76,7 +76,7 @@ public class AdminControlador {
     // PROBADO OK
 
 
-    @PutMapping ("/actualizarTarifas/{tarifaNormal}/{tarifaPorPausaExtensa}")
+    @PutMapping ("/actualizarTarifas/tarifaNormal/{tarifaNormal}/TarifaPorPausa/{tarifaPorPausaExtensa}")
     public ResponseEntity<?> actualizarTarifas(@PathVariable Integer tarifaNormal, @PathVariable Integer tarifaPorPausaExtensa){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa));
@@ -109,9 +109,9 @@ public class AdminControlador {
     // PROBADO OK
 
     @GetMapping ("/tarifas")
-    public ResponseEntity<?> getTarifas(){
+    public ResponseEntity<?> getAdmin(){
         try{
-            return  ResponseEntity.status(HttpStatus.OK).body(service.getTarifas());
+            return  ResponseEntity.status(HttpStatus.OK).body(service.getAdmin());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }

@@ -79,4 +79,13 @@ public class UsuarioControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    @GetMapping("/{idUsuario}/monopatinesCercanos")
+    public ResponseEntity<?> getMonopatinesCercanos(@PathVariable Long idUsuario){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.getMonopatinesCercanos(idUsuario));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente. "+"error= " +e);
+        }
+    }
+
 }

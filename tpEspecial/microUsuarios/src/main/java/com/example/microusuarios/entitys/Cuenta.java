@@ -43,6 +43,15 @@ public class Cuenta {
         this.fechaDeAlta = fechaDeAlta;
         this.saldo = saldo;
     }
+    public Cuenta( long id,boolean anulada, String cuentaMercadoPago, Date fechaDeAlta, Integer saldo) {
+        this.id=id;
+        this.usuarios = new ArrayList<Usuario>();
+        this.anulada = anulada;
+        this.cuentaMercadoPago = cuentaMercadoPago;
+        this.fechaDeAlta = fechaDeAlta;
+        this.saldo = saldo;
+    }
+
 
     public Long getId() {
         return id;

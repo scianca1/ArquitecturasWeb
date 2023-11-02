@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return null;
     }
 
+    @Transactional
     public List<MonopatinIdDto> getMonopatines() {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> objetoMonopatin = new HttpEntity<>(cabecera);
@@ -45,6 +47,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return lista;
     }
 
+    @Transactional
     public List<ReporteDeUsoPorKm> getReportePorKm() {
         ReporteDeUsoPorKm r= new ReporteDeUsoPorKm();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -52,7 +55,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-
+    @Transactional
     public List<ReportePorTiempoConPausas> getReportePortiempoConPausa() {
         ReportePorTiempoConPausas r = new ReportePorTiempoConPausas();
         List<MonopatinIdDto> lista = this.getMonopatines();
@@ -60,6 +63,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
+    @Transactional
     public List<ReportePorTiempoSinPausas> getReportePorTiempoSinPausa() {
         ReportePorTiempoSinPausas r= new ReportePorTiempoSinPausas();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -67,6 +71,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
+    @Transactional
     public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento() {
         ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -74,6 +79,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
+    @Transactional
     public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
@@ -85,12 +91,12 @@ public class ReporteMonopatinServicio implements BaseServicio{
         );
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<ViajeDto> lista = respuesta.getBody();
-
         ReportePorCantViajes r= new ReportePorCantViajes();
         List<ReportePorCantViajes> reporte = r.generarReporte(lista, cant);
         return reporte;
     }
 
+    @Transactional
     @Override
     public Object save(Object entity) throws Exception {
         return null;

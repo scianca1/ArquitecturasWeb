@@ -1,7 +1,9 @@
 package com.example.microadmin.dtos.reporteDto;
 
-import com.example.microadmin.dtos.MonopatinIdDto;
 import com.example.microadmin.dtos.ViajeDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportePorCantViajes implements Serializable {
-    public Long id;
+    public Long idMonopatin;
     public Long viajesTotales;
 
     public List<ReportePorCantViajes> generarReporte(List<ViajeDto> lista, Integer cant) {
@@ -23,7 +28,7 @@ public class ReportePorCantViajes implements Serializable {
         for (Map.Entry<Long, Integer> monopatin : contadorViajes.entrySet()) {
             if (monopatin.getValue() >= cant) {
                 ReportePorCantViajes r = new ReportePorCantViajes();
-                r.id = monopatin.getKey();
+                r.idMonopatin = monopatin.getKey();
                 r.viajesTotales = Long.valueOf(monopatin.getValue());
                 reporte.add(r);
             }

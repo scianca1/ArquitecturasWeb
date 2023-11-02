@@ -112,7 +112,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     @Transactional
-    public AdminDto getTarifas(){
+    public AdminDto getAdmin(){
         Optional<Administrador> aux= repositorio.getAdmin();
         if(aux.isPresent()) {
             Administrador administrador= aux.get();

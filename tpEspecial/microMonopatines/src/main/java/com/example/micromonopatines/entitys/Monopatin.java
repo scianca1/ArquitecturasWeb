@@ -35,7 +35,7 @@ public class Monopatin implements Serializable {
     public Monopatin() {
     }
 
-    public Monopatin(Long x, Long y, boolean habilitado, long kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
+    public Monopatin(Long x, Long y, boolean habilitado, double kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
         this.x = x;
         this.y = y;
         this.habilitado = habilitado;

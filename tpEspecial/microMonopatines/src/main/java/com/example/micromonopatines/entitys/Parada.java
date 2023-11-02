@@ -12,12 +12,12 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "Parada")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Parada implements Serializable {
 
@@ -30,6 +30,11 @@ public class Parada implements Serializable {
     private Long y;
     @OneToMany
     List<Monopatin> monopatines;
+
+    public Parada(Long x, Long y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Parada(ParadaDto paradaDto){
         this.x = paradaDto.getX();
@@ -52,7 +57,13 @@ public class Parada implements Serializable {
         }
     }
 
+
+
     public Long getId() {
         return id;
+    }
+
+    public void addMonopatin(Monopatin m) {
+        this.monopatines.add(m);
     }
 }

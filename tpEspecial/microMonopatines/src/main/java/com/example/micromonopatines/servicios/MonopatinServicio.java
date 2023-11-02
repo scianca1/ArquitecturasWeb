@@ -62,6 +62,7 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
                 Monopatin mono = new Monopatin(monopatin) ;
                 mono.setHabilitado(isHabilitado);
                 this.repositorio.save(mono);
+                monopatin.setHabilitado(isHabilitado);
                 return monopatin;
             }
             else {

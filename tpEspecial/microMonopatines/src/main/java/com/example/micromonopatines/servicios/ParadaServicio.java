@@ -1,19 +1,25 @@
 package com.example.micromonopatines.servicios;
 
 import com.example.micromonopatines.dtos.ParadaDto;
+import com.example.micromonopatines.entitys.Monopatin;
+import com.example.micromonopatines.repositorios.MonopatinRepositorio;
 import com.example.micromonopatines.repositorios.ParadaRepositorio;
 import com.example.micromonopatines.dtos.ParadaDtoConId;
 import com.example.micromonopatines.entitys.Parada;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class ParadaServicio implements BaseServicio<ParadaDto> {
     ParadaRepositorio repositorio;
+    MonopatinRepositorio monopatinRepositorio;
 
-    public ParadaServicio(ParadaRepositorio pr){
+    public ParadaServicio(ParadaRepositorio pr, MonopatinRepositorio mr)
+    {
         this.repositorio = pr;
+        this.monopatinRepositorio = mr;
     }
     @Override
     public List findAll() throws Exception {
@@ -33,6 +39,23 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
         Parada parada = new Parada(entity);
         parada = this.repositorio.save(parada);
         return new ParadaDtoConId(parada);
+    }
+
+    public ParadaDtoConId addMonopatin (Long idMono, Long idPara)throws IOException {
+
+        Optional<Monopatin> opM=this.monopatinRepositorio.findById(idMono);
+        Optional<Parada> opP=repositorio.findById(idPara);
+        System.out.println(opP);
+        System.out.println(opM);
+        if(opM.isPresent()&&opP.isPresent()){
+            Monopatin m=opM.get();
+            Parada p = opP.get();
+            p.addMonopatin(m);
+            ParadaDtoConId pDto= new ParadaDtoConId(p);
+            repositorio.save(p);
+            return pDto;
+        }
+        return null;
     }
 
     public ParadaDtoConId put(ParadaDtoConId paradaDtoConId) {

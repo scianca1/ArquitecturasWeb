@@ -25,6 +25,15 @@ public class ParadaControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    @PostMapping("addMonopatin/idMonopatin/{idMonopatin}/idParada/{idParada}")
+    public ResponseEntity<?> addMonopatin(@PathVariable Long idMonopatin, @PathVariable Long idParada){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.addMonopatin(idMonopatin, idParada));
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
 
     @GetMapping("")
     public ResponseEntity<?> getParadas(){

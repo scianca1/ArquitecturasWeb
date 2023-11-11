@@ -7,13 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MonopatinDtoConId extends MonopatinDto {
-    private Long id;
+    private String id;
 
     public MonopatinDtoConId(Monopatin monopatin) {
         super(monopatin);
         this.id = monopatin.getId();
     }
-    public MonopatinDtoConId(Long id, Long x, Long y, boolean habilitado, double kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
+    public MonopatinDtoConId(String id, Long x, Long y, boolean habilitado, double kmRecorridos, double tiempoDeUso, double tiempoDeUsoConPausa) {
         super(x, y, habilitado, kmRecorridos, tiempoDeUso, tiempoDeUsoConPausa);
         this.id = id;
     }

@@ -32,12 +32,12 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.findAll());
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, por favor intente mas tarde.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping("id/{idMonopatin}")
-    public ResponseEntity<?> findById(@PathVariable Long idMonopatin){
+    public ResponseEntity<?> findById(@PathVariable String idMonopatin){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(servicio.findById(idMonopatin));
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class MonopatinControlador{
         }
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable String id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(this.servicio.delete(id));
         }catch(Exception e){
@@ -61,7 +61,7 @@ public class MonopatinControlador{
         }
     }
     @PutMapping("/id/{id}/habilitado/{isHabilitado}")
-    public ResponseEntity<?> habilitar(@PathVariable Long id, @PathVariable boolean isHabilitado){
+    public ResponseEntity<?> habilitar(@PathVariable String id, @PathVariable boolean isHabilitado){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.habilitar(id, isHabilitado));
         }catch(Exception e){
@@ -70,7 +70,7 @@ public class MonopatinControlador{
     }
 
     @PutMapping("/addKilometros/id/{id}/km/{km}")
-    public ResponseEntity<?> addKmRecorridos(@PathVariable Long id, @PathVariable double km){
+    public ResponseEntity<?> addKmRecorridos(@PathVariable String id, @PathVariable double km){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.addKmRecorridos(id, km));
         }catch(Exception e){

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ParadaDtoConId extends ParadaDto{
-    Long id;
-    public ParadaDtoConId(Long id, Long x, Long y){
+    String id;
+    public ParadaDtoConId(String id, Long x, Long y){
         super(x, y);
         this.id = id;
     }

@@ -3,32 +3,29 @@ package com.example.micromonopatines.entitys;
 import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.ParadaDto;
 import com.example.micromonopatines.dtos.ParadaDtoConId;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Entity
-@Table(name = "Parada")
+@Document(collection = "paradas")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Parada implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    @Column
+    private String id;
     private Long x;
-    @Column
     private Long y;
-    @OneToMany
     List<Monopatin> monopatines;
 
     public Parada(Long x, Long y) {
@@ -59,7 +56,7 @@ public class Parada implements Serializable {
 
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

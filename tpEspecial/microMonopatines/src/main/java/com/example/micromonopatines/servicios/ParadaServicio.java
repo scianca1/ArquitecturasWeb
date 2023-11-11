@@ -27,7 +27,7 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
     }
 
     @Override
-    public ParadaDto findById(Long id) throws Exception {
+    public ParadaDto findById(String id) throws Exception {
         ParadaDtoConId p = this.repositorio.findById(id).map(ParadaDtoConId::new).orElseThrow(
                 ()->new IllegalArgumentException("ID invalido:"+id)
         );
@@ -41,7 +41,7 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
         return new ParadaDtoConId(parada);
     }
 
-    public ParadaDtoConId addMonopatin (Long idMono, Long idPara)throws IOException {
+    public ParadaDtoConId addMonopatin (String idMono, String idPara)throws IOException {
 
         Optional<Monopatin> opM=this.monopatinRepositorio.findById(idMono);
         Optional<Parada> opP=repositorio.findById(idPara);
@@ -72,7 +72,7 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
     }
 
     @Override
-    public ParadaDto delete(Long id) throws Exception {
+    public ParadaDto delete(String id) throws Exception {
         Optional<Parada> p = repositorio.findById(id);
 
         if (p.isPresent()) {

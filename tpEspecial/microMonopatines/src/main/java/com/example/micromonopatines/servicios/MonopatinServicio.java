@@ -19,12 +19,13 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
 
     @Override
     public List findAll() throws Exception {
+        System.out.println(1);
         //si parametrizo la lista deberia retornar sin id :/
         return this.repositorio.findAll().stream().map(MonopatinDtoConId::new).toList();
     }
 
     @Override
-    public MonopatinDtoConId findById(Long id) throws Exception {
+    public MonopatinDtoConId findById(String id) throws Exception {
         MonopatinDtoConId m = this.repositorio.findById(id).map(MonopatinDtoConId::new).orElseThrow(
                 ()->new IllegalArgumentException("ID invalido:"+id)
         );
@@ -56,7 +57,7 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
         return null;
     }
 
-    public MonopatinDtoConId habilitar(Long id, boolean isHabilitado) throws Exception {
+    public MonopatinDtoConId habilitar(String id, boolean isHabilitado) throws Exception {
             MonopatinDtoConId monopatin = this.findById(id);
             if(monopatin != null){
                 Monopatin mono = new Monopatin(monopatin) ;
@@ -69,7 +70,7 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
                 throw new Exception();
             }
     }
-    public MonopatinDtoConId addKmRecorridos(Long id, double kms) throws Exception {
+    public MonopatinDtoConId addKmRecorridos(String id, double kms) throws Exception {
             MonopatinDtoConId monopatin = this.findById(id);
             if(monopatin != null){
                 Monopatin mono = new Monopatin(monopatin) ;
@@ -83,7 +84,7 @@ public class MonopatinServicio implements BaseServicio<MonopatinDto>{
     }
 
     @Override
-    public MonopatinDto delete(Long id) throws Exception {
+    public MonopatinDto delete(String id) throws Exception {
         Optional<Monopatin> m = repositorio.findById(id);
 
         if (m.isPresent()) {

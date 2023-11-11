@@ -26,7 +26,7 @@ public class ParadaControlador {
         }
     }
     @PostMapping("addMonopatin/idMonopatin/{idMonopatin}/idParada/{idParada}")
-    public ResponseEntity<?> addMonopatin(@PathVariable Long idMonopatin, @PathVariable Long idParada){
+    public ResponseEntity<?> addMonopatin(@PathVariable String idMonopatin, @PathVariable String idParada){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(servicio.addMonopatin(idMonopatin, idParada));
         }
@@ -46,7 +46,7 @@ public class ParadaControlador {
     }
 
     @GetMapping("id/{idParada}")
-    public ResponseEntity<?> findById(@PathVariable Long idParada){
+    public ResponseEntity<?> findById(@PathVariable String idParada){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(servicio.findById(idParada));
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class ParadaControlador {
         }
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable String id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(this.servicio.delete(id));
         }catch(Exception e){

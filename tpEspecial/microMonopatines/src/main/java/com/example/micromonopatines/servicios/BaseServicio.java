@@ -19,7 +19,7 @@ public interface BaseServicio<E> {
      * @return Entidad coincidente con id.
      * @throws Exception e
      */
-    public E findById(Long id)throws Exception;
+    public E findById(String id)throws Exception;
 
     /**
      * Servicio encargado de persistir una entidad ingresada por parámetro.
@@ -29,7 +29,7 @@ public interface BaseServicio<E> {
      */
     public E save(E entity)throws  Exception;
 
-    public E delete(Long id)throws Exception;
+    public E delete(String id)throws Exception;
 
     /**
      * Servicio encargado de actualizar una entidad.

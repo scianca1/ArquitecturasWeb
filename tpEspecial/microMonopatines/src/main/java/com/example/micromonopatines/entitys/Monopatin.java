@@ -1,35 +1,32 @@
 package com.example.micromonopatines.entitys;
+
 import java.io.Serializable;
 
 import com.example.micromonopatines.dtos.MonopatinDto;
 import com.example.micromonopatines.dtos.MonopatinDtoConId;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+//import jakarta.persistence.Column;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
+//import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-@Entity
-@Table(name = "Monopatin")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "monopatinn")
 @Getter
 @Setter
 public class Monopatin implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    @Column
+    private String id;
     private Long x;
-    @Column
     private Long y;
-    @Column
     private boolean habilitado;
-    @Column
     private double kmRecorridos;
-    @Column
     private double tiempoDeUso;
-    @Column
     private double tiempoDeUsoConPausa;
 
     public Monopatin() {
@@ -63,7 +60,7 @@ public class Monopatin implements Serializable {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
     public boolean getHablilitado() {

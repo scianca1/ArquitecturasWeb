@@ -32,7 +32,7 @@ public class Viaje {
     private Long idUsuario;
 
     @Column
-    private Long idMonopatin;
+    private String idMonopatin;
 
     @Column
     private Long idCuenta;
@@ -41,10 +41,10 @@ public class Viaje {
     private int pausa;
 
     @Column
-    private Long idParadaOrigen;
+    private String idParadaOrigen;
 
     @Column
-    private Long idParadaDestino;
+    private String idParadaDestino;
 
     @Column
     private int valorViaje;
@@ -61,7 +61,7 @@ public class Viaje {
     public Viaje(){
     }
 
-    public Viaje(Long idUsuario, Long idMonopatin, Long idCuenta, Long origen, Long destino){
+    public Viaje(Long idUsuario, String idMonopatin, Long idCuenta, String origen, String destino){
         this.idUsuario=idUsuario;
         this.idMonopatin=idMonopatin;
         this.idCuenta=idCuenta;

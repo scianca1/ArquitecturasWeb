@@ -19,25 +19,29 @@ import java.util.Optional;
 @Document(collection = "paradas")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Parada implements Serializable {
 
     @Id
     private String id;
     private Long x;
     private Long y;
-    List<Monopatin> monopatines;
+    List<String> monopatines;
 
     public Parada(Long x, Long y) {
         this.x = x;
         this.y = y;
+        this.monopatines = new ArrayList<>();
+    }
+    public Parada() {
+        this.monopatines = new ArrayList<>();
     }
 
     public Parada(ParadaDto paradaDto){
         this.x = paradaDto.getX();
         this.y = paradaDto.getY();
-        for (MonopatinDtoConId m: paradaDto.getMonopatines()) {
-            this.monopatines.add(new Monopatin(m));
+        this.monopatines = new ArrayList<>();
+        for (String m: paradaDto.getMonopatines()) {
+            this.monopatines.add(m);
         }
     }
     public Parada(ParadaDtoConId paradaDto){
@@ -45,12 +49,13 @@ public class Parada implements Serializable {
         this.x = paradaDto.getX();
         this.y = paradaDto.getY();
         if(paradaDto.getMonopatines().size() != 0){
-            for (MonopatinDtoConId m: paradaDto.getMonopatines()) {
-                this.monopatines.add(new Monopatin(m));
+            this.monopatines = new ArrayList<String>();
+            for (String m: paradaDto.getMonopatines()) {
+                this.monopatines.add(m);
             }
         }
         else{
-            this.monopatines = new ArrayList<Monopatin>();
+            this.monopatines = new ArrayList<String>();
         }
     }
 
@@ -60,7 +65,10 @@ public class Parada implements Serializable {
         return id;
     }
 
-    public void addMonopatin(Monopatin m) {
-        this.monopatines.add(m);
+    public void addMonopatin(String monoId) {
+//        if (this.monopatines == null){
+//            this.monopatines = new ArrayList<String>();
+//        }
+        this.monopatines.add(monoId);
     }
 }

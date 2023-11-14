@@ -42,18 +42,17 @@ public class ParadaServicio implements BaseServicio<ParadaDto> {
     }
 
     public ParadaDtoConId addMonopatin (String idMono, String idPara)throws IOException {
-
         Optional<Monopatin> opM=this.monopatinRepositorio.findById(idMono);
         Optional<Parada> opP=repositorio.findById(idPara);
-        System.out.println(opP);
-        System.out.println(opM);
+        System.out.println("opt parada =" + opP);
+        System.out.println("opt parada =" + opM);
         if(opM.isPresent()&&opP.isPresent()){
-            Monopatin m=opM.get();
+            System.out.println(":)");
             Parada p = opP.get();
-            p.addMonopatin(m);
-            ParadaDtoConId pDto= new ParadaDtoConId(p);
-            repositorio.save(p);
-            return pDto;
+            p.addMonopatin(idMono);
+            ParadaDtoConId aux = new ParadaDtoConId(repositorio.save(p));
+            System.out.println(aux.getMonopatines());
+            return aux;
         }
         return null;
     }

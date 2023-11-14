@@ -10,11 +10,14 @@ import java.util.List;
 public class ParadaDto{
     private Long x;
     private Long y;
-    List<MonopatinDtoConId> monopatines;
+    List<String> monopatines;
 
     public ParadaDto(Long x, Long y){
         this.x = x;
         this.y = y;
-        this.monopatines = new ArrayList<MonopatinDtoConId>();
+        this.monopatines = new ArrayList<String>();
+    }
+    public ParadaDto(){
+        this.monopatines = new ArrayList<String>();
     }
 }

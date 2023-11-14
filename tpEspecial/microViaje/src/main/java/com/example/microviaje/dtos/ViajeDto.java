@@ -14,10 +14,10 @@ public class ViajeDto {
     private LocalDate fechaFin;
     private LocalTime horaFin;
     private Long idUsuario;
-    private Long idMonopatin;
+    private String idMonopatin;
     private Long idCuenta;
-    private Long idParadaOrigen;
-    private Long idParadaDestino;
+    private String idParadaOrigen;
+    private String idParadaDestino;
     private boolean viajePausado;
     private int valorViaje;
     private int pausa;
@@ -26,7 +26,7 @@ public class ViajeDto {
 
     public ViajeDto(){}
 
-    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, Long idMonopatin, int pausa, Long idCuenta, Long idParadaOrigen, Long idParadaDestino, boolean pausado, int valor, LocalTime horaInicioPausa, LocalTime horaFinPausa) {
+    public ViajeDto(LocalDate fechaInicio, LocalTime horaInicio, LocalDate fechaFin, LocalTime horaFin, Long idUsuario, String idMonopatin, int pausa, Long idCuenta, String idParadaOrigen, String idParadaDestino, boolean pausado, int valor, LocalTime horaInicioPausa, LocalTime horaFinPausa) {
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
@@ -42,7 +42,7 @@ public class ViajeDto {
         this.horaInicioPausa=horaInicioPausa;
         this.horaFinPausa=horaFinPausa;
     }
-    public ViajeDto( Long idUsuario, Long idMonopatin, Long idCuenta, Long idParadaOrigen, Long idParadaDestino) {
+    public ViajeDto( Long idUsuario, String idMonopatin, Long idCuenta, String idParadaOrigen, String idParadaDestino) {
         this.idUsuario = idUsuario;
         this.idMonopatin = idMonopatin;
         this.idCuenta=idCuenta;

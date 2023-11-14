@@ -16,5 +16,6 @@ public class ParadaDtoConId extends ParadaDto{
     public ParadaDtoConId(Parada p){
         super(p.getX(), p.getY());
         this.id = p.getId();
+        this.monopatines = p.getMonopatines();
     }
 }

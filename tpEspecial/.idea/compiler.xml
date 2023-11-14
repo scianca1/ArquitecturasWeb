@@ -8,12 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microMonopatines" />
-        <module name="microUsuarios" />
+        <module name="microUsuarioss" />
         <module name="microViaje" />
         <module name="microAdmin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="microUsuarios" target="17" />
       <module name="primerMicroservicio" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -22,6 +23,7 @@
       <module name="microAdmin" options="-parameters" />
       <module name="microMonopatines" options="-parameters" />
       <module name="microUsuarios" options="-parameters" />
+      <module name="microUsuarioss" options="-parameters" />
       <module name="microViaje" options="-parameters" />
       <module name="primerMicroservicio" options="-parameters" />
     </option>

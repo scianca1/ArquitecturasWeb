@@ -1,8 +1,12 @@
 package com.example.microusuarios.entitys;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.example.microusuarios.dtos.UsuarioDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,37 +15,39 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Usuario {
-
-
-
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-
     @Column
     private String nombre;
-    @Column
+    @Column(unique = true, nullable = false)
     private String nombreDeUsuario;
     @Column
     private Long telefono;
     @Column
     private String email;
     @Column
+    private String password;
+    @Column
     private Long x;
     @Column
     private Long y;
     @ManyToMany
     private List<Cuenta> cuentas;
+    @ManyToMany
+    private List<Authority> authorities;
 
     public Usuario(String nombre, String nombreDeUsuario, Long telefono, String email) {
         this.nombre = nombre;
         this.nombreDeUsuario = nombreDeUsuario;
         this.telefono = telefono;
         this.email = email;
-        this.cuentas = new ArrayList<Cuenta>();
+        this.cuentas = new ArrayList<>();
     }
 
     public Usuario() {
+        this.cuentas = new ArrayList<>();
+        this.authorities = new ArrayList<>();
     }
 
     public Usuario(Long id, String nombre, String nombreDeUsuario, Long telefono, String email) {
@@ -50,7 +56,15 @@ public class Usuario {
         this.nombreDeUsuario = nombreDeUsuario;
         this.telefono = telefono;
         this.email = email;
-        this.cuentas = new ArrayList<Cuenta>();
+        this.cuentas = new ArrayList<>();
+    }
+    public Usuario(UsuarioDto u) {
+        this.id=u.getId();
+        this.nombre = u.getNombre();
+        this.nombreDeUsuario = u.getNombreDeUsuario();
+        this.telefono = u.getTelefono();
+        this.email = u.getEmail();
+        this.cuentas = u.getCuentas().stream().map(Cuenta::new).toList();
     }
 
     public void setId(Long id) {

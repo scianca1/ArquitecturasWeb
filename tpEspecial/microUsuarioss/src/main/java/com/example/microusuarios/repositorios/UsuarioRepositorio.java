@@ -6,12 +6,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UsuarioRepositorio extends RepositorioBase<Usuario, Integer> {
+import java.util.Optional;
 
-    @Query("UPDATE Usuario u SET u.email = :#{#us.email}, u.nombre = :#{#us.nombre}, u.nombreDeUsuario = :#{#us.nombreDeUsuario}, u.telefono = :#{#us.telefono}  WHERE u.id = :usuarioId")
-    @Modifying
-    @Transactional
-    public void put(@Param("us") Usuario usuario, @Param("usuarioId") Long usuarioId);
+public interface UsuarioRepositorio extends RepositorioBase<Usuario, Long> {
+
+//    @Query("UPDATE Usuario u SET u.email = :#{#us.email}, u.nombre = :#{#us.nombre}, u.nombreDeUsuario = :#{#us.nombreDeUsuario}, u.telefono = :#{#us.telefono}  WHERE u.id = :usuarioId")
+//    @Modifying
+//    @Transactional
+//    public void put(@Param("us") Usuario usuario, @Param("usuarioId") Long usuarioId);
+
+    Optional<Usuario> findUserByEmailIgnoreCase(String email);
+
+    boolean existsUsersByEmailIgnoreCase(String email);
 }
 
 

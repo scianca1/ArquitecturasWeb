@@ -26,6 +26,7 @@ public class CuentaDto {
     private Integer saldo;
 
     public CuentaDto() {
+        this.usuarios = new ArrayList<>();
     }
 
     public CuentaDto(Long id, List<Usuario> usuarios, boolean anulada, String cuentaMercadoPago, Date fechaDeAlta, Integer saldo) {
@@ -57,6 +58,6 @@ public class CuentaDto {
         this.cuentaMercadoPago = cuenta.getCuentaMercadoPago();
         this.fechaDeAlta = cuenta.getFechaDeAlta();
         this.saldo = cuenta.getSaldo();
-        this.usuarios= new ArrayList<UsuarioDto>();
+        this.usuarios= cuenta.getUsuarios().stream().map(UsuarioDto::new).toList();
     }
 }

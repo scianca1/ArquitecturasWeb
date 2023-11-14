@@ -1,5 +1,6 @@
 package com.example.microusuarios.entitys;
 
+import com.example.microusuarios.dtos.CuentaDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.List;
 @Table(name = "Cuenta")
 @Getter
 @Setter
-public class Cuenta {
+public class Cuenta{
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -33,7 +34,7 @@ public class Cuenta {
     private Integer saldo;
 
     public Cuenta() {
-
+        this.usuarios= new ArrayList<>();
     }
 
     public Cuenta( boolean anulada, String cuentaMercadoPago, Date fechaDeAlta, Integer saldo) {
@@ -50,6 +51,14 @@ public class Cuenta {
         this.cuentaMercadoPago = cuentaMercadoPago;
         this.fechaDeAlta = fechaDeAlta;
         this.saldo = saldo;
+    }
+    public Cuenta(CuentaDto c) {
+        this.id=c.getId();
+        this.anulada = c.isAnulada();
+        this.cuentaMercadoPago = c.getCuentaMercadoPago();
+        this.fechaDeAlta = c.getFechaDeAlta();
+        this.saldo = c.getSaldo();
+        this.usuarios = c.getUsuarios().stream().map(Usuario::new).toList();
     }
 
 

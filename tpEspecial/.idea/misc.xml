@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/microViaje/pom.xml" />
         <option value="$PROJECT_DIR$/microAdmin/pom.xml" />
         <option value="$PROJECT_DIR$/microUsuarioss/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

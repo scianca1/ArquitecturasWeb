@@ -2,36 +2,38 @@ package com.example.microusuarios.servicios;
 
 import com.example.microusuarios.dtos.CuentaDto;
 import com.example.microusuarios.dtos.MonopatinDto;
+import com.example.microusuarios.ecxeptions.EnumUserException;
+import com.example.microusuarios.ecxeptions.NotFoundException;
+import com.example.microusuarios.ecxeptions.UserException;
 import com.example.microusuarios.entitys.Cuenta;
 import com.example.microusuarios.entitys.Usuario;
+import com.example.microusuarios.repositorios.AuthorityRepository;
 import com.example.microusuarios.repositorios.CuentaRepositorio;
 import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.repositorios.UsuarioRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class UsuarioServicio implements BaseServicio<UsuarioDto> {
 
     private UsuarioRepositorio repositorio;
 
     private CuentaRepositorio repositoriocuenta;
-    @Autowired
+    private AuthorityRepository authorityRepository;
+    private PasswordEncoder passwordEncoder;
     private RestTemplate monopatinClienteRest;
 
-    public UsuarioServicio(UsuarioRepositorio ur, CuentaRepositorio cr){
-        this.repositorio= ur;
-        this.repositoriocuenta=cr;
-
-    }
     @Override
     public List<UsuarioDto> findAll() throws Exception {
         return null;
@@ -45,15 +47,39 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
     }
 
     @Override
-    public UsuarioDto save(UsuarioDto usuarioDto) throws Exception {
+    public UsuarioDto save(UsuarioDto request) throws Exception {
+
+        if( this.repositorio.existsUsersByEmailIgnoreCase( request.getEmail() ) )
+            throw new UserException( EnumUserException.already_exist, String.format("Ya existe un usuario con email %s", request.getEmail() ) );
+        List<CuentaDto> aux = request.getCuentas();
+        ArrayList<Long> ids = new ArrayList<Long>();
+        for (CuentaDto c: aux) {
+            ids.add(c.getId());
+        }
+        final var accounts = this.repositoriocuenta.findAllById(() -> ids.iterator());
+        if( accounts.isEmpty() )
+            throw new UserException(EnumUserException.invalid_account,String.format("No se encontro ninguna cuenta con id %s", request.getCuentas().toString()));
+        final var authorities = request.getAuthorities()
+                .stream()
+                .map( string -> this.authorityRepository.findById( string ).orElseThrow( () -> new NotFoundException("Autority", string ) ) )
+                .toList();
+        if( authorities.isEmpty() )
+            throw new UserException( EnumUserException.invalid_authorities,
+                    String.format("No se encontro ninguna autoridad con id %s", request.getAuthorities().toString() ) );
+
+
         Long x=(long)Math.floor(Math.random()*10) ;
         Long y=(long)Math.floor(Math.random()*10) ;
 
-        Usuario usuario = new Usuario( usuarioDto.getNombre(), usuarioDto.getNombreDeUsuario(),usuarioDto.getTelefono(),usuarioDto.getEmail());
+        Usuario usuario = new Usuario( request.getNombre(), request.getNombreDeUsuario(),request.getTelefono(),request.getEmail());
         usuario.setX(x);
         usuario.setY(y);
-        Usuario aux = this.repositorio.save(usuario);
-        return new UsuarioDto(aux.getNombre(), aux.getNombreDeUsuario(),aux.getTelefono(),aux.getEmail());
+        usuario.setAuthorities(authorities);
+        usuario.setCuentas(accounts);
+        final var encyptedPasswor = passwordEncoder.encode(request.getPassword());
+        usuario.setPassword(encyptedPasswor);
+        Usuario aux3 = this.repositorio.save(usuario);
+        return new UsuarioDto(aux3);
     }
 
     @Override

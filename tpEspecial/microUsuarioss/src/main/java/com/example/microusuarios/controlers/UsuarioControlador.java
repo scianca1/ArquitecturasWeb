@@ -1,18 +1,93 @@
 package com.example.microusuarios.controlers;
 
-import com.example.microusuarios.servicios.UsuarioServicio;
 import com.example.microusuarios.dtos.UsuarioDto;
+import com.example.microusuarios.dtos.request.AuthRequestDTO;
+import com.example.microusuarios.security.Jwt.JWTFilter;
+import com.example.microusuarios.security.Jwt.TokenProvider;
+import com.example.microusuarios.servicios.UsuarioServicio;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
 @RequestMapping("/usuario")
+@RequiredArgsConstructor
 public class UsuarioControlador {
     private UsuarioServicio service;
-    public UsuarioControlador(UsuarioServicio us){
-        this.service= us;
+    private TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+
+    @GetMapping ("/validate")
+    public ResponseEntity<ValidateTokenDTO> validateGet() {
+        final var user = SecurityContextHolder.getContext().getAuthentication();
+        final var authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        return ResponseEntity.ok(
+                ValidateTokenDTO.builder()
+                        .username( user.getName() )
+                        .authorities( authorities )
+                        .isAuthenticated( true )
+                        .build()
+        );
     }
+    @Data
+    @Builder
+    public static class ValidateTokenDTO {
+        private boolean isAuthenticated;
+        private String username;
+        private List<String> authorities;
+    }
+    // INICIAR SESION
+    @PostMapping("/authenticate")
+    public ResponseEntity<JWTToken> authenticate( @Valid @RequestBody AuthRequestDTO request ) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken( request.getEmail(), request.getPassword() );
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        final var jwt = tokenProvider.createToken (authentication );
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add( JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt );
+        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    //@PreAuthorize( "hasAuthority( \"" + AuthorityConstant.ADMIN + "\" )" )
+    public ResponseEntity<UsuarioDto> register(@Valid @RequestBody UsuarioDto request ) throws Exception{
+        final var newUser = this.service.save(request);
+        return new ResponseEntity<>( newUser, HttpStatus.CREATED );
+    }
+
+    static class JWTToken {
+        private String idToken;
+
+        JWTToken(String idToken) {
+            this.idToken = idToken;
+        }
+
+        @JsonProperty("id_token")
+        String getIdToken() {
+            return idToken;
+        }
+
+        void setIdToken(String idToken) {
+            this.idToken = idToken;
+        }
+    }
+
+
+
+
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody UsuarioDto c){
         try {

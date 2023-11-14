@@ -1,5 +1,7 @@
 package com.example.microusuarios.repositorios;
 
+import com.example.microusuarios.dtos.CuentaDto;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface RepositorioBase<T,ID extends Serializable> extends org.springframework.data.repository.Repository<T,ID> {
+public interface RepositorioBase<T,ID extends Serializable> extends JpaRepository<T,ID> {
     /**
      * Elimina una entidad de la BD.
      * @param deleted entidad a borrar.
@@ -25,7 +27,7 @@ public interface RepositorioBase<T,ID extends Serializable> extends org.springfr
      * @param id Identificador único de la entidad.
      * @return Entidad que coicide con el id ingresado.
      */
-    Optional<T> findById(Long id);
+    Optional<T> findById(ID id);
 
     /**
      * Indica si existe la entidad con el id ingresado por parámetro.
@@ -38,13 +40,13 @@ public interface RepositorioBase<T,ID extends Serializable> extends org.springfr
      * Elimina una entidad correspondiente al id ingresado por parámetro.
      * @param id Identificador único de la entidad.
      */
-    void deleteById(Integer id);
+    void deleteById(ID id);
 
     /**
      * Persiste una entidad ingresada por parámetro.
      * @param persisted entidad a persistir
      * @return retorna la entidad persistida con el id asignado.
      */
-    T save( T persisted);
+
 
 }

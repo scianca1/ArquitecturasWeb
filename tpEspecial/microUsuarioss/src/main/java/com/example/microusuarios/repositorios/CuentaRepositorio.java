@@ -1,8 +1,7 @@
 package com.example.microusuarios.repositorios;
 
 import com.example.microusuarios.entitys.Cuenta;
-
-public interface CuentaRepositorio  extends RepositorioBase<Cuenta, Integer>{
-
-
+import org.springframework.stereotype.Repository;
+@Repository
+public interface CuentaRepositorio  extends RepositorioBase<Cuenta, Long>{
 }

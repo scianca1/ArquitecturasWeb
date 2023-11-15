@@ -5,6 +5,7 @@ import com.example.microusuarios.dtos.request.AuthRequestDTO;
 import com.example.microusuarios.security.Jwt.JWTFilter;
 import com.example.microusuarios.security.Jwt.TokenProvider;
 import com.example.microusuarios.servicios.UsuarioServicio;
+import com.example.microusuarios.servicios.constant.AuthorityConstant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -89,16 +91,17 @@ public class UsuarioControlador {
 
 
 
-    @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody UsuarioDto c){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.save(c));
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> save(@RequestBody UsuarioDto c){
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(service.save(c));
+//        }
+//        catch(Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+//        }
+//    }
     @GetMapping ("id/{idUsuario}")
+//    @PreAuthorize("hasAnyAuthority(\""+ AuthorityConstant.ADMIN+"\")")
     public ResponseEntity<?> findById(@PathVariable  Long idUsuario ){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.findById(idUsuario));

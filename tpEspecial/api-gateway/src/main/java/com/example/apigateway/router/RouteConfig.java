@@ -24,12 +24,12 @@ public class RouteConfig {
                                )
                               .uri("http://localhost:8003/usuario/register"))
 
-                .route("auth-service", r -> r.path("/usuario")
+                .route("auth-service", r -> r.path("/usuario/**")
                         .filters( f ->
                                 f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
                         )
                         .uri("http://localhost:8003"))
-                .route("micro-a-product", r -> r.path( "/usuario/admin/**" )
+                .route("micro-a-product", r -> r.path( "admin/**" )
                         .filters( f ->
                                 f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
                         )

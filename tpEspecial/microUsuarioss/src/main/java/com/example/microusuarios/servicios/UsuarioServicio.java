@@ -12,6 +12,7 @@ import com.example.microusuarios.repositorios.CuentaRepositorio;
 import com.example.microusuarios.dtos.UsuarioDto;
 import com.example.microusuarios.repositorios.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -23,11 +24,12 @@ import java.util.*;
 
 
 @Service
-@RequiredArgsConstructor
+
 @Transactional
+@AllArgsConstructor
 public class UsuarioServicio implements BaseServicio<UsuarioDto> {
 
-    private UsuarioRepositorio repositorio;
+    private  UsuarioRepositorio repositorio;
 
     private CuentaRepositorio repositoriocuenta;
     private AuthorityRepository authorityRepository;
@@ -48,17 +50,21 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
 
     @Override
     public UsuarioDto save(UsuarioDto request) throws Exception {
+        List<Cuenta> accounts= null;
 
         if( this.repositorio.existsUsersByEmailIgnoreCase( request.getEmail() ) )
             throw new UserException( EnumUserException.already_exist, String.format("Ya existe un usuario con email %s", request.getEmail() ) );
-        List<CuentaDto> aux = request.getCuentas();
+//        List<CuentaDto> aux = request.getCuentas();
         ArrayList<Long> ids = new ArrayList<Long>();
-        for (CuentaDto c: aux) {
-            ids.add(c.getId());
+//        for (CuentaDto c: aux) {
+//            ids.add(c.getId());
+//        }
+        if(request.getCuentas()!=null){
+             accounts = this.repositoriocuenta.findAllById(request.getCuentas());
+             if( accounts.isEmpty() )
+                throw new UserException(EnumUserException.invalid_account,String.format("No se encontro ninguna cuenta con id %s", request.getCuentas().toString()));
         }
-        final var accounts = this.repositoriocuenta.findAllById(() -> ids.iterator());
-        if( accounts.isEmpty() )
-            throw new UserException(EnumUserException.invalid_account,String.format("No se encontro ninguna cuenta con id %s", request.getCuentas().toString()));
+
         final var authorities = request.getAuthorities()
                 .stream()
                 .map( string -> this.authorityRepository.findById( string ).orElseThrow( () -> new NotFoundException("Autority", string ) ) )

@@ -24,8 +24,8 @@ import java.util.List;
 @RequestMapping("/usuario")
 @RequiredArgsConstructor
 public class UsuarioControlador {
-    private UsuarioServicio service;
-    private TokenProvider tokenProvider;
+    private final UsuarioServicio service;
+    private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 
@@ -64,6 +64,7 @@ public class UsuarioControlador {
     @PostMapping("/register")
     //@PreAuthorize( "hasAuthority( \"" + AuthorityConstant.ADMIN + "\" )" )
     public ResponseEntity<UsuarioDto> register(@Valid @RequestBody UsuarioDto request ) throws Exception{
+        System.out.println("controler usuario");
         final var newUser = this.service.save(request);
         return new ResponseEntity<>( newUser, HttpStatus.CREATED );
     }

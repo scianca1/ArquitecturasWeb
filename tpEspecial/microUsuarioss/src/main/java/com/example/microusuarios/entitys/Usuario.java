@@ -64,7 +64,7 @@ public class Usuario {
         this.nombreDeUsuario = u.getNombreDeUsuario();
         this.telefono = u.getTelefono();
         this.email = u.getEmail();
-        this.cuentas = u.getCuentas().stream().map(Cuenta::new).toList();
+//        this.cuentas = u.getCuentas().stream().map(Cuenta::new).toList();
     }
 
     public void setId(Long id) {

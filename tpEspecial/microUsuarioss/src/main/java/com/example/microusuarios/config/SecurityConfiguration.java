@@ -43,9 +43,9 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 // MANEJAMOS LOS PERMISOS A LOS ENDPOINTS.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/authenticate").permitAll()
-                        .requestMatchers("/api/register").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/usuario/authenticate").permitAll()
+                        .requestMatchers("/usuario/register").permitAll()
+
                 )
                 .anonymous(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

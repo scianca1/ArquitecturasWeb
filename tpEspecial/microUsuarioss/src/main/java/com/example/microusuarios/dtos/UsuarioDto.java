@@ -21,7 +21,7 @@ public class UsuarioDto {
     private String nombreDeUsuario;
     private Long telefono;
     private String email;
-    private List<CuentaDto> cuentas;
+    private List<Long> cuentas;
     private List<String> authorities;
     public UsuarioDto() {
         this.authorities = new ArrayList<>();
@@ -38,11 +38,11 @@ public class UsuarioDto {
         this.nombreDeUsuario = nombreDeUsuario;
         this.telefono = telefono;
         this.email = email;
-        List<CuentaDto> aux=new ArrayList<>();
-        for(Cuenta c:cuentas){
-            aux.add(new CuentaDto(c));
-        }
-        this.cuentas = aux;
+//        List<CuentaDto> aux=new ArrayList<>();
+//        for(Cuenta c:cuentas){
+//            aux.add(new CuentaDto(c));
+//        }
+//        this.cuentas = aux;
     }
 
     public UsuarioDto(String nombre, String nombreDeUsuario, Long telefono, String email) {
@@ -61,7 +61,7 @@ public class UsuarioDto {
         this.telefono = usuario.getTelefono();
         this.email = usuario.getEmail();
         this.password = usuario.getPassword();
-        this.cuentas= usuario.getCuentas().stream().map(CuentaDto::new).toList();
+//        this.cuentas= usuario.getCuentas().stream().map(CuentaDto::new).toList();
 
     }
 

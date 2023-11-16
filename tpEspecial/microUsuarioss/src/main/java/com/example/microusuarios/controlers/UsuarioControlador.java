@@ -64,9 +64,7 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/register")
-    //@PreAuthorize( "hasAuthority( \"" + AuthorityConstant.ADMIN + "\" )" )
     public ResponseEntity<UsuarioDto> register(@Valid @RequestBody UsuarioDto request ) throws Exception{
-        System.out.println("controler usuario");
         final var newUser = this.service.save(request);
         return new ResponseEntity<>( newUser, HttpStatus.CREATED );
     }
@@ -101,7 +99,7 @@ public class UsuarioControlador {
 //        }
 //    }
     @GetMapping ("id/{idUsuario}")
-//    @PreAuthorize("hasAnyAuthority(\""+ AuthorityConstant.ADMIN+"\")")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> findById(@PathVariable  Long idUsuario ){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.findById(idUsuario));
@@ -109,7 +107,17 @@ public class UsuarioControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
+    @GetMapping ("")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.ADMIN + "')")
+    public ResponseEntity<?> findAll(){
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> delete(@PathVariable long id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
@@ -118,6 +126,7 @@ public class UsuarioControlador {
         }
     }
     @PutMapping("/put")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> editar(@RequestBody UsuarioDto u){
         try{
             //verificar que en el servicio pida el usuario y cargue las cuentas
@@ -127,6 +136,7 @@ public class UsuarioControlador {
         }
     }
     @PutMapping("/addCuenta/idUsuario/{id_usuario}/idCuenta/{id_cuenta}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> addCuenta(@PathVariable Long id_usuario,@PathVariable Long id_cuenta){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.addCuenta(id_usuario,id_cuenta));
@@ -135,6 +145,7 @@ public class UsuarioControlador {
         }
     }
     @PutMapping("/removeCuenta/idUsuario/{id_usuario}/idCuenta/{id_cuenta}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> removeCuenta(@PathVariable Long id_usuario,@PathVariable Long id_cuenta){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.removeCuenta(id_usuario,id_cuenta));
@@ -143,6 +154,7 @@ public class UsuarioControlador {
         }
     }
     @GetMapping("/IdUsuario/{idUsuario}/IdCuenta/{idCuenta}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> getCuentaDeUnUsuario(@PathVariable long idUsuario,@PathVariable long idCuenta){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getCuentaDeUnUsuario(idUsuario,idCuenta));
@@ -151,6 +163,7 @@ public class UsuarioControlador {
         }
     }
     @GetMapping("/IdUsuario/{idUsuario}/cuentas")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> getCuentaDeUnUsuario(@PathVariable long idUsuario){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getCuentasDeUnUsuario(idUsuario));
@@ -159,6 +172,7 @@ public class UsuarioControlador {
         }
     }
     @GetMapping("/{idUsuario}/monopatinesCercanos")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> getMonopatinesCercanos(@PathVariable Long idUsuario){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getMonopatinesCercanos(idUsuario));

@@ -30,13 +30,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             String bearerToken = request.getHeaders().getFirst( _AuthHeader );
-
-            // Deshabilitar la verificación del token
-//            if (true) {
-//                System.out.print("hasta aca llego:apli");
-//                return chain.filter(exchange);
-//            }
-//            "http://localhost:8005/api/validate"
             if( this.isSecured.test( request ) ) {
                 return webClientBuilder.build().get()
                         .uri("http://localhost:8003/usuario/validate")

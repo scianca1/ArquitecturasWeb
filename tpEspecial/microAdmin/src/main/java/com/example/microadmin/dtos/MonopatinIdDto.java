@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MonopatinIdDto extends MonopatinDto {
-    private Long id;
+    private String id;
 
 
 }

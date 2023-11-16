@@ -16,10 +16,10 @@ public class Viaje {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(nullable=false)
     private LocalDate fechaInicio;
 
-    @Column
+    @Column(nullable=false)
     private LocalTime horaInicio;
 
     @Column
@@ -28,28 +28,28 @@ public class Viaje {
     @Column
     private LocalTime horaFin;
 
-    @Column
+    @Column(nullable=false)
     private Long idUsuario;
 
-    @Column
+    @Column(nullable=false)
     private String idMonopatin;
 
-    @Column
+    @Column(nullable=false)
     private Long idCuenta;
 
     @Column
     private int pausa;
 
-    @Column
+    @Column(nullable=false)
     private String idParadaOrigen;
 
-    @Column
+    @Column(nullable=false)
     private String idParadaDestino;
 
     @Column
     private int valorViaje;
 
-    @Column
+    @Column(nullable=false)
     private boolean viajePausado;
 
     @Column

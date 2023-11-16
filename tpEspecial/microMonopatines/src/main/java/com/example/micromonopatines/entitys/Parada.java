@@ -4,6 +4,7 @@ import com.example.micromonopatines.dtos.MonopatinDtoConId;
 import com.example.micromonopatines.dtos.ParadaDto;
 import com.example.micromonopatines.dtos.ParadaDtoConId;
 //import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,13 @@ import java.util.Optional;
 public class Parada implements Serializable {
 
     @Id
+    @NotNull
     private String id;
+    @NotNull
     private Long x;
+    @NotNull
     private Long y;
+    @NotNull
     List<String> monopatines;
 
     public Parada(Long x, Long y) {

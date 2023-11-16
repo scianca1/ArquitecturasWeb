@@ -2,6 +2,7 @@ package com.example.microusuarios.entitys;
 
 import com.example.microusuarios.dtos.CuentaDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,18 +20,19 @@ public class Cuenta{
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     @ManyToMany(mappedBy = "cuentas")
+    @Column(nullable=false)
     private List<Usuario> usuarios;
 
-    @Column
+    @Column(nullable=false)
     private boolean anulada;
 
-    @Column
+    @Column(nullable=false)
     private String cuentaMercadoPago;
 
     @Column
     private Date fechaDeAlta;
 
-    @Column
+    @Column(nullable=false)
     private Integer saldo;
 
     public Cuenta() {

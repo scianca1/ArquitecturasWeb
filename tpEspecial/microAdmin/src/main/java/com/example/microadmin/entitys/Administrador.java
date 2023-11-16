@@ -1,6 +1,7 @@
 package com.example.microadmin.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +19,10 @@ public class Administrador {
     @Id
     private Long id;
 
-    @Column
+    @Column(nullable=false)
     private Integer tarifa;
 
-    @Column
+    @Column(nullable=false)
     private Integer tarifaPorPausaExtensa;
 
     /*

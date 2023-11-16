@@ -29,7 +29,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
 
 
 
-    @Transactional
+    @Transactional(readOnly = false)
     public MonopatinIdDto editarMonopatin (MonopatinIdDto m){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<>(m, cabecera);
@@ -43,8 +43,8 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    @Transactional
-    public MonopatinDto editarMantenimiento (Long idMonopatin, boolean estado){
+    @Transactional(readOnly = false)
+    public MonopatinDto editarMantenimiento (String idMonopatin, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
@@ -57,7 +57,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     public MonopatinDto agregarMonopatin(MonopatinDto monopatin) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
@@ -72,10 +72,10 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    @Transactional
-    public MonopatinDto eliminarMonopatin(Long idMonopatin) throws Exception {
+    @Transactional(readOnly = false)
+    public MonopatinDto eliminarMonopatin(String idMonopatin) throws Exception {
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<Long> objetoMonopatin = new HttpEntity<>(idMonopatin, cabecera);
+        HttpEntity<String> objetoMonopatin = new HttpEntity<>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001/monopatin/delete/" + idMonopatin,
                 HttpMethod.DELETE,
@@ -87,7 +87,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     public CuentaDto anularCuenta (Long id, boolean estado){
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<CuentaDto> solicitud1 = new HttpEntity<>(cabecera);
@@ -101,7 +101,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return respuesta.getBody();
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
         public AdminDto actualizarTarifas(Integer tarifaNormal, Integer tarifaPorPausaExtensa){
         Optional<Administrador> admin = repositorio.getAdmin();
         Administrador administrador= admin.get();
@@ -111,7 +111,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return dto;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public AdminDto getAdmin(){
         Optional<Administrador> aux= repositorio.getAdmin();
         if(aux.isPresent()) {
@@ -120,7 +120,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         }
        return null;
     }
-
+    @Transactional(readOnly = true)
     public String totalFacturado(Integer mes1, Integer mes2, Integer anio) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
@@ -131,7 +131,6 @@ public class AdminServicio implements BaseServicio<AdminDto>{
                 solicitud,
                 new ParameterizedTypeReference<>() {}
         );
-        System.out.println("paso por servicio y trajo la lista de flor");
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<ViajeDto> lista = respuesta.getBody();
         int contador = 0;
@@ -147,7 +146,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         return null;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public AdminDto findById(Long id) {
         return repositorio.findById(id).map(AdminDto::new).orElseThrow(
@@ -155,7 +154,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         );
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     @Override
     public AdminDto save(AdminDto adminDto) throws Exception {
         Administrador admin = new Administrador(adminDto.getId(), adminDto.getTarifa(), adminDto.getTarifaPorPausaExtensa());

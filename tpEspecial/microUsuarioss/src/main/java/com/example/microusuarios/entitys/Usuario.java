@@ -24,17 +24,19 @@ public class Usuario {
     private String nombreDeUsuario;
     @Column
     private Long telefono;
-    @Column
+    @Column(nullable=false)
     private String email;
-    @Column
+    @Column(nullable=false)
     private String password;
     @Column
     private Long x;
     @Column
     private Long y;
     @ManyToMany
+    @Column(nullable=false)
     private List<Cuenta> cuentas;
     @ManyToMany
+    @Column(nullable=false)
     private List<Authority> authorities;
 
     public Usuario(String nombre, String nombreDeUsuario, Long telefono, String email) {

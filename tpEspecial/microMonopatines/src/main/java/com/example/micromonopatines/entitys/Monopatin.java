@@ -10,6 +10,7 @@ import com.example.micromonopatines.dtos.MonopatinDtoConId;
 //import jakarta.persistence.GenerationType;
 //import jakarta.persistence.Id;
 //import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -21,12 +22,19 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Setter
 public class Monopatin implements Serializable {
     @Id
+    @NotNull
     private String id;
+    @NotNull
     private Long x;
+    @NotNull
     private Long y;
+    @NotNull
     private boolean habilitado;
+    @NotNull
     private double kmRecorridos;
+    @NotNull
     private double tiempoDeUso;
+    @NotNull
     private double tiempoDeUsoConPausa;
 
     public Monopatin() {

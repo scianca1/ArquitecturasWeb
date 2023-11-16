@@ -32,7 +32,7 @@ public class AdminControlador {
     // PROBADO OK
 
     @DeleteMapping("/monopatin/{idMonopatin}")
-    public ResponseEntity<?> eliminarMonopatin(@PathVariable Long idMonopatin){
+    public ResponseEntity<?> eliminarMonopatin(@PathVariable String idMonopatin){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.eliminarMonopatin(idMonopatin));
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class AdminControlador {
     // PROBADO OK
 
     @PutMapping("/editarMantenimiento/{idMonopatin}/habilitado/{estado}")
-    public ResponseEntity<?> editarMantenimiento(@PathVariable Long idMonopatin, @PathVariable boolean estado){
+    public ResponseEntity<?> editarMantenimiento(@PathVariable String idMonopatin, @PathVariable boolean estado){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.editarMantenimiento(idMonopatin, estado));
         }
@@ -99,6 +99,7 @@ public class AdminControlador {
     // PROBADO OK
 
     @GetMapping ("/id/{id}")
+//    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> findById(@PathVariable Long id ){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(service.findById(id));

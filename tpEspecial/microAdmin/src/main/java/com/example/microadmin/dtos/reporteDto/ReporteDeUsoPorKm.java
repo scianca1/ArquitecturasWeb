@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReporteDeUsoPorKm implements Serializable {
-    public Long id;
+    public String id;
     public double kmRecorridos;
 
     public List<ReporteDeUsoPorKm> generarReporte(List<MonopatinIdDto> monopatines) {

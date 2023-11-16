@@ -38,7 +38,8 @@ public class UsuarioServicio implements BaseServicio<UsuarioDto> {
 
     @Override
     public List<UsuarioDto> findAll() throws Exception {
-        return null;
+
+        return  this.repositorio.findAll().stream().map(UsuarioDto::new).toList();
     }
 
     @Override

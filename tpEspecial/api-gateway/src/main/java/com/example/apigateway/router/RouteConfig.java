@@ -11,25 +11,38 @@ public class RouteConfig {
 
     @Bean
     public RouteLocator routes( RouteLocatorBuilder builder, AuthenticationFilter authFilter ) {
-        System.out.println("router");
         return builder.routes()
-                .route("lll", r -> r.path("/usuario/authenticate")
-                        .filters( f ->
-                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
-                        )
-                        .uri("http://localhost:8003/usuario/authenticate"))
-                .route("auth-service-login", r -> r.path("/usuario/register")
-                               .filters( f ->
-                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
-                               )
-                              .uri("http://localhost:8003/usuario/register"))
-
-                .route("auth-service", r -> r.path("/usuario/**")
+                .route("usuario-service", r -> r.path("/usuario/**")
                         .filters( f ->
                                 f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
                         )
                         .uri("http://localhost:8003"))
-                .route("micro-a-product", r -> r.path( "admin/**" )
+                .route("cuenta-service", r -> r.path("/cuenta/**")
+                        .filters( f ->
+                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
+                        )
+                        .uri("http://localhost:8003"))
+                .route("monopatin-service", r -> r.path("/monopatin/**")
+                        .filters( f ->
+                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
+                        )
+                        .uri("http://localhost:8001"))
+                .route("parada-service", r -> r.path("/parada/**")
+                        .filters( f ->
+                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
+                        )
+                        .uri("http://localhost:8001"))
+                .route("viaje-service", r -> r.path("/viaje/**")
+                        .filters( f ->
+                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
+                        )
+                        .uri("http://localhost:8004"))
+                .route("admin-service", r -> r.path( "/administrador/**" )
+                        .filters( f ->
+                                f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
+                        )
+                        .uri("http://localhost:8002"))
+                .route("reporte-service", r -> r.path( "/reporteMonopatin/**" )
                         .filters( f ->
                                 f.filter( authFilter.apply( new AuthenticationFilter.Config() ) )
                         )

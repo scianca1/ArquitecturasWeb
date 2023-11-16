@@ -32,7 +32,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return null;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<MonopatinIdDto> getMonopatines() {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<MonopatinIdDto> objetoMonopatin = new HttpEntity<>(cabecera);
@@ -47,7 +47,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return lista;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReporteDeUsoPorKm> getReportePorKm() {
         ReporteDeUsoPorKm r= new ReporteDeUsoPorKm();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -55,7 +55,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReportePorTiempoConPausas> getReportePortiempoConPausa() {
         ReportePorTiempoConPausas r = new ReportePorTiempoConPausas();
         List<MonopatinIdDto> lista = this.getMonopatines();
@@ -63,7 +63,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReportePorTiempoSinPausas> getReportePorTiempoSinPausa() {
         ReportePorTiempoSinPausas r= new ReportePorTiempoSinPausas();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -71,7 +71,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento() {
         ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
         List<MonopatinIdDto> lista= this.getMonopatines();
@@ -79,7 +79,7 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio) {
         HttpHeaders cabecera = new HttpHeaders();
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
@@ -96,7 +96,6 @@ public class ReporteMonopatinServicio implements BaseServicio{
         return reporte;
     }
 
-    @Transactional
     @Override
     public Object save(Object entity) throws Exception {
         return null;

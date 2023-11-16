@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportePorTiempoConPausas implements Serializable {
-    private Long id;
+    private String id;
     private double kmRecorridos;
     private double tiempoPausa;
 

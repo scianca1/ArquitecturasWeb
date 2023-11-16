@@ -19,7 +19,7 @@ public class MicroAdminApplication {
 
     @PostConstruct
     public void init() throws IOException {
-        data.loadData();
+//        data.loadData();
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.microadmin.dtos.*;
 import com.example.microadmin.dtos.reporteDto.ReportePorCantViajes;
 import com.example.microadmin.entitys.Administrador;
 import com.example.microadmin.repositorios.AdminRepositorio;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -30,15 +31,18 @@ public class AdminServicio implements BaseServicio<AdminDto>{
 
 
     @Transactional(readOnly = false)
-    public MonopatinIdDto editarMonopatin (MonopatinIdDto m){
+    public MonopatinIdDto editarMonopatin (MonopatinIdDto m, HttpServletRequest request){
+        System.out.println(2);
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<>(m, cabecera);
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<MonopatinIdDto>(m, cabecera);
         ResponseEntity<MonopatinIdDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001//monopatin/put",
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
 
         return respuesta.getBody();
     }
@@ -58,45 +62,50 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     @Transactional(readOnly = false)
-    public MonopatinDto agregarMonopatin(MonopatinDto monopatin) {
+    public MonopatinDto agregarMonopatin(MonopatinDto monopatin, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<>(monopatin, cabecera);
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MonopatinDto> objetoMonopatin = new HttpEntity<MonopatinDto>(monopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001/monopatin",
                 HttpMethod.POST,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {}
         );
-        cabecera.setContentType(MediaType.APPLICATION_JSON); //El cuerpo de la solicitud se envia en formato JSON
-
         return respuesta.getBody();
     }
 
     @Transactional(readOnly = false)
-    public MonopatinDto eliminarMonopatin(String idMonopatin) throws Exception {
+    public MonopatinDto eliminarMonopatin(String idMonopatin, HttpServletRequest request) throws Exception {
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<String> objetoMonopatin = new HttpEntity<>(idMonopatin, cabecera);
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> objetoMonopatin = new HttpEntity<String>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001/monopatin/delete/" + idMonopatin,
                 HttpMethod.DELETE,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {}
         );
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
-
         return respuesta.getBody();
     }
 
     @Transactional(readOnly = false)
-    public CuentaDto anularCuenta (Long id, boolean estado){
+    public CuentaDto anularCuenta (Long id, boolean estado, HttpServletRequest request){
+        System.out.println(1);
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<CuentaDto> solicitud1 = new HttpEntity<>(cabecera);
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Long> solicitud1 = new HttpEntity<Long>(id,cabecera);
         ResponseEntity<CuentaDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8003/cuenta/" + id + "/anular/" + estado,
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
 
         return respuesta.getBody();
     }

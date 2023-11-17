@@ -38,8 +38,7 @@ public class HttpConfig {
         http
                 .csrf( AbstractHttpConfigurer::disable )
                 .authorizeRequests(auth -> auth
-                        .requestMatchers( "administrador/**" ).authenticated()
-                        .requestMatchers( "reporteMonopatin/**" ).authenticated()
+                        .requestMatchers( "monopatin/**" ).authenticated()
 
                 )
                 .anonymous( AbstractHttpConfigurer::disable )

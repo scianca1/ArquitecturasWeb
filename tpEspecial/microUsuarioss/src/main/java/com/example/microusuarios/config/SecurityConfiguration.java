@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/usuario/authenticate").permitAll()
                         .requestMatchers("/usuario/register").permitAll()
                         .requestMatchers("/usuario/**").authenticated()
+                        .requestMatchers("/monopatin/**").authenticated()
                 )
                 .anonymous(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -2,9 +2,11 @@ package com.example.micromonopatines.controllers;
 
 import com.example.micromonopatines.dtos.MonopatinDto;
 import com.example.micromonopatines.dtos.MonopatinDtoConId;
+import com.example.micromonopatines.security.AuthorityConstants;
 import com.example.micromonopatines.servicios.MonopatinServicio;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +19,7 @@ public class MonopatinControlador{
     }
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> save(@RequestBody MonopatinDto m){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(servicio.save(m));
@@ -27,6 +30,7 @@ public class MonopatinControlador{
     }
 
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "', '"+AuthorityConstants.USER+"')")
     public ResponseEntity<?> getMonopatines(){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(servicio.findAll());
@@ -37,6 +41,7 @@ public class MonopatinControlador{
     }
 
     @GetMapping("id/{idMonopatin}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "', '"+AuthorityConstants.USER+"')")
     public ResponseEntity<?> findById(@PathVariable String idMonopatin){
         try{
             return  ResponseEntity.status(HttpStatus.OK).body(servicio.findById(idMonopatin));
@@ -45,6 +50,7 @@ public class MonopatinControlador{
         }
     }
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> delete(@PathVariable String id){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(this.servicio.delete(id));
@@ -53,6 +59,7 @@ public class MonopatinControlador{
         }
     }
     @PutMapping("/put")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> editar(@RequestBody MonopatinDtoConId m){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.put(m));
@@ -61,6 +68,7 @@ public class MonopatinControlador{
         }
     }
     @PutMapping("/id/{id}/habilitado/{isHabilitado}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> habilitar(@PathVariable String id, @PathVariable boolean isHabilitado){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.habilitar(id, isHabilitado));
@@ -70,6 +78,7 @@ public class MonopatinControlador{
     }
 
     @PutMapping("/addKilometros/id/{id}/km/{km}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> addKmRecorridos(@PathVariable String id, @PathVariable double km){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(servicio.addKmRecorridos(id, km));

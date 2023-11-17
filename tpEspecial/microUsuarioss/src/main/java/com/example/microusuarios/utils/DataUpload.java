@@ -24,6 +24,7 @@ public class DataUpload {
     }
 
     public void loadData() throws IOException {
+
            Cuenta c1= new Cuenta(1L,false,"MercadoPago", null, 300);
            Cuenta c2= new Cuenta(2L,false,"MercadoPago45684", null, 250);
 
@@ -43,6 +44,6 @@ public class DataUpload {
           usuariorepositorio.save(u1);
 
 
-}
+    }
 
 }

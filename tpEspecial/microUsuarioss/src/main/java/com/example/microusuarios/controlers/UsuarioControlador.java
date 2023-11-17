@@ -30,7 +30,6 @@ public class UsuarioControlador {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-
     @GetMapping ("/validate")
     public ResponseEntity<ValidateTokenDTO> validateGet() {
         final var user = SecurityContextHolder.getContext().getAuthentication();

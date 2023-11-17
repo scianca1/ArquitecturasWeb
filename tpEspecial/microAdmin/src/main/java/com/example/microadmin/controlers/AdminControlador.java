@@ -59,9 +59,9 @@ public class AdminControlador {
 
     @PutMapping("/editarMantenimiento/{idMonopatin}/habilitado/{estado}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
-    public ResponseEntity<?> editarMantenimiento(@PathVariable String idMonopatin, @PathVariable boolean estado){
+    public ResponseEntity<?> editarMantenimiento(@PathVariable String idMonopatin, @PathVariable boolean estado, HttpServletRequest request){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.editarMantenimiento(idMonopatin, estado));
+            return ResponseEntity.status(HttpStatus.OK).body(service.editarMantenimiento(idMonopatin, estado, request));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
@@ -85,9 +85,9 @@ public class AdminControlador {
 
     @PutMapping ("/actualizarTarifas/tarifaNormal/{tarifaNormal}/TarifaPorPausa/{tarifaPorPausaExtensa}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
-    public ResponseEntity<?> actualizarTarifas(@PathVariable Integer tarifaNormal, @PathVariable Integer tarifaPorPausaExtensa){
+    public ResponseEntity<?> actualizarTarifas(@PathVariable Integer tarifaNormal, @PathVariable Integer tarifaPorPausaExtensa, HttpServletRequest request){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa));
+            return ResponseEntity.status(HttpStatus.OK).body(service.actualizarTarifas(tarifaNormal, tarifaPorPausaExtensa, request));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
@@ -97,9 +97,9 @@ public class AdminControlador {
 
     @GetMapping ("/totalFacturadoEntre/mes1/{mes1}/mes2/{mes2}/anio/{anio}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
-    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2, @PathVariable Integer anio){
+    public ResponseEntity<?> totalFacturado(@PathVariable Integer mes1, @PathVariable Integer mes2, @PathVariable Integer anio,HttpServletRequest request){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2, anio));
+            return ResponseEntity.status(HttpStatus.OK).body(service.totalFacturado(mes1, mes2, anio, request));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");

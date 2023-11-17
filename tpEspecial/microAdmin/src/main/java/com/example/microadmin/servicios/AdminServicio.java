@@ -32,7 +32,6 @@ public class AdminServicio implements BaseServicio<AdminDto>{
 
     @Transactional(readOnly = false)
     public MonopatinIdDto editarMonopatin (MonopatinIdDto m, HttpServletRequest request){
-        System.out.println(2);
         String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
         cabecera.set("Authorization", token);
@@ -48,9 +47,12 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     @Transactional(readOnly = false)
-    public MonopatinDto editarMantenimiento (String idMonopatin, boolean estado){
+    public MonopatinDto editarMantenimiento (String idMonopatin, boolean estado, HttpServletRequest request){
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> solicitud1 = new HttpEntity<String>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001/monopatin/id/" + idMonopatin + "/habilitado/" + estado,
                 HttpMethod.PUT,
@@ -95,7 +97,6 @@ public class AdminServicio implements BaseServicio<AdminDto>{
 
     @Transactional(readOnly = false)
     public CuentaDto anularCuenta (Long id, boolean estado, HttpServletRequest request){
-        System.out.println(1);
         String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
         cabecera.set("Authorization", token);
@@ -111,7 +112,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
     @Transactional(readOnly = false)
-        public AdminDto actualizarTarifas(Integer tarifaNormal, Integer tarifaPorPausaExtensa){
+        public AdminDto actualizarTarifas(Integer tarifaNormal, Integer tarifaPorPausaExtensa, HttpServletRequest request){
         Optional<Administrador> admin = repositorio.getAdmin();
         Administrador administrador= admin.get();
         administrador.setTarifa(tarifaNormal);
@@ -129,11 +130,14 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         }
        return null;
     }
+    //probar cuando arregle viaje
     @Transactional(readOnly = true)
-    public String totalFacturado(Integer mes1, Integer mes2, Integer anio) {
+    public String totalFacturado(Integer mes1, Integer mes2, Integer anio, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
-        HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
-        System.out.println("entro a servicio");
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Long> solicitud = new HttpEntity<Long>(cabecera);
         ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8004/viaje/viajesPorAnioEntreMeses/anio/" + anio + "/mes1/" + mes1 + "/mes2/" + mes2,
                 HttpMethod.GET,

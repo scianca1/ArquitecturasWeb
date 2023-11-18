@@ -39,6 +39,7 @@ public class HttpConfig {
                 .csrf( AbstractHttpConfigurer::disable )
                 .authorizeRequests(auth -> auth
                         .requestMatchers( "monopatin/**" ).authenticated()
+                        .requestMatchers( "paradas/**" ).authenticated()
 
                 )
                 .anonymous( AbstractHttpConfigurer::disable )

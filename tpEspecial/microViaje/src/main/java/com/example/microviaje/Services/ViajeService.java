@@ -184,7 +184,7 @@ public class    ViajeService {
                 double km= kmX+ kmY;
                 System.out.println(km);
                 ResponseEntity<MonopatinDto> response = rest.exchange(
-                        "http://localhost:8001/monopatin/addKilometros/id/" + viaje.getIdMonopatin() + "/km/" + km,
+                        "http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin() + "/km/" + km,
                         HttpMethod.PUT,
                         nuevaSolicitud,
                         new ParameterizedTypeReference<>() {});

@@ -2,8 +2,10 @@ package com.example.microusuarios.controlers;
 
 import com.example.microusuarios.dtos.CuentaDto;
 import com.example.microusuarios.servicios.CuentaServicio;
+import com.example.microusuarios.servicios.constant.AuthorityConstant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +18,7 @@ public class CuentaControlador {
         this.service= cs;
     }
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> save(@RequestBody CuentaDto c){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.save(c));
@@ -24,6 +27,7 @@ public class CuentaControlador {
         }
     }
     @PutMapping("/idCuenta/{idCuenta}/estado/{anulada}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> setAnulada(@PathVariable long idCuenta,@PathVariable boolean anulada ){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.setAnulada(idCuenta,anulada));

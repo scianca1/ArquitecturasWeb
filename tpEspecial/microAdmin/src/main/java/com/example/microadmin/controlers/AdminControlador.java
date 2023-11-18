@@ -33,6 +33,15 @@ public class AdminControlador {
         }
     }
     // PROBADO OK
+    @PutMapping("/idMonopatin/{idMonopatin}/idParada/{idParada}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
+    public ResponseEntity<?> addMonopatinAparada(@PathVariable String idMonopatin,@PathVariable String idParada, HttpServletRequest request){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.agregarMonopatinAparada(idMonopatin, idParada, request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
+    }
 
     @DeleteMapping("/monopatin/{idMonopatin}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")

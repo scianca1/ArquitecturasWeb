@@ -38,7 +38,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<MonopatinIdDto> solicitud1 = new HttpEntity<MonopatinIdDto>(m, cabecera);
         ResponseEntity<MonopatinIdDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001//monopatin/put",
+                "http://localhost:8001//monopatin",
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
@@ -54,7 +54,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> solicitud1 = new HttpEntity<String>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatin/id/" + idMonopatin + "/habilitado/" + estado,
+                "http://localhost:8001/monopatin/id/" + idMonopatin + "/estado/" + estado,
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
@@ -87,7 +87,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> objetoMonopatin = new HttpEntity<String>(idMonopatin, cabecera);
         ResponseEntity<MonopatinDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8001/monopatin/delete/" + idMonopatin,
+                "http://localhost:8001/monopatin/" + idMonopatin,
                 HttpMethod.DELETE,
                 objetoMonopatin,
                 new ParameterizedTypeReference<>() {}
@@ -175,5 +175,18 @@ public class AdminServicio implements BaseServicio<AdminDto>{
     }
 
 
-
+    public Object agregarMonopatinAparada(String idMonopatin, String idParada, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> nuevaSolicitud = new HttpEntity<String>(idParada, cabecera);
+        ResponseEntity<ParadaDto> respuesta = monopatinClienteRest.exchange(
+                "http://localhost:8001/paradas/idMonopatin/"+ idMonopatin + "/idParada/"+ idParada,
+                HttpMethod.PUT,
+                nuevaSolicitud,
+                new ParameterizedTypeReference<>() {}
+        );
+        return respuesta.getBody();
+    }
 }

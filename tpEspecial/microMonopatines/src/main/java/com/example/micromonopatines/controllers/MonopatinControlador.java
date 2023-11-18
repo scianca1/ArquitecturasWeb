@@ -49,7 +49,7 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> delete(@PathVariable String id){
         try{
@@ -58,7 +58,7 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/put")
+    @PutMapping("")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> editar(@RequestBody MonopatinDtoConId m){
         try{
@@ -67,7 +67,7 @@ public class MonopatinControlador{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/id/{id}/habilitado/{isHabilitado}")
+    @PutMapping("/id/{id}/estado/{isHabilitado}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> habilitar(@PathVariable String id, @PathVariable boolean isHabilitado){
         try{
@@ -77,7 +77,7 @@ public class MonopatinControlador{
         }
     }
 
-    @PutMapping("/addKilometros/id/{id}/km/{km}")
+    @PutMapping("/id/{id}/km/{km}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> addKmRecorridos(@PathVariable String id, @PathVariable double km){
         try{

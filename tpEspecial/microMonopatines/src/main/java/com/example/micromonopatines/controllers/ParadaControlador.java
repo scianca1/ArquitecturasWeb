@@ -2,9 +2,11 @@ package com.example.micromonopatines.controllers;
 
 import com.example.micromonopatines.dtos.ParadaDto;
 import com.example.micromonopatines.dtos.ParadaDtoConId;
+import com.example.micromonopatines.security.AuthorityConstants;
 import com.example.micromonopatines.servicios.ParadaServicio;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,9 +27,11 @@ public class ParadaControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PostMapping("addMonopatin/idMonopatin/{idMonopatin}/idParada/{idParada}")
+    @PutMapping("idMonopatin/{idMonopatin}/idParada/{idParada}")
+    @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> addMonopatin(@PathVariable String idMonopatin, @PathVariable String idParada){
         try {
+            System.out.println(10);
             return ResponseEntity.status(HttpStatus.OK).body(servicio.addMonopatin(idMonopatin, idParada));
         }
         catch(Exception e){
@@ -61,7 +65,7 @@ public class ParadaControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/put")
+    @PutMapping("")
     public ResponseEntity<?> editar(@RequestBody ParadaDtoConId p){
         try{
             System.out.println(p.getMonopatines());

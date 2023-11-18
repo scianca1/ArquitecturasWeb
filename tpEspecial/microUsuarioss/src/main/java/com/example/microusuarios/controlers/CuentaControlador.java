@@ -23,7 +23,7 @@ public class CuentaControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
         }
     }
-    @PutMapping("/{idCuenta}/anular/{anulada}")
+    @PutMapping("/idCuenta/{idCuenta}/estado/{anulada}")
     public ResponseEntity<?> setAnulada(@PathVariable long idCuenta,@PathVariable boolean anulada ){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.setAnulada(idCuenta,anulada));

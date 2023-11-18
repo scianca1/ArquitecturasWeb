@@ -45,7 +45,7 @@ public class AdminControlador {
     }
     // PROBADO OK
 
-    @PutMapping("/editarMonopatin")
+    @PutMapping("/monopatin")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> editarMonopatin(@RequestBody MonopatinIdDto m, HttpServletRequest request){
         try {
@@ -57,7 +57,7 @@ public class AdminControlador {
     }
     // PROBADO OK
 
-    @PutMapping("/editarMantenimiento/{idMonopatin}/habilitado/{estado}")
+    @PutMapping("/idMonopatin/{idMonopatin}/estado/{estado}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> editarMantenimiento(@PathVariable String idMonopatin, @PathVariable boolean estado, HttpServletRequest request){
         try {
@@ -70,7 +70,7 @@ public class AdminControlador {
     // PROBADO OK
 
 
-    @PutMapping("/anularCuenta/{idCuenta}/estado/{estado}")
+    @PutMapping("/idCuenta/{idCuenta}/estado/{estado}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> anularCuenta(@PathVariable Long idCuenta, @PathVariable boolean estado, HttpServletRequest request){
         try {
@@ -83,7 +83,7 @@ public class AdminControlador {
     // PROBADO OK
 
 
-    @PutMapping ("/actualizarTarifas/tarifaNormal/{tarifaNormal}/TarifaPorPausa/{tarifaPorPausaExtensa}")
+    @PutMapping ("/tarifaNormal/{tarifaNormal}/TarifaPorPausa/{tarifaPorPausaExtensa}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")
     public ResponseEntity<?> actualizarTarifas(@PathVariable Integer tarifaNormal, @PathVariable Integer tarifaPorPausaExtensa, HttpServletRequest request){
         try {
@@ -105,7 +105,7 @@ public class AdminControlador {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
     }
-    // PROBADO OK
+    // probar cuando arregle viaje
 
     @GetMapping ("/id/{id}")
     @PreAuthorize("hasAnyAuthority('" + AuthorityConstants.ADMIN + "')")

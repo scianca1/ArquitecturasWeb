@@ -4,6 +4,7 @@ import com.example.microviaje.Repositories.ViajeRepository;
 import com.example.microviaje.dtos.*;
 import com.example.microviaje.dtos.CuentaDto;
 import com.example.microviaje.entitys.Viaje;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -61,21 +62,28 @@ public class    ViajeService {
                 () -> new IllegalArgumentException("ID de estacion invalido: " + id));
     }
 
-    public ViajeDto iniciarViaje(ViajeDto viaje) throws Exception {
-
+    public ViajeDto iniciarViaje(ViajeRequestDto viaje, HttpServletRequest request) throws Exception {
+        System.out.println(2);
         //USUARIO
-        ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+viaje.getIdUsuario(), UsuarioDto.class);
+        String token = request.getHeader("Authorization");
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<ViajeRequestDto> nuevaSolicitud = new HttpEntity<>(viaje, cabecera);
+        // Hacer la solicitud con RestTemplate
+        ResponseEntity<UsuarioDto> usuario = rest.exchange("http://localhost:8003/usuario/id/" + viaje.getIdUsuario(), HttpMethod.GET, nuevaSolicitud, UsuarioDto.class);
+//        ResponseEntity<UsuarioDto> usuario=this.rest.getForEntity("http://localhost:8003/usuario/id/"+viaje.getIdUsuario(), UsuarioDto.class);
 
         //CUENTA
-        ResponseEntity<CuentaDto> cuenta=this.rest.getForEntity("http://localhost:8003/usuario/IdUsuario/"+ viaje.getIdUsuario() + "/IdCuenta/" + viaje.getIdCuenta(), CuentaDto.class);
+        ResponseEntity<CuentaDto> cuenta=this.rest.exchange("http://localhost:8003/usuario/IdUsuario/"+ viaje.getIdUsuario() + "/IdCuenta/" + viaje.getIdCuenta(), HttpMethod.GET, nuevaSolicitud, CuentaDto.class);
         CuentaDto cuentaDto= cuenta.getBody();
 
         //MONOPATIN
-        ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), MonopatinDto.class);
+        ResponseEntity<MonopatinDto> monopatin = rest.exchange("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), HttpMethod.GET, nuevaSolicitud, MonopatinDto.class);
 
         //PARADA
-        ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
-        ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaOrigen = rest.exchange("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), HttpMethod.GET, nuevaSolicitud, ParadaDto.class);
+        ResponseEntity<ParadaDto> paradaDestino = rest.exchange("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), HttpMethod.GET, nuevaSolicitud, ParadaDto.class);
         System.out.println("service");
         //CONSULTO POR ID USUARIO E ID MONOPATIN
         if (usuario.getStatusCode() == HttpStatus.OK && monopatin.getStatusCode() == HttpStatus.OK && monopatin.getBody().isHabilitado()) {
@@ -103,7 +111,12 @@ public class    ViajeService {
         }
     }
 
-    public ViajeDto finalizarViaje(Long id) throws Exception {
+    public ViajeDto finalizarViaje(Long id, HttpServletRequest request) throws Exception {
+        String token = request.getHeader("Authorization");
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Long> nuevaSolicitud = new HttpEntity<>(id, cabecera);
 
         //Ver si existe el id
         Optional<Viaje> optional= this.repositorio.findById(id);
@@ -113,12 +126,12 @@ public class    ViajeService {
             viaje.setHoraFin(LocalTime.now());
             viaje.setFechaFin(LocalDate.now());
 
-            ResponseEntity<AdministradorDto> tarifa=this.rest.getForEntity("http://localhost:8002/administrador/tarifas", AdministradorDto.class);
+            ResponseEntity<AdministradorDto> tarifa=this.rest.exchange("http://localhost:8002/administrador/tarifas", HttpMethod.GET, nuevaSolicitud, AdministradorDto.class);
             AdministradorDto adminDto= tarifa.getBody();
             System.out.println(adminDto.getTarifa());
 
             //Monopatin
-            ResponseEntity<MonopatinDto> monopatin = rest.getForEntity("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), MonopatinDto.class);
+            ResponseEntity<MonopatinDto> monopatin = rest.exchange("http://localhost:8001/monopatin/id/" + viaje.getIdMonopatin(), HttpMethod.GET, nuevaSolicitud, MonopatinDto.class);
             MonopatinDto monopatinDto= monopatin.getBody();
 
             //Ubicacion monopatin
@@ -126,7 +139,7 @@ public class    ViajeService {
             long ubiYMonopatin= monopatinDto.getY();
 
             //Parada destino de viaje
-            ResponseEntity<ParadaDto> paradaDestino = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), ParadaDto.class);
+            ResponseEntity<ParadaDto> paradaDestino = rest.exchange("http://localhost:8001/paradas/id/" + viaje.getIdParadaDestino(), HttpMethod.GET, nuevaSolicitud, ParadaDto.class);
             ParadaDto paradaDto= paradaDestino.getBody();
 
             //Ubicacion parada destino
@@ -152,7 +165,7 @@ public class    ViajeService {
                 }
 
                 //PARADA ORIGEN
-                ResponseEntity<ParadaDto> paradaOrigen = rest.getForEntity("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), ParadaDto.class);
+                ResponseEntity<ParadaDto> paradaOrigen = rest.exchange("http://localhost:8001/paradas/id/" + viaje.getIdParadaOrigen(), HttpMethod.GET, nuevaSolicitud, ParadaDto.class);
                 ParadaDto paradaDtoOrigen= paradaOrigen.getBody();
 
 
@@ -170,12 +183,10 @@ public class    ViajeService {
 
                 double km= kmX+ kmY;
                 System.out.println(km);
-                HttpHeaders cabecera = new HttpHeaders();
-                HttpEntity<Void> solicitud1 = new HttpEntity<>(cabecera);
                 ResponseEntity<MonopatinDto> response = rest.exchange(
                         "http://localhost:8001/monopatin/addKilometros/id/" + viaje.getIdMonopatin() + "/km/" + km,
                         HttpMethod.PUT,
-                        solicitud1,
+                        nuevaSolicitud,
                         new ParameterizedTypeReference<>() {});
                 cabecera.setContentType(MediaType.APPLICATION_JSON);
                 System.out.println(response.getBody());
@@ -189,7 +200,7 @@ public class    ViajeService {
             }
         }
         else{
-            return null;
+            throw new IllegalArgumentException("no existe viaje con el id ingresada");
         }
 
     }
@@ -198,29 +209,37 @@ public class    ViajeService {
     public ViajeDto pausarViaje(Long id){
         Viaje viaje = repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido"));
-        viaje.setViajePausado(true);
-        LocalTime horaPausa= LocalTime.now();
-        viaje.setHoraInicioPausa(horaPausa);
-        ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
-        return respuesta;
+        if (viaje.getFechaFin() == null){
+            viaje.setViajePausado(true);
+            LocalTime horaPausa= LocalTime.now();
+            viaje.setHoraInicioPausa(horaPausa);
+            ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
+            return respuesta;
+        }else {
+            throw new IllegalArgumentException("No se puede pausar un viaje que termino");
+        }
     }
 
     public ViajeDto despausarViaje(Long id){
         Viaje viaje = repositorio.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("id invalido"));
-        viaje.setViajePausado(false);
-        LocalTime horaDespausa= LocalTime.now();
-        viaje.setHoraFinPausa(horaDespausa);
+        if (viaje.getFechaFin() == null){
+            viaje.setViajePausado(false);
+            LocalTime horaDespausa= LocalTime.now();
+            viaje.setHoraFinPausa(horaDespausa);
 
-        Duration duracionPausa= Duration.between(viaje.getHoraInicioPausa(), horaDespausa);
-        long minutosPausa= duracionPausa.toMinutes();
+            Duration duracionPausa= Duration.between(viaje.getHoraInicioPausa(), horaDespausa);
+            long minutosPausa= duracionPausa.toMinutes();
 
-        if(viaje.getPausa()<minutosPausa){
-            viaje.setPausa(-1);
-        }
+            if(viaje.getPausa()<minutosPausa){
+                viaje.setPausa(-1);
+            }
 
-        ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
-        return respuesta;
+            ViajeDto respuesta= new ViajeDto(repositorio.save(viaje));
+            return respuesta;
+            }else {
+                throw new IllegalArgumentException("No se puede despausar un viaje que termino");
+            }
     }
 
     public ViajeDto update(Long id, ViajeDto viajeDto) {

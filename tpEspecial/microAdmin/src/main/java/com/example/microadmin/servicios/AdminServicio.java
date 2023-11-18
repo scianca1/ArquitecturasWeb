@@ -103,7 +103,7 @@ public class AdminServicio implements BaseServicio<AdminDto>{
         cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Long> solicitud1 = new HttpEntity<Long>(id,cabecera);
         ResponseEntity<CuentaDto> respuesta = monopatinClienteRest.exchange(
-                "http://localhost:8003/cuenta/" + id + "/anular/" + estado,
+                "http://localhost:8003/cuenta/idCuenta/" + id + "/estado/" + estado,
                 HttpMethod.PUT,
                 solicitud1,
                 new ParameterizedTypeReference<>() {});
@@ -144,7 +144,6 @@ public class AdminServicio implements BaseServicio<AdminDto>{
                 solicitud,
                 new ParameterizedTypeReference<>() {}
         );
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<ViajeDto> lista = respuesta.getBody();
         int contador = 0;
         for (ViajeDto viaje : lista){

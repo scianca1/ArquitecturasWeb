@@ -5,6 +5,7 @@ import com.example.microadmin.dtos.MonopatinIdDto;
 import com.example.microadmin.dtos.ViajeDto;
 import com.example.microadmin.dtos.reporteDto.*;
 import com.example.microadmin.repositorios.ReporteMonopatinRepositorio;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -33,8 +34,11 @@ public class ReporteMonopatinServicio implements BaseServicio{
     }
 
     @Transactional(readOnly = true)
-    public List<MonopatinIdDto> getMonopatines() {
+    public List<MonopatinIdDto> getMonopatines(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<MonopatinIdDto> objetoMonopatin = new HttpEntity<>(cabecera);
         ResponseEntity<List<MonopatinIdDto>> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8001/monopatin",
@@ -42,46 +46,49 @@ public class ReporteMonopatinServicio implements BaseServicio{
                 objetoMonopatin,
                 new ParameterizedTypeReference<>(){}
         );
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<MonopatinIdDto> lista = respuesta.getBody();
         return lista;
     }
 
     @Transactional(readOnly = true)
-    public List<ReporteDeUsoPorKm> getReportePorKm() {
+    public List<ReporteDeUsoPorKm> getReportePorKm(HttpServletRequest request) {
         ReporteDeUsoPorKm r= new ReporteDeUsoPorKm();
-        List<MonopatinIdDto> lista= this.getMonopatines();
+        List<MonopatinIdDto> lista= this.getMonopatines(request);
         List<ReporteDeUsoPorKm> reporte= r.generarReporte(lista);
         return reporte;
     }
 
     @Transactional(readOnly = true)
-    public List<ReportePorTiempoConPausas> getReportePortiempoConPausa() {
+    public List<ReportePorTiempoConPausas> getReportePortiempoConPausa(HttpServletRequest request) {
         ReportePorTiempoConPausas r = new ReportePorTiempoConPausas();
-        List<MonopatinIdDto> lista = this.getMonopatines();
+        List<MonopatinIdDto> lista = this.getMonopatines(request);
         List<ReportePorTiempoConPausas> reporte = r.generarReporte(lista);
         return reporte;
     }
 
     @Transactional(readOnly = true)
-    public List<ReportePorTiempoSinPausas> getReportePorTiempoSinPausa() {
+    public List<ReportePorTiempoSinPausas> getReportePorTiempoSinPausa(HttpServletRequest request) {
         ReportePorTiempoSinPausas r= new ReportePorTiempoSinPausas();
-        List<MonopatinIdDto> lista= this.getMonopatines();
+        List<MonopatinIdDto> lista= this.getMonopatines(request);
         List<ReportePorTiempoSinPausas> reporte= r.generarReporte(lista);
         return reporte;
     }
 
     @Transactional(readOnly = true)
-    public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento() {
+    public ReporteOperablesVsMantenimiento getReporteOperablesVsMantenimiento(HttpServletRequest request) {
         ReporteOperablesVsMantenimiento r= new ReporteOperablesVsMantenimiento();
-        List<MonopatinIdDto> lista= this.getMonopatines();
+        List<MonopatinIdDto> lista= this.getMonopatines(request);
         ReporteOperablesVsMantenimiento reporte= r.generarReporte(lista);
         return reporte;
     }
 
     @Transactional(readOnly = true)
-    public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio) {
+    public List<ReportePorCantViajes> getCantViajesMonopatinPorAnio(int cant, Integer anio, HttpServletRequest request) {
+        System.out.println(1);
+        String token = request.getHeader("Authorization");
         HttpHeaders cabecera = new HttpHeaders();
+        cabecera.set("Authorization", token);
+        cabecera.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ViajeDto> solicitud = new HttpEntity<>(cabecera);
         ResponseEntity<List<ViajeDto>> respuesta = monopatinClienteRest.exchange(
                 "http://localhost:8004/viaje/anio/" + anio,
@@ -89,7 +96,6 @@ public class ReporteMonopatinServicio implements BaseServicio{
                 solicitud,
                 new ParameterizedTypeReference<>() {}
         );
-        cabecera.setContentType(MediaType.APPLICATION_JSON);
         List<ViajeDto> lista = respuesta.getBody();
         ReportePorCantViajes r= new ReportePorCantViajes();
         List<ReportePorCantViajes> reporte = r.generarReporte(lista, cant);

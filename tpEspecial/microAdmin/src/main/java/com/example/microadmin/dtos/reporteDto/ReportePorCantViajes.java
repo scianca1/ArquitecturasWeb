@@ -15,17 +15,17 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportePorCantViajes implements Serializable {
-    public Long idMonopatin;
+    public String idMonopatin;
     public Long viajesTotales;
 
     public List<ReportePorCantViajes> generarReporte(List<ViajeDto> lista, Integer cant) {
         List<ReportePorCantViajes> reporte = new ArrayList<>();
-        Map<Long, Integer> contadorViajes = new HashMap<>();
+        Map<String, Integer> contadorViajes = new HashMap<>();
         for (ViajeDto viaje : lista) {
-            Long idMonopatin = viaje.getIdMonopatin();
+            String idMonopatin = viaje.getIdMonopatin();
             contadorViajes.put(idMonopatin, contadorViajes.getOrDefault(idMonopatin, 0) + 1);
         }
-        for (Map.Entry<Long, Integer> monopatin : contadorViajes.entrySet()) {
+        for (Map.Entry<String, Integer> monopatin : contadorViajes.entrySet()) {
             if (monopatin.getValue() >= cant) {
                 ReportePorCantViajes r = new ReportePorCantViajes();
                 r.idMonopatin = monopatin.getKey();

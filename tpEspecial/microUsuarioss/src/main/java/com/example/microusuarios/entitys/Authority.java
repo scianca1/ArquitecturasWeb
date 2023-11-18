@@ -24,4 +24,8 @@ public class Authority implements Serializable {
     @Id
     @Column(length = 50)
     private String name;
+
+    public Authority(String name){
+        this.name = name;
+    }
 }

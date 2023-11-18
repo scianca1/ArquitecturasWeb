@@ -14,7 +14,7 @@ CREAR las bases de datos necesarias: micromonopatin
                                      microadmin
                                      microviaje
 
-EMPOINS:
+ENDPOINTS:
 
 MICROSERVICIO MONOPATINES: http://localhost:8001/doc/swagger-ui/index.html#/
 MOCROSERVICIO ADMIN: http://localhost:8002/doc/swagger-ui/index.html#/

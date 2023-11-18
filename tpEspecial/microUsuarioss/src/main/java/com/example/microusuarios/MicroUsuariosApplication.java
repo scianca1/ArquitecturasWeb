@@ -18,6 +18,10 @@ public class MicroUsuariosApplication {
     }
     @PostConstruct
     public void init() throws IOException {
-//		data.loadData();
+        try{
+		    data.loadData();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

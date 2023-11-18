@@ -18,7 +18,6 @@ public class CuentaControlador {
         this.service= cs;
     }
     @PostMapping("")
-    @PreAuthorize("hasAnyAuthority('" + AuthorityConstant.USER + "', '" + AuthorityConstant.ADMIN + "')")
     public ResponseEntity<?> save(@RequestBody CuentaDto c){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.save(c));

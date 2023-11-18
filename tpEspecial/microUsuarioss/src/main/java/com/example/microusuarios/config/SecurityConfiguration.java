@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/usuario/authenticate").permitAll()
                         .requestMatchers("/usuario/register").permitAll()
                         .requestMatchers("/usuario/**").authenticated()
+                        .requestMatchers("/cuenta").permitAll()
                         .requestMatchers("/cuenta/**").authenticated()
                 )
                 .anonymous(AbstractHttpConfigurer::disable)

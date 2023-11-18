@@ -3,6 +3,7 @@ package com.example.microusuarios.dtos;
 import com.example.microusuarios.entitys.Authority;
 import com.example.microusuarios.entitys.Cuenta;
 import com.example.microusuarios.entitys.Usuario;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UsuarioDto {
     private Long id;
     private String nombre;

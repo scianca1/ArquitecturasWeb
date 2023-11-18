@@ -17,7 +17,7 @@ public class MicroMonopatinesApplication {
     }
 
     @PostConstruct
-    public void init() throws IOException {
+    public void init() throws Exception {
         data.loadData();
     }
 }
